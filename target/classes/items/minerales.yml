@@ -1,0 +1,381 @@
+items:
+
+  # --- Carbón ---
+  coal_ore:
+    name: "<gray>Mineral: Carbón (ore)</gray>"
+    material: COAL_ORE
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de mena de carbón.</gray>"
+
+
+  deepslate_coal_ore:
+    name: "<gray>Mineral: Carbón (deepslate)</gray>"
+    material: DEEPSLATE_COAL_ORE
+    buy: 0.9
+    sell: 0.45
+    lore:
+      - "<gray>Carbón en deepslate, un poco más raro.</gray>"
+
+
+  coal_block:
+    name: "<dark_gray>Bloque de carbón</dark_gray>"
+    material: COAL_BLOCK
+    buy: 5
+    sell: 2.5
+    lore:
+      - "<gray>Bloque compacto de carbón usable como combustible.</gray>"
+
+
+  # --- Hierro ---
+  iron_ore:
+    name: "<white>Mineral: Hierro (ore)</white>"
+    material: IRON_ORE
+    buy: 3
+    sell: 1.5
+    lore:
+      - "<gray>Mena de hierro; procesa para obtener lingotes.</gray>"
+
+
+  deepslate_iron_ore:
+    name: "<white>Mineral: Hierro (deepslate)</white>"
+    material: DEEPSLATE_IRON_ORE
+    buy: 3.5
+    sell: 1.75
+    lore:
+      - "<gray>Hierro en deepslate, más resistente.</gray>"
+
+
+  raw_iron:
+    name: "<white>Hierro crudo</white>"
+    material: RAW_IRON
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Hierro sin fundir obtenido al romper la mena.</gray>"
+
+
+  iron_ingot:
+    name: "<white>Lingote de hierro</white>"
+    material: IRON_INGOT
+    buy: 9
+    sell: 4.5
+    lore:
+      - "<gray>Lingote de hierro, base para herramientas y armaduras.</gray>"
+
+
+  iron_block:
+    name: "<white>Bloque de hierro</white>"
+    material: IRON_BLOCK
+    buy: 81
+    sell: 40.5
+    lore:
+      - "<gray>Bloque compacto de 9 lingotes de hierro.</gray>"
+
+
+  # --- Cobre ---
+  copper_ore:
+    name: "<gold>Mineral: Cobre (ore)</gold>"
+    material: COPPER_ORE
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Mena de cobre, útil para construcción y decoración.</gray>"
+
+
+  deepslate_copper_ore:
+    name: "<gold>Mineral: Cobre (deepslate)</gold>"
+    material: DEEPSLATE_COPPER_ORE
+    buy: 4.5
+    sell: 2.25
+    lore:
+      - "<gray>Cobre extraído en deepslate.</gray>"
+
+
+  raw_copper:
+    name: "<gold>Cobre crudo</gold>"
+    material: RAW_COPPER
+    buy: 5
+    sell: 2.5
+    lore:
+      - "<gray>Cobre sin fundir.</gray>"
+
+
+  copper_ingot:
+    name: "<gold>Lingote de cobre</gold>"
+    material: COPPER_INGOT
+    buy: 8
+    sell: 4
+    lore:
+      - "<gray>Lingote de cobre para herramientas y bloques.</gray>"
+
+
+  copper_block:
+    name: "<gold>Bloque de cobre</gold>"
+    material: COPPER_BLOCK
+    buy: 72
+    sell: 36
+    lore:
+      - "<gray>Bloque de cobre (9 lingotes).</gray>"
+
+
+  # --- Oro ---
+  gold_ore:
+    name: "<yellow>Mineral: Oro (ore)</yellow>"
+    material: GOLD_ORE
+    buy: 10
+    sell: 5
+    lore:
+      - "<gray>Mena de oro; procesar para obtener lingotes.</gray>"
+
+
+  deepslate_gold_ore:
+    name: "<yellow>Mineral: Oro (deepslate)</yellow>"
+    material: DEEPSLATE_GOLD_ORE
+    buy: 11
+    sell: 5.5
+    lore:
+      - "<gray>Oro en deepslate.</gray>"
+
+
+  raw_gold:
+    name: "<yellow>Oro crudo</yellow>"
+    material: RAW_GOLD
+    buy: 12
+    sell: 6
+    lore:
+      - "<gray>Oro sin fundir.</gray>"
+
+
+  gold_ingot:
+    name: "<yellow>Lingote de oro</yellow>"
+    material: GOLD_INGOT
+    buy: 18
+    sell: 9
+    lore:
+      - "<gray>Lingote de oro, usado en herramientas y monedas decorativas.</gray>"
+
+
+  gold_block:
+    name: "<yellow>Bloque de oro</yellow>"
+    material: GOLD_BLOCK
+    buy: 162
+    sell: 81
+    lore:
+      - "<gray>Bloque sólido de oro (9 lingotes).</gray>"
+
+
+  # --- Lapislázuli ---
+  lapis_ore:
+    name: "<blue>Mineral: Lapislázuli (ore)</blue>"
+    material: LAPIS_ORE
+    buy: 12
+    sell: 6
+    lore:
+      - "<gray>Mena de lapislázuli para tintes y encantamientos.</gray>"
+
+
+  deepslate_lapis_ore:
+    name: "<blue>Mineral: Lapislázuli (deepslate)</blue>"
+    material: DEEPSLATE_LAPIS_ORE
+    buy: 13
+    sell: 6.5
+    lore:
+      - "<gray>Lapis en deepslate, ligeramente más raro.</gray>"
+
+
+  lapis_lazuli:
+    name: "<blue>Lazuli (lapis)</blue>"
+    material: LAPIS_LAZULI
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Polvo de lapislázuli para encantamientos y tintes.</gray>"
+
+
+  lapis_block:
+    name: "<blue>Bloque de lapislázuli</blue>"
+    material: LAPIS_BLOCK
+    buy: 36
+    sell: 18
+    lore:
+      - "<gray>Bloque decorativo de lapislázuli.</gray>"
+
+
+  # --- Redstone ---
+  redstone_ore:
+    name: "<red>Mineral: Redstone (ore)</red>"
+    material: REDSTONE_ORE
+    buy: 10
+    sell: 5
+    lore:
+      - "<gray>Mena de redstone para circuitos y componentes.</gray>"
+
+
+  deepslate_redstone_ore:
+    name: "<red>Mineral: Redstone (deepslate)</red>"
+    material: DEEPSLATE_REDSTONE_ORE
+    buy: 11
+    sell: 5.5
+    lore:
+      - "<gray>Redstone en deepslate, ligeramente más valiosa.</gray>"
+
+
+  redstone:
+    name: "<red>Polvo de redstone</red>"
+    material: REDSTONE
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Polvo de redstone usado en circuitos.</gray>"
+
+
+  redstone_block:
+    name: "<red>Bloque de redstone</red>"
+    material: REDSTONE_BLOCK
+    buy: 18
+    sell: 9
+    lore:
+      - "<gray>Bloque compacto de redstone (9 polvos).</gray>"
+
+
+  # --- Diamante ---
+  diamond_ore:
+    name: "<aqua>Mineral: Diamante (ore)</aqua>"
+    material: DIAMOND_ORE
+    buy: 80
+    sell: 40
+    lore:
+      - "<gray>Mena de diamante, extremadamente valiosa.</gray>"
+
+
+  deepslate_diamond_ore:
+    name: "<aqua>Mineral: Diamante (deepslate)</aqua>"
+    material: DEEPSLATE_DIAMOND_ORE
+    buy: 90
+    sell: 45
+    lore:
+      - "<gray>Diamante en deepslate, muy raro.</gray>"
+
+
+  diamond:
+    name: "<aqua>Diamante</aqua>"
+    material: DIAMOND
+    buy: 100
+    sell: 50
+    lore:
+      - "<gray>Recurso precioso para herramientas y encantamientos.</gray>"
+
+
+  diamond_block:
+    name: "<aqua>Bloque de diamante</aqua>"
+    material: DIAMOND_BLOCK
+    buy: 900
+    sell: 450
+    lore:
+      - "<gray>Bloque de 9 diamantes.</gray>"
+
+
+  # --- Esmeralda ---
+  emerald_ore:
+    name: "<green>Mineral: Esmeralda (ore)</green>"
+    material: EMERALD_ORE
+    buy: 60
+    sell: 30
+    lore:
+      - "<gray>Mena de esmeralda; moneda de comercio con aldeanos.</gray>"
+
+
+  deepslate_emerald_ore:
+    name: "<green>Mineral: Esmeralda (deepslate)</green>"
+    material: DEEPSLATE_EMERALD_ORE
+    buy: 66
+    sell: 33
+    lore:
+      - "<gray>Esmeralda en deepslate.</gray>"
+
+
+  emerald:
+    name: "<green>Esmeralda</green>"
+    material: EMERALD
+    buy: 90
+    sell: 45
+    lore:
+      - "<gray>Moneda de intercambio con aldeanos y material precioso.</gray>"
+
+
+  emerald_block:
+    name: "<green>Bloque de esmeralda</green>"
+    material: EMERALD_BLOCK
+    buy: 810
+    sell: 405
+    lore:
+      - "<gray>Bloque sólido de esmeralda (9 unidades).</gray>"
+
+
+  # --- Cuarzo y minerales del Nether ---
+  nether_quartz_ore:
+    name: "<white>Mineral: Cuarzo del Nether</white>"
+    material: NETHER_QUARTZ_ORE
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Mena de cuarzo en el Nether.</gray>"
+
+
+  nether_gold_ore:
+    name: "<yellow>Mineral: Oro del Nether</yellow>"
+    material: NETHER_GOLD_ORE
+    buy: 8
+    sell: 4
+    lore:
+      - "<gray>Oro que aparece en el Nether.</gray>"
+
+
+  ancient_debris:
+    name: "<dark_purple>Ancient Debris</dark_purple>"
+    material: ANCIENT_DEBRIS
+    buy: 500
+    sell: 250
+    lore:
+      - "<gray>Material raro para obtener netherite.</gray>"
+
+
+  netherite_scrap:
+    name: "<dark_purple>Chatarra de netherita</dark_purple>"
+    material: NETHERITE_SCRAP
+    buy: 200
+    sell: 100
+    lore:
+      - "<gray>Scrap obtenido al fundir ancient debris.</gray>"
+
+
+  netherite_ingot:
+    name: "<dark_purple>Lingote de netherita</dark_purple>"
+    material: NETHERITE_INGOT
+    buy: 1200
+    sell: 600
+    lore:
+      - "<gray>Lingote extremadamente valioso para armaduras y herramientas.</gray>"
+
+
+  netherite_block:
+    name: "<dark_purple>Bloque de netherita</dark_purple>"
+    material: NETHERITE_BLOCK
+    buy: 10800
+    sell: 5400
+    lore:
+      - "<gray>Bloque de netherita (9 lingotes).</gray>"
+
+
+  # --- Otros minerales ---
+  quartz:
+    name: "<white>Cuarzo</white>"
+    material: QUARTZ
+    buy: 3
+    sell: 1.5
+    lore:
+      - "<gray>Material decorativo obtenido del Nether o del procesado.</gray>"
+
+

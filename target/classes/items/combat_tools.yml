@@ -1,0 +1,437 @@
+items:
+
+  # --- Armas ---
+  wooden_sword:
+    name: "<white>Espada de madera</white>"
+    material: WOODEN_SWORD
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Espada básica de madera.</gray>"
+
+ 
+  stone_sword:
+    name: "<gray>Espada de piedra</gray>"
+    material: STONE_SWORD
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Espada resistente.</gray>"
+
+
+  iron_sword:
+    name: "<white>Espada de hierro</white>"
+    material: IRON_SWORD
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Espada eficiente.</gray>"
+
+
+  golden_sword:
+    name: "<gold>Espada de oro</gold>"
+    material: GOLDEN_SWORD
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Espada con durabilidad baja.</gray>"
+
+
+  diamond_sword:
+    name: "<light_purple>Espada de diamante</light_purple>"
+    material: DIAMOND_SWORD
+    buy: 18
+    sell: 9
+    lore:
+      - "<gray>Espada poderosa.</gray>"
+
+
+  netherite_sword:
+    name: "<dark_purple>Espada de netherita</dark_purple>"
+    material: NETHERITE_SWORD
+    buy: 30
+    sell: 15
+    lore:
+      - "<gray>La mejor espada del juego.</gray>"
+
+
+  bow:
+    name: "<aqua>Arco</aqua>"
+    material: BOW
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Arma a distancia que usa flechas.</gray>"
+
+
+  crossbow:
+    name: "<aqua>Ballesta</aqua>"
+    material: CROSSBOW
+    buy: 10
+    sell: 5
+    lore:
+      - "<gray>Ballesta potente con carga.</gray>"
+
+
+  trident:
+    name: "<dark_aqua>Tridente</dark_aqua>"
+    material: TRIDENT
+    buy: 40
+    sell: 20
+    lore:
+      - "<gray>Arma lanzable y cuerpo a cuerpo (rara).</gray>"
+
+
+  # --- Herramientas ---
+  wooden_pickaxe:
+    name: "<white>Pico de madera</white>"
+    material: WOODEN_PICKAXE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Pico básico.</gray>"
+
+
+  stone_pickaxe:
+    name: "<gray>Pico de piedra</gray>"
+    material: STONE_PICKAXE
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Pico duradero para minería temprana.</gray>"
+
+
+  iron_pickaxe:
+    name: "<white>Pico de hierro</white>"
+    material: IRON_PICKAXE
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Pico eficiente para la mayoría de recursos.</gray>"
+
+
+  golden_pickaxe:
+    name: "<gold>Pico de oro</gold>"
+    material: GOLDEN_PICKAXE
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Pico con baja durabilidad.</gray>"
+
+
+  golden_shovel:
+    name: "<gold>Pala de oro</gold>"
+    material: GOLDEN_SHOVEL
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Pala con baja durabilidad.</gray>"
+
+
+  golden_axe:
+    name: "<gold>Hacha de oro</gold>"
+    material: GOLDEN_AXE
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Hacha con baja durabilidad.</gray>"
+
+
+  golden_hoe:
+    name: "<gold>Azada de oro</gold>"
+    material: GOLDEN_HOE
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Azada rápida pero frágil.</gray>"
+
+
+  diamond_pickaxe:
+    name: "<light_purple>Pico de diamante</light_purple>"
+    material: DIAMOND_PICKAXE
+    buy: 18
+    sell: 9
+    lore:
+      - "<gray>Pico de alto rendimiento.</gray>"
+
+
+  netherite_pickaxe:
+    name: "<dark_purple>Pico de netherita</dark_purple>"
+    material: NETHERITE_PICKAXE
+    buy: 30
+    sell: 15
+    lore:
+      - "<gray>Pico superior y resistente.</gray>"
+
+
+  wooden_shovel:
+    name: "<white>Pala de madera</white>"
+    material: WOODEN_SHOVEL
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Pala para excavar.</gray>"
+
+
+  stone_shovel:
+    name: "<gray>Pala de piedra</gray>"
+    material: STONE_SHOVEL
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Pala resistente.</gray>"
+
+
+  iron_shovel:
+    name: "<white>Pala de hierro</white>"
+    material: IRON_SHOVEL
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Pala eficiente.</gray>"
+
+
+  diamond_shovel:
+    name: "<light_purple>Pala de diamante</light_purple>"
+    material: DIAMOND_SHOVEL
+    buy: 12
+    sell: 6
+    lore:
+      - "<gray>Pala duradera y rápida.</gray>"
+
+
+  wooden_axe:
+    name: "<white>Hacha de madera</white>"
+    material: WOODEN_AXE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Hacha básica.</gray>"
+
+
+  stone_axe:
+    name: "<gray>Hacha de piedra</gray>"
+    material: STONE_AXE
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Hacha robusta.</gray>"
+
+
+  iron_axe:
+    name: "<white>Hacha de hierro</white>"
+    material: IRON_AXE
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Hacha efectiva para cortar madera y combate.</gray>"
+
+
+  diamond_axe:
+    name: "<light_purple>Hacha de diamante</light_purple>"
+    material: DIAMOND_AXE
+    buy: 18
+    sell: 9
+    lore:
+      - "<gray>Hacha poderosa y duradera.</gray>"
+
+
+  # --- Armaduras ---
+  leather_helmet:
+    name: "<gold>Casco de cuero</gold>"
+    material: LEATHER_HELMET
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Protección básica.</gray>"
+
+
+  leather_chestplate:
+    name: "<gold>Pechera de cuero</gold>"
+    material: LEATHER_CHESTPLATE
+    buy: 2.5
+    sell: 1.25
+    lore:
+      - "<gray>Pechera ligera.</gray>"
+
+
+  leather_leggings:
+    name: "<gold>Leotardos de cuero</gold>"
+    material: LEATHER_LEGGINGS
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Protección para piernas.</gray>"
+
+
+  leather_boots:
+    name: "<gold>Botas de cuero</gold>"
+    material: LEATHER_BOOTS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Botas básicas.</gray>"
+
+
+  iron_helmet:
+    name: "<white>Casco de hierro</white>"
+    material: IRON_HELMET
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Casco resistente.</gray>"
+
+
+  iron_chestplate:
+    name: "<white>Pechera de hierro</white>"
+    material: IRON_CHESTPLATE
+    buy: 15
+    sell: 7.5
+    lore:
+      - "<gray>Buena protección contra daño físico.</gray>"
+
+
+  iron_leggings:
+    name: "<white>Leotardos de hierro</white>"
+    material: IRON_LEGGINGS
+    buy: 12
+    sell: 6
+    lore:
+      - "<gray>Protección para piernas.</gray>"
+
+
+  iron_boots:
+    name: "<white>Botas de hierro</white>"
+    material: IRON_BOOTS
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Botas resistentes.</gray>"
+
+
+  golden_helmet:
+    name: "<gold>Casco de oro</gold>"
+    material: GOLDEN_HELMET
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Casco con protección baja pero encantable.</gray>"
+
+
+  golden_chestplate:
+    name: "<gold>Pechera de oro</gold>"
+    material: GOLDEN_CHESTPLATE
+    buy: 10
+    sell: 5
+    lore:
+      - "<gray>Pechera con protección moderada y baja durabilidad.</gray>"
+
+
+  golden_leggings:
+    name: "<gold>Leotardos de oro</gold>"
+    material: GOLDEN_LEGGINGS
+    buy: 8
+    sell: 4
+    lore:
+      - "<gray>Protección para piernas (baja durabilidad).</gray>"
+
+
+  golden_boots:
+    name: "<gold>Botas de oro</gold>"
+    material: GOLDEN_BOOTS
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Botas ligeras y encantables.</gray>"
+
+
+  diamond_helmet:
+    name: "<light_purple>Casco de diamante</light_purple>"
+    material: DIAMOND_HELMET
+    buy: 18
+    sell: 9
+    lore:
+      - "<gray>Casco fuerte y duradero.</gray>"
+
+
+  diamond_chestplate:
+    name: "<light_purple>Pechera de diamante</light_purple>"
+    material: DIAMOND_CHESTPLATE
+    buy: 45
+    sell: 22.5
+    lore:
+      - "<gray>Pechera de alta protección.</gray>"
+
+
+  diamond_leggings:
+    name: "<light_purple>Leotardos de diamante</light_purple>"
+    material: DIAMOND_LEGGINGS
+    buy: 36
+    sell: 18
+    lore:
+      - "<gray>Protección para piernas avanzada.</gray>"
+
+
+  diamond_boots:
+    name: "<light_purple>Botas de diamante</light_purple>"
+    material: DIAMOND_BOOTS
+    buy: 18
+    sell: 9
+    lore:
+      - "<gray>Botas con gran durabilidad.</gray>"
+
+
+  netherite_helmet:
+    name: "<dark_purple>Casco de netherita</dark_purple>"
+    material: NETHERITE_HELMET
+    buy: 30
+    sell: 15
+    lore:
+      - "<gray>Protección máxima.</gray>"
+
+
+  netherite_chestplate:
+    name: "<dark_purple>Pechera de netherita</dark_purple>"
+    material: NETHERITE_CHESTPLATE
+    buy: 80
+    sell: 40
+    lore:
+      - "<gray>Pechera superior y rara.</gray>"
+
+
+  netherite_leggings:
+    name: "<dark_purple>Leotardos de netherita</dark_purple>"
+    material: NETHERITE_LEGGINGS
+    buy: 64
+    sell: 32
+    lore:
+      - "<gray>Protección para piernas de élite.</gray>"
+
+
+  netherite_boots:
+    name: "<dark_purple>Botas de netherita</dark_purple>"
+    material: NETHERITE_BOOTS
+    buy: 30
+    sell: 15
+    lore:
+      - "<gray>Botas de élite con gran durabilidad.</gray>"
+
+
+  # --- Utilidades ---
+  shield:
+    name: "<white>Escudo</white>"
+    material: SHIELD
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Protección para bloquear ataques.</gray>"
+
+
+  elytra:
+    name: "<aqua>Elytra</aqua>"
+    material: ELYTRA
+    buy: 120
+    sell: 60
+    lore:
+      - "<gray>Alas para volar (muy raras).</gray>"
+

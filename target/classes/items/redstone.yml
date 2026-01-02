@@ -1,0 +1,175 @@
+items:
+
+  # --- Polvo y señales básicas ---
+  redstone:
+    name: "<red>Polvo de redstone</red>"
+    material: REDSTONE
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Conductor usado para crear circuitos y mecanismos.</gray>"
+
+  redstone_torch:
+    name: "<red>Antorcha de redstone</red>"
+    material: REDSTONE_TORCH
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Fuente de señal constante.</gray>"
+
+  redstone_block:
+    name: "<red>Bloque de redstone</red>"
+    material: REDSTONE_BLOCK
+    buy: 18
+    sell: 9
+    lore:
+      - "<gray>Compacta 9 polvos de redstone.</gray>"
+
+  redstone_lamp:
+    name: "<yellow>Lámpara de redstone</yellow>"
+    material: REDSTONE_LAMP
+    buy: 8
+    sell: 4
+    lore:
+      - "<gray>Emite luz con señal de redstone.</gray>"
+
+  daylight_detector:
+    name: "<gold>Detector de luz diurna</gold>"
+    material: DAYLIGHT_DETECTOR
+    buy: 12
+    sell: 6
+    lore:
+      - "<gray>Genera señal según la luz solar.</gray>"
+
+  # --- Repetidores y comparadores ---
+  repeater:
+    name: "<gold>Repetidor</gold>"
+    material: repeater
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Retrasa y amplifica señales.</gray>"
+
+  comparator:
+    name: "<gold>Comparador</gold>"
+    material: comparator
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Compara y mide niveles de señal.</gray>"
+
+  # --- Sensores y detectores ---
+  observer:
+    name: "<gray>Observador</gray>"
+    material: OBSERVER
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Detecta cambios de bloque.</gray>"
+
+  tripwire_hook:
+    name: "<gray>Anzuelo de tripwire</gray>"
+    material: TRIPWIRE_HOOK
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Para trampas y detección de entidades.</gray>"
+
+  # --- Mecanismos móviles ---
+  piston:
+    name: "<gray>Pistón</gray>"
+    material: PISTON
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Empuja bloques al activarse.</gray>"
+
+  sticky_piston:
+    name: "<gray>Pistón pegajoso</gray>"
+    material: STICKY_PISTON
+    buy: 5
+    sell: 2.5
+    lore:
+      - "<gray>Empuja y jala bloques.</gray>"
+
+  slime_block:
+    name: "<green>Bloque de slime</green>"
+    material: SLIME_BLOCK
+    buy: 20
+    sell: 10
+    lore:
+      - "<gray>Usado para máquinas móviles.</gray>"
+
+  honey_block:
+    name: "<gold>Bloque de miel</gold>"
+    material: HONEY_BLOCK
+    buy: 18
+    sell: 9
+    lore:
+      - "<gray>No rebota; útil con pistones.</gray>"
+
+  # --- Contenedores automáticos ---
+  dispenser:
+    name: "<gray>Dispensador</gray>"
+    material: DISPENSER
+    buy: 3
+    sell: 1.5
+    lore:
+      - "<gray>Lanza o usa ítems automáticamente.</gray>"
+
+  dropper:
+    name: "<gray>Lanzadera</gray>"
+    material: DROPPER
+    buy: 2.5
+    sell: 1.25
+    lore:
+      - "<gray>Solo expulsa ítems.</gray>"
+
+  hopper:
+    name: "<gray>Tolva</gray>"
+    material: HOPPER
+    buy: 8
+    sell: 4
+    lore:
+      - "<gray>Mueve ítems entre contenedores.</gray>"
+
+  # --- Señales e inputs ---
+  lever:
+    name: "<gray>Palanca</gray>"
+    material: LEVER
+    buy: 0.5
+    sell: 0.2
+    lore:
+      - "<gray>Activa señales de redstone.</gray>"
+
+  stone_button:
+    name: "<gray>Botón (piedra)</gray>"
+    material: STONE_BUTTON
+    buy: 0.4
+    sell: 0.15
+    lore:
+      - "<gray>Señal corta.</gray>"
+
+  wooden_button:
+    name: "<gray>Botón (madera)</gray>"
+    material: OAK_BUTTON
+    buy: 0.4
+    sell: 0.15
+    lore:
+      - "<gray>Activable por flechas o mobs.</gray>"
+
+  pressure_plate_stone:
+    name: "<gray>Placa de presión (piedra)</gray>"
+    material: STONE_PRESSURE_PLATE
+    buy: 0.6
+    sell: 0.25
+    lore:
+      - "<gray>Detecta jugadores y mobs.</gray>"
+
+  pressure_plate_wood:
+    name: "<gray>Placa de presión (madera)</gray>"
+    material: OAK_PRESSURE_PLATE
+    buy: 0.6
+    sell: 0.25
+    lore:
+      - "<gray>Detecta ítems y entidades.</gray>"

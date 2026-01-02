@@ -1,0 +1,28 @@
+items:
+  vip_kit:
+    name: "<gold>Kit VIP</gold>"
+    material: CHEST
+    buy: 500
+    sell: 0
+    only_once: true
+    permission: "qsmarket.vip"
+    lore:
+      - "<yellow>✨ Este kit contiene artículos exclusivos para VIPs."
+      - "<green>✔ Incluye diamantes y más sorpresas."
+      - "<gray>Solo puedes comprarlo una vez."
+      - "<aqua>Compra ahora y disfruta de tus ventajas VIP!"
+    commands:
+      - "give %player% diamond 5"
+
+  reward_key:
+    name: "<aqua>Llave de recompensa</aqua>"
+    material: TRIPWIRE_HOOK
+    buy: 50
+    sell: 0
+    lore:
+      - "<gray>Llave especial para abrir cofres de recompensa.</gray>"
+    only_once: true
+    permission: "qsmarket.rewards"
+    commands:
+      - "eco give %player% gold 10"
+      - "say %player% ha recibido su recompensa"

@@ -1,0 +1,38 @@
+name: QSMarketPlus
+version: '4.0.0'
+main: mp.quesito.qSMarketPlus.QSMarketPlus
+api-version: '1.20'
+depend:
+  - Vault
+
+commands:
+  shop:
+    description: Abre el menú de la tienda.
+    usage: /shop
+  qsmarket:
+    description: Comando principal de QSMarketPlus
+    usage: /qsmarket reload
+    permission: qsmarket.reload
+  sell:
+    description: Vender objetos del inventario
+    usage: /sell <hand|similar|all>
+  ah:
+    description: Abre el menu de subastas
+    usage: /ah
+
+permissions:
+  qsmarket.use:
+    default: true
+
+  qsmarket.shop.set:
+    default: true
+
+  qsmarket.signshop.setitem:
+    default: op
+
+  qsmarket.admin.reload:
+    default: op
+
+  qsmarket.admin.additem:
+    default: op
+

@@ -1,0 +1,189 @@
+items:
+
+  # --- Semillas y plantables ---
+  wheat_seeds:
+    name: "<yellow>Semillas de trigo</yellow>"
+    material: WHEAT_SEEDS
+    buy: 0.1
+    sell: 0.05
+    lore:
+      - "<gray>Semillas para cultivar trigo.</gray>"
+
+
+  beetroot_seeds:
+    name: "<red>Semillas de remolacha</red>"
+    material: BEETROOT_SEEDS
+    buy: 0.15
+    sell: 0.07
+    lore:
+      - "<gray>Semillas para remolacha.</gray>"
+
+
+  melon_seeds:
+    name: "<green>Semillas de melón</green>"
+    material: MELON_SEEDS
+    buy: 0.2
+    sell: 0.1
+    lore:
+      - "<gray>Semillas para melones.</gray>"
+
+
+  pumpkin_seeds:
+    name: "<orange>Semillas de calabaza</orange>"
+    material: PUMPKIN_SEEDS
+    buy: 0.2
+    sell: 0.1
+    lore:
+      - "<gray>Semillas para calabazas.</gray>"
+
+
+  nether_wart:
+    name: "<dark_purple>Nether Wart</dark_purple>"
+    material: NETHER_WART
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Cultivo del Nether para pociones.</gray>"
+
+
+  cocoa_beans:
+    name: "<brown>Granos de cacao</brown>"
+    material: COCOA_BEANS
+    buy: 0.15
+    sell: 0.07
+    lore:
+      - "<gray>Útil para teñir y fabricar alimentos.</gray>"
+
+
+  # --- Cultivos (productos) ---
+  wheat:
+    name: "<yellow>Trigo</yellow>"
+    material: WHEAT
+    buy: 1
+    sell: 0.4
+    lore:
+      - "<gray>Alimento básico para pan y cría.</gray>"
+
+
+  carrot:
+    name: "<gold>Zanahoria</gold>"
+    material: CARROT
+    buy: 0.6
+    sell: 0.25
+    lore:
+      - "<gray>Perfecta para granjas y cría de cerdos.</gray>"
+
+
+  potato:
+    name: "<gold>Patata</gold>"
+    material: POTATO
+    buy: 0.6
+    sell: 0.25
+    lore:
+      - "<gray>Alimento versátil; puede cocinarse.</gray>"
+
+
+  beetroot:
+    name: "<red>Remolacha</red>"
+    material: BEETROOT
+    buy: 0.5
+    sell: 0.2
+    lore:
+      - "<gray>Ingrediente para sopas y cultivos.</gray>"
+
+
+  melon_slice:
+    name: "<green>Rodaja de melón</green>"
+    material: MELON_SLICE
+    buy: 0.25
+    sell: 0.1
+    lore:
+      - "<gray>Fruta refrescante, viene del melón.</gray>"
+
+
+  pumpkin:
+    name: "<orange>Calabaza</orange>"
+    material: PUMPKIN
+    buy: 0.5
+    sell: 0.2
+    lore:
+      - "<gray>Útil para linternas y decoración.</gray>"
+
+
+  sweet_berries:
+    name: "<red>Moras</red>"
+    material: SWEET_BERRIES
+    buy: 0.3
+    sell: 0.12
+    lore:
+      - "<gray>Cultivo de arbustos; alimento rápido.</gray>"
+
+
+  sugar_cane:
+    name: "<white>Caña de azúcar</white>"
+    material: SUGAR_CANE
+    buy: 0.4
+    sell: 0.15
+    lore:
+      - "<gray>Usado para azúcar y papel.</gray>"
+
+
+  kelp:
+    name: "<aqua>Kelp</aqua>"
+    material: KELP
+    buy: 0.2
+    sell: 0.08
+    lore:
+      - "<gray>Algas marinas; secas sirven de alimento.</gray>"
+
+
+  # --- Apicultura y miel ---
+  honey_bottle:
+    name: "<gold>Tarro de miel</gold>"
+    material: HONEY_BOTTLE
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Recolectado de colmenas; alimento y curación.</gray>"
+
+
+  honeycomb:
+    name: "<gold>Panal</gold>"
+    material: HONEYCOMB
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Material para decoración y fabricación.</gray>"
+
+
+  # --- Materiales útiles para agricultura ---
+  bone_meal:
+    name: "<white>Hueso molido</white>"
+    material: BONE_MEAL
+    buy: 0.5
+    sell: 0.2
+    lore:
+      - "<gray>Fertilizante para crecer cultivos rápidamente.</gray>"
+
+
+  compost:
+    name: "<brown>Compost</brown>"
+    material: COMPOSTER
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Usa para procesar restos orgánicos.</gray>"
+
+
+  straw_hay:
+    name: "<yellow>Bloque de heno</yellow>"
+    material: HAY_BLOCK
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Almacenamiento de forraje; decoración rural.</gray>"
+
+
+  # --- Animales y productos de granja ---
+  # Nota: este archivo contiene solo items de agricultura (semillas, cultivos, materiales, apicultura).
+  # Si quieres que los productos animales estén en una categoría separada, los puedo mover a `animal_products.yml`.

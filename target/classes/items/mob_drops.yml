@@ -1,0 +1,251 @@
+items:
+
+  # --- Mobs de Overworld (Comunes) ---
+  string:
+    name: "<white>Cuerda</white>"
+    material: STRING
+    buy: 0.3
+    sell: 0.15
+    lore:
+      - "<gray>Obtenida de arañas; usada para arcos y decoración.</gray>"
+
+
+  spider_eye:
+    name: "<red>Ojo de araña</red>"
+    material: SPIDER_EYE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Ingrediente para pociones o comestible (venenoso).</gray>"
+
+
+  gunpowder:
+    name: "<gray>Pólvora</gray>"
+    material: GUNPOWDER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Obtenida de creepers; usada en TNT y fuegos artificiales.</gray>"
+
+
+  bone:
+    name: "<white>Hueso</white>"
+    material: BONE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Obtenido de esqueletos; convierte en polvo de hueso.</gray>"
+
+
+  bone_meal:
+    name: "<white>Polvo de hueso</white>"
+    material: BONE_MEAL
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Fertilizante para plantas y colorante.</gray>"
+
+
+  arrow:
+    name: "<white>Flecha</white>"
+    material: ARROW
+    buy: 0.2
+    sell: 0.1
+    lore:
+      - "<gray>Obtenida de esqueletos; munición para arcos.</gray>"
+
+
+  leather:
+    name: "<brown>Cuero</brown>"
+    material: LEATHER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Obtenido de vacas y caballos; base para armaduras.</gray>"
+
+
+  rotten_flesh:
+    name: "<green>Carne podrida</green>"
+    material: ROTTEN_FLESH
+    buy: 0.1
+    sell: 0.05
+    lore:
+      - "<gray>Obtenida de zombis; comestible pero causa hambre.</gray>"
+
+
+  slime_ball:
+    name: "<green>Bola de slime</green>"
+    material: SLIME_BALL
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Obtenida de slimes; usada para hacer bloques de slime.</gray>"
+
+
+  ender_pearl:
+    name: "<purple>Perla de Ender</purple>"
+    material: ENDER_PEARL
+    buy: 10
+    sell: 5
+    lore:
+      - "<gray>Obtenida de endermen; teletransportación y localización.</gray>"
+
+
+  # --- Mobs del Nether ---
+  blaze_rod:
+    name: "<yellow>Vara de blaze</yellow>"
+    material: BLAZE_ROD
+    buy: 20
+    sell: 10
+    lore:
+      - "<gray>Obtenida de blazes; convierte en polvo de blaze.</gray>"
+
+
+  blaze_powder:
+    name: "<yellow>Polvo de blaze</yellow>"
+    material: BLAZE_POWDER
+    buy: 8
+    sell: 4
+    lore:
+      - "<gray>Ingrediente crucial para pociones.</gray>"
+
+
+  ghast_tear:
+    name: "<white>Lágrima de ghast</white>"
+    material: GHAST_TEAR
+    buy: 15
+    sell: 7.5
+    lore:
+      - "<gray>Obtenida de ghasts; usada para pociones de regeneración.</gray>"
+
+
+  magma_cream:
+    name: "<red>Crema de magma</red>"
+    material: MAGMA_CREAM
+    buy: 3
+    sell: 1.5
+    lore:
+      - "<gray>Obtenida de cubos de magma; ingrediente de pociones.</gray>"
+
+
+  warped_fungus:
+    name: "<purple>Hongo deformado (warped)</purple>"
+    material: WARPED_FUNGUS
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Planta del Nether; puede domesticar endermites o usarse decorativamente.</gray>"
+
+
+  crimson_fungus:
+    name: "<red>Hongo carmesí (crimson)</red>"
+    material: CRIMSON_FUNGUS
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Planta del Nether, variante roja del hongo deformado.</gray>"
+
+
+  # --- Mobs del End ---
+  ender_dragon_head:
+    name: "<purple>Cabeza de dragón de Ender</purple>"
+    material: DRAGON_HEAD
+    buy: 500
+    sell: 250
+    lore:
+      - "<gray>Trophy raro del dragón de Ender; muy decorativo.</gray>"
+
+
+  ender_dragon_egg:
+    name: "<purple>Huevo del dragón de Ender</purple>"
+    material: DRAGON_EGG
+    buy: 1000
+    sell: 500
+    lore:
+      - "<gray>Único huevo del juego; cae después de derrotar al dragón.</gray>"
+
+
+  shulker_shell:
+    name: "<purple>Cáscara de shulker</purple>"
+    material: SHULKER_SHELL
+    buy: 25
+    sell: 12.5
+    lore:
+      - "<gray>Obtenida de shulkers; usada para hacer cajas shulker.</gray>"
+
+
+  chorus_fruit:
+    name: "<purple>Fruta del coro</purple>"
+    material: CHORUS_FRUIT
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Obtenida de plantas del coro; alimento que teletransporta.</gray>"
+
+
+  # --- Mobs acuáticos ---
+  cod:
+    name: "<aqua>Bacalao (crudo)</aqua>"
+    material: COD
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Pescado crudo; se cocina para obtener bacalao asado.</gray>"
+
+
+  salmon:
+    name: "<aqua>Salmón (crudo)</aqua>"
+    material: SALMON
+    buy: 1.2
+    sell: 0.6
+    lore:
+      - "<gray>Pescado crudo; se cocina para obtener salmón asado.</gray>"
+
+
+  pufferfish:
+    name: "<aqua>Pez globo</aqua>"
+    material: PUFFERFISH
+    buy: 3
+    sell: 1.5
+    lore:
+      - "<gray>Venenoso pero ingrediente de pociones de agua.</gray>"
+
+
+  tropical_fish:
+    name: "<aqua>Pez tropical</aqua>"
+    material: TROPICAL_FISH
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Pescado decorativo y edible.</gray>"
+
+
+  # --- Especiales y otros ---
+  experience_orb:
+    name: "<green>Orbe de experiencia</green>"
+    material: EXPERIENCE_BOTTLE
+    buy: 5
+    sell: 2.5
+    lore:
+      - "<gray>Botella de experiencia; reproduce la experiencia ganada.</gray>"
+
+
+  phantom_membrane:
+    name: "<gray>Membrana de phantasm</gray>"
+    material: PHANTOM_MEMBRANE
+    buy: 8
+    sell: 4
+    lore:
+      - "<gray>Obtenida de phantoms; usada para reparar elytra.</gray>"
+
+
+  nautilus_shell:
+    name: "<aqua>Caparazón de nautilo</aqua>"
+    material: NAUTILUS_SHELL
+    buy: 12
+    sell: 6
+    lore:
+      - "<gray>Obtenida de peces; usada para conduits.</gray>"
+
+
+  # Nota: algunos drops ya están catalogados en otras categorías (alimentos, bloques, etc.).

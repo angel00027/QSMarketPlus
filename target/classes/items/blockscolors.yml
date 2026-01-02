@@ -1,0 +1,708 @@
+items:
+
+  # --- Lana (alfabético por clave) ---
+  black_wool:
+    name: "<dark_gray>Lana negra</dark_gray>"
+    material: BLACK_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  blue_wool:
+    name: "<blue>Lana azul</blue>"
+    material: BLUE_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  brown_wool:
+    name: "<gold>Lana marrón</gold>"
+    material: BROWN_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  cyan_wool:
+    name: "<dark_aqua>Lana cian</dark_aqua>"
+    material: CYAN_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  gray_wool:
+    name: "<gray>Lana gris</gray>"
+    material: GRAY_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  green_wool:
+    name: "<dark_green>Lana verde</dark_green>"
+    material: GREEN_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  light_blue_wool:
+    name: "<aqua>Lana azul claro</aqua>"
+    material: LIGHT_BLUE_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  light_gray_wool:
+    name: "<white>Lana gris claro</white>"
+    material: LIGHT_GRAY_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  lime_wool:
+    name: "<green>Lana verde lima</green>"
+    material: LIME_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  magenta_wool:
+    name: "<light_purple>Lana magenta</light_purple>"
+    material: MAGENTA_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  orange_wool:
+    name: "<gold>Lana naranja</gold>"
+    material: ORANGE_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  pink_wool:
+    name: "<light_purple>Lana rosa</light_purple>"
+    material: PINK_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  purple_wool:
+    name: "<dark_purple>Lana púrpura</dark_purple>"
+    material: PURPLE_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  red_wool:
+    name: "<red>Lana roja</red>"
+    material: RED_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  white_wool:
+    name: "<white>Lana blanca</white>"
+    material: WHITE_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  yellow_wool:
+    name: "<yellow>Lana amarilla</yellow>"
+    material: YELLOW_WOOL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Bloque de lana teñida.</gray>"
+
+
+  # --- Concreto (alfabético por clave) ---
+  black_concrete:
+    name: "<dark_gray>Concreto negro</dark_gray>"
+    material: BLACK_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  blue_concrete:
+    name: "<blue>Concreto azul</blue>"
+    material: BLUE_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  brown_concrete:
+    name: "<gold>Concreto marrón</gold>"
+    material: BROWN_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  cyan_concrete:
+    name: "<dark_aqua>Concreto cian</dark_aqua>"
+    material: CYAN_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  gray_concrete:
+    name: "<gray>Concreto gris</gray>"
+    material: GRAY_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  green_concrete:
+    name: "<dark_green>Concreto verde</dark_green>"
+    material: GREEN_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  light_blue_concrete:
+    name: "<aqua>Concreto azul claro</aqua>"
+    material: LIGHT_BLUE_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  light_gray_concrete:
+    name: "<white>Concreto gris claro</white>"
+    material: LIGHT_GRAY_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  lime_concrete:
+    name: "<green>Concreto verde lima</green>"
+    material: LIME_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  magenta_concrete:
+    name: "<light_purple>Concreto magenta</light_purple>"
+    material: MAGENTA_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  orange_concrete:
+    name: "<gold>Concreto naranja</gold>"
+    material: ORANGE_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  pink_concrete:
+    name: "<light_purple>Concreto rosa</light_purple>"
+    material: PINK_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  purple_concrete:
+    name: "<dark_purple>Concreto púrpura</dark_purple>"
+    material: PURPLE_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  red_concrete:
+    name: "<red>Concreto rojo</red>"
+    material: RED_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  white_concrete:
+    name: "<white>Concreto blanco</white>"
+    material: WHITE_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  yellow_concrete:
+    name: "<yellow>Concreto amarillo</yellow>"
+    material: YELLOW_CONCRETE
+    buy: 1.25
+    sell: 0.6
+    lore:
+      - "<gray>Bloque de concreto.</gray>"
+
+
+  # --- Terracota (alfabético por clave) ---
+  black_terracotta:
+    name: "<dark_gray>Terracota negra</dark_gray>"
+    material: BLACK_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  blue_terracotta:
+    name: "<blue>Terracota azul</blue>"
+    material: BLUE_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  brown_terracotta:
+    name: "<gold>Terracota marrón</gold>"
+    material: BROWN_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  cyan_terracotta:
+    name: "<dark_aqua>Terracota cian</dark_aqua>"
+    material: CYAN_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  gray_terracotta:
+    name: "<gray>Terracota gris</gray>"
+    material: GRAY_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  green_terracotta:
+    name: "<dark_green>Terracota verde</dark_green>"
+    material: GREEN_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  light_blue_terracotta:
+    name: "<aqua>Terracota azul claro</aqua>"
+    material: LIGHT_BLUE_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  light_gray_terracotta:
+    name: "<white>Terracota gris claro</white>"
+    material: LIGHT_GRAY_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  lime_terracotta:
+    name: "<green>Terracota verde lima</green>"
+    material: LIME_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  magenta_terracotta:
+    name: "<light_purple>Terracota magenta</light_purple>"
+    material: MAGENTA_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  orange_terracotta:
+    name: "<gold>Terracota naranja</gold>"
+    material: ORANGE_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  pink_terracotta:
+    name: "<light_purple>Terracota rosa</light_purple>"
+    material: PINK_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  red_terracotta:
+    name: "<red>Terracota roja</red>"
+    material: RED_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  white_terracotta:
+    name: "<white>Terracota blanca</white>"
+    material: WHITE_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  yellow_terracotta:
+    name: "<yellow>Terracota amarilla</yellow>"
+    material: YELLOW_TERRACOTTA
+    buy: 0.75
+    sell: 0.35
+    lore:
+      - "<gray>Bloque de terracota.</gray>"
+
+
+  # --- Vidrio teñido y paneles (stained glass) ---
+  black_stained_glass:
+    name: "<dark_gray>Vidrio negro</dark_gray>"
+    material: BLACK_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  black_stained_glass_pane:
+    name: "<dark_gray>Panel de vidrio negro</dark_gray>"
+    material: BLACK_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  blue_stained_glass:
+    name: "<blue>Vidrio azul</blue>"
+    material: BLUE_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  blue_stained_glass_pane:
+    name: "<blue>Panel de vidrio azul</blue>"
+    material: BLUE_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  brown_stained_glass:
+    name: "<gold>Vidrio marrón</gold>"
+    material: BROWN_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  brown_stained_glass_pane:
+    name: "<gold>Panel de vidrio marrón</gold>"
+    material: BROWN_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  cyan_stained_glass:
+    name: "<dark_aqua>Vidrio cian</dark_aqua>"
+    material: CYAN_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  cyan_stained_glass_pane:
+    name: "<dark_aqua>Panel de vidrio cian</dark_aqua>"
+    material: CYAN_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  gray_stained_glass:
+    name: "<gray>Vidrio gris</gray>"
+    material: GRAY_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  gray_stained_glass_pane:
+    name: "<gray>Panel de vidrio gris</gray>"
+    material: GRAY_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  green_stained_glass:
+    name: "<dark_green>Vidrio verde</dark_green>"
+    material: GREEN_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  green_stained_glass_pane:
+    name: "<dark_green>Panel de vidrio verde</dark_green>"
+    material: GREEN_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  light_blue_stained_glass:
+    name: "<aqua>Vidrio azul claro</aqua>"
+    material: LIGHT_BLUE_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  light_blue_stained_glass_pane:
+    name: "<aqua>Panel de vidrio azul claro</aqua>"
+    material: LIGHT_BLUE_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  light_gray_stained_glass:
+    name: "<white>Vidrio gris claro</white>"
+    material: LIGHT_GRAY_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  light_gray_stained_glass_pane:
+    name: "<white>Panel de vidrio gris claro</white>"
+    material: LIGHT_GRAY_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  magenta_stained_glass:
+    name: "<light_purple>Vidrio magenta</light_purple>"
+    material: MAGENTA_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  magenta_stained_glass_pane:
+    name: "<light_purple>Panel de vidrio magenta</light_purple>"
+    material: MAGENTA_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  orange_stained_glass:
+    name: "<gold>Vidrio naranja</gold>"
+    material: ORANGE_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  orange_stained_glass_pane:
+    name: "<gold>Panel de vidrio naranja</gold>"
+    material: ORANGE_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  pink_stained_glass:
+    name: "<light_purple>Vidrio rosa</light_purple>"
+    material: PINK_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  pink_stained_glass_pane:
+    name: "<light_purple>Panel de vidrio rosa</light_purple>"
+    material: PINK_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  red_stained_glass:
+    name: "<red>Vidrio rojo</red>"
+    material: RED_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  red_stained_glass_pane:
+    name: "<red>Panel de vidrio rojo</red>"
+    material: RED_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  white_stained_glass:
+    name: "<white>Vidrio blanco</white>"
+    material: WHITE_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  white_stained_glass_pane:
+    name: "<white>Panel de vidrio blanco</white>"
+    material: WHITE_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  yellow_stained_glass:
+    name: "<yellow>Vidrio amarillo</yellow>"
+    material: YELLOW_STAINED_GLASS
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Vidrio teñido.</gray>"
+
+
+  yellow_stained_glass_pane:
+    name: "<yellow>Panel de vidrio amarillo</yellow>"
+    material: YELLOW_STAINED_GLASS_PANE
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Panel de vidrio teñido.</gray>"
+
+
+  # --- Glazed terracotta (alfabético) ---
+  magenta_glazed_terracotta:
+    name: "<light_purple>Terracota decorada magenta</light_purple>"
+    material: MAGENTA_GLAZED_TERRACOTTA
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Terracota esmaltada y decorativa.</gray>"
+
+
+  orange_glazed_terracotta:
+    name: "<gold>Terracota decorada naranja</gold>"
+    material: ORANGE_GLAZED_TERRACOTTA
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Terracota esmaltada y decorativa.</gray>"
+
+
+  white_glazed_terracotta:
+    name: "<white>Terracota decorada blanca</white>"
+    material: WHITE_GLAZED_TERRACOTTA
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Terracota esmaltada y decorativa.</gray>"
+

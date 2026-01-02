@@ -1,0 +1,110 @@
+prefix: "<yellow>[QSMarket]</yellow> "
+
+no_money: "<red>No tienes suficiente dinero.</red>"
+no_items: "<red>No tienes suficientes ítems.</red>"
+not_enough_space: "<red>No tienes espacio en el inventario.</red>"
+
+sell_success: "<green>✔ Vendiste <yellow><amount>x <item></yellow> por <gold>$<money></gold>"
+buy_success: "<green>✔ Compraste <yellow><amount>x <item></yellow> por <gold>$<money></gold>"
+
+sell_all_empty: "<yellow>No tienes nada para vender.</yellow>"
+sell_all_success: "<green>Vendiste todo por <gold>$<money></gold>"
+
+menu_select_amount: "<green>Selecciona una cantidad</green>"
+
+swapped_no_items: "<red>No tienes items para vender.</red>"
+cant_sell: "<red>Este ítem no se puede vender.</red>"
+already_bought: "<red><bold>⛔ Ya has comprado este ítem y no puedes volver a comprarlo.</bold></red>"
+item_unavailable: "<red>⛔ No disponible</red>"
+item_already_bought: "<red>✅ Ya comprado</red>"
+
+not_stackable: "<yellow>Este ítem no es apilable.</yellow>"
+reload_success: "<green>✔ Configuraciones recargadas correctamente.</green>"
+
+#subastas (auction house)
+
+# Auction House Messages
+ah_bought: "<green>✔ Compraste <yellow><item></yellow> por <gold>$<money></gold>"
+ah_cancelled: "<red>Has cancelado tu subasta.</red>"
+ah_no_items: "<yellow>No tienes subastas activas.</yellow>"
+ah_title: "<green>Casa de Subastas</green>"
+ah_invalid_price: "<red>El precio ingresado no es válido.</red>"
+
+ah_created_single: "<green>✔ Subasta creada:</green> <yellow><item></yellow> por <gold>$<price></gold>"
+
+ah_created_bulk: "<green>✔ Creaste <yellow><count></yellow> subastas por <gold>$<price></gold> cada una.</green>"
+
+
+ah_price_error: "<red>Debes ingresar un precio válido.</red>"
+
+ah_no_item: "<red>Debes tener un ítem en la mano para subastarlo.</red>"
+
+ah_confirm_title: "<green>Confirmar Subasta</green>"
+
+
+
+# ======================================================
+# 🏛️ Casa de Subastas — Mensajes (MiniMessage)
+# ======================================================
+
+ah_not_your_auction: "<red>¡Esta subasta no te pertenece!</red>"
+ah_empty_preview: "<red>Esta subasta no contiene ítems para mostrar.</red>"
+ah_error: "<red>Hubo un error al procesar la subasta.</red>"
+
+
+# ======================================================
+# 🎛️ Filtros
+# ======================================================
+
+ah_filter_price_asc: "<aqua>Filtro aplicado:</aqua> <yellow>Precio ascendente</yellow>"
+ah_filter_price_desc: "<blue>Filtro aplicado:</blue> <yellow>Precio descendente</yellow>"
+ah_filter_only_items: "<yellow>Filtro aplicado:</yellow> <white>Solo ítems individuales</white>"
+ah_filter_only_bulk: "<gold>Filtro aplicado:</gold> <yellow>Solo subastas masivas</yellow>"
+ah_filter_reset: "<red>Se han eliminado todos los filtros.</red>"
+
+# ======================================================
+# 🧭 Navegación
+# ======================================================
+
+ah_page_next: "<yellow>Cambiaste a la página siguiente.</yellow>"
+ah_page_prev: "<yellow>Cambiaste a la página anterior.</yellow>"
+ah_page_invalid: "<red>No hay más páginas para mostrar.</red>"
+ah_cannot_buy_own: "<red>No puedes comprar tu propia subasta."
+ah_not_found: "<red>Esta subasta ya no existe."
+ah_broadcast_header: "<dark_gray><st>-----------------------------</st>"
+ah_broadcast_title: "<gold><bold>NUEVA SUBASTA"
+ah_broadcast_player: "<yellow>Jugador:</yellow> <white><player>"
+ah_broadcast_price: "<yellow>Precio:</yellow> <green><price>"
+ah_broadcast_type: "<yellow>Tipo:</yellow> <aqua>Subasta <type>"
+ah_broadcast_footer: "<dark_gray><st>-----------------------------</st>"
+ah_expired: "<yellow>Tu subasta ha expirado:</yellow> <white><item></white>"
+no_permission: "<red>No tienes permiso para hacer esto.</red>"
+# mensajes.yml o lang.yml
+ah_claimed_chest: "§aSe han colocado todos los items en un cofre para reclamar."
+# Mensajes para subasta
+
+
+not_enough_space_chest: "<red>No tienes espacio suficiente en tu inventario para recibir el cofre."
+ah_bought_chest: "<green>Has comprado <yellow><item_count> items<green> en un cofre por <gold><money><green> monedas."
+ah_created: "<green>Has creado una subasta para el item <yellow><item><green> a <gold><price><green> monedas."
+
+# ---------- GENERAL ----------
+shop.inactive: "<red>Esta tienda está inactiva."
+shop.transaction-error: "<red>Ha ocurrido un error al procesar la transacción."
+shop.full-inventory: "<red>No tienes suficiente espacio en tu inventario."
+
+# ---------- COMPRAR ----------
+shop.buy-disabled: "<red>No puedes comprar este item."
+shop.no-money: "<red>No tienes suficiente dinero para comprar este item."
+shop.buy-success: "<green>Has comprado <yellow><amount><green>x <yellow><item><green> por <gold><price><green> monedas."
+
+# ---------- VENDER ----------
+shop.sell-disabled: "<red>No puedes vender este item."
+shop.not-enough-items: "<red>No tienes suficientes items para vender."
+shop.sell-success: "<green>Has vendido <yellow><amount><green>x <yellow><item><green> por <gold><price><green> monedas."
+
+# Este es el lore del artículo que se muestra en el menú de compra/venta
+price-format:
+  buy: "<green>Compra: <white>$%buy%</white>"
+  sell: "<red>Venta: <white>$%sell%</white>"
+

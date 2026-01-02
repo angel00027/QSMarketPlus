@@ -1,0 +1,632 @@
+items:
+
+  # --- Iluminación ---
+  torch:
+    name: "<yellow>Antorcha</yellow>"
+    material: TORCH
+    buy: 0.25
+    sell: 0.1
+    lore:
+      - "<gray>Fuente de luz básica.</gray>"
+
+
+  soul_torch:
+    name: "<light_purple>Antorcha de alma</light_purple>"
+    material: SOUL_TORCH
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Luz azulada; útil en el Nether.</gray>"
+
+
+  lantern:
+    name: "<yellow>Linterna</yellow>"
+    material: LANTERN
+    buy: 3
+    sell: 1.5
+    lore:
+      - "<gray>Iluminación decorativa y resistente.</gray>"
+
+
+  soul_lantern:
+    name: "<light_purple>Linterna de alma</light_purple>"
+    material: SOUL_LANTERN
+    buy: 4
+    sell: 2
+    lore:
+      - "<gray>Linterna con luz tenue azulada.</gray>"
+
+
+  glowstone:
+    name: "<yellow>Glowstone</yellow>"
+    material: GLOWSTONE
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Bloque de luz brillante.</gray>"
+
+
+  sea_lantern:
+    name: "<aqua>Linterna marina</aqua>"
+    material: SEA_LANTERN
+    buy: 8
+    sell: 4
+    lore:
+      - "<gray>Fuente de luz oceánica.</gray>"
+
+
+  # --- Muebles y utilidades decorativas ---
+  painting:
+    name: "<white>Cuadro</white>"
+    material: PAINTING
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Decoración mural clásica.</gray>"
+
+
+  item_frame:
+    name: "<white>Marco para item</white>"
+    material: ITEM_FRAME
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Perfecto para exponer objetos.</gray>"
+
+
+  armor_stand:
+    name: "<white>Soporte de armadura</white>"
+    material: ARMOR_STAND
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Exhibe armaduras y decoración.</gray>"
+
+
+  bookshelf:
+    name: "<brown>Estantería</brown>"
+    material: BOOKSHELF
+    buy: 3
+    sell: 1.5
+    lore:
+      - "<gray>Decorativa y funcional para encantamientos.</gray>"
+
+
+  chest:
+    name: "<brown>Cofre</brown>"
+    material: CHEST
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Almacenamiento básico con look clásico.</gray>"
+
+
+  barrel:
+    name: "<brown>Barril</brown>"
+    material: BARREL
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Alternativa decorativa al cofre.</gray>"
+
+
+  # --- Plantas y flores ---
+  flower_pot:
+    name: "<green>Maceta vacía</green>"
+    material: FLOWER_POT
+    buy: 1
+    sell: 0.5
+    lore:
+      - "<gray>Usa para macetas decorativas.</gray>"
+
+
+
+  # --- Telas y camas ---
+  white_bed:
+    name: "<white>Cama blanca</white>"
+    material: WHITE_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer el punto de reaparición.</gray>"
+
+
+  white_carpet:
+    name: "<white>Alfombra blanca</white>"
+    material: WHITE_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  banner:
+    name: "<white>Estandarte</white>"
+    material: WHITE_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  # --- Señales y carteles ---
+  oak_sign:
+    name: "<brown>Cartel de roble</brown>"
+    material: OAK_SIGN
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Cartel para señalizar construcciones.</gray>"
+
+
+  item_frame_wall:
+    name: "<white>Marco (pared)</white>"
+    material: ITEM_FRAME
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Usa para mostrar items en paredes.</gray>"
+
+
+  # --- Otros decorativos ---
+  lantern_jack_o_lantern:
+    name: "<orange>Calabaza iluminada</orange>"
+    material: JACK_O_LANTERN
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Decoración temática y iluminación.</gray>"
+
+
+  candle:
+    name: "<yellow>Vela</yellow>"
+    material: CANDLE
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Pequeña luz decorativa; admite colores.</gray>"
+
+
+  # --- Redstone decorativo ---
+  lantern_redstone:
+    name: "<red>Redstone Lamp</red>"
+    material: REDSTONE_LAMP
+    buy: 6
+    sell: 3
+    lore:
+      - "<gray>Lámpara que se activa con redstone.</gray>"
+
+
+  white_bed:
+    name: "<white>Cama blanca</white>"
+    material: WHITE_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer el punto de reaparición.</gray>"
+
+
+  orange_bed:
+    name: "<gold>Cama naranja</gold>"
+    material: ORANGE_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  magenta_bed:
+    name: "<light_purple>Cama magenta</light_purple>"
+    material: MAGENTA_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  light_blue_bed:
+    name: "<aqua>Cama azul claro</aqua>"
+    material: LIGHT_BLUE_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  yellow_bed:
+    name: "<yellow>Cama amarilla</yellow>"
+    material: YELLOW_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  lime_bed:
+    name: "<green>Cama lima</green>"
+    material: LIME_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  pink_bed:
+    name: "<light_purple>Cama rosa</light_purple>"
+    material: PINK_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  gray_bed:
+    name: "<gray>Cama gris</gray>"
+    material: GRAY_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  light_gray_bed:
+    name: "<white>Cama gris claro</white>"
+    material: LIGHT_GRAY_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  cyan_bed:
+    name: "<dark_aqua>Cama cian</dark_aqua>"
+    material: CYAN_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  purple_bed:
+    name: "<dark_purple>Cama púrpura</dark_purple>"
+    material: PURPLE_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  blue_bed:
+    name: "<blue>Cama azul</blue>"
+    material: BLUE_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  brown_bed:
+    name: "<brown>Cama marrón</brown>"
+    material: BROWN_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  green_bed:
+    name: "<dark_green>Cama verde</dark_green>"
+    material: GREEN_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  red_bed:
+    name: "<red>Cama roja</red>"
+    material: RED_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+  black_bed:
+    name: "<black>Cama negra</black>"
+    material: BLACK_BED
+    buy: 2
+    sell: 1
+    lore:
+      - "<gray>Cama para establecer reaparición.</gray>"
+
+
+
+  white_carpet:
+    name: "<white>Alfombra blanca</white>"
+    material: WHITE_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  orange_carpet:
+    name: "<gold>Alfombra naranja</gold>"
+    material: ORANGE_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  magenta_carpet:
+    name: "<light_purple>Alfombra magenta</light_purple>"
+    material: MAGENTA_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  light_blue_carpet:
+    name: "<aqua>Alfombra azul claro</aqua>"
+    material: LIGHT_BLUE_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  yellow_carpet:
+    name: "<yellow>Alfombra amarilla</yellow>"
+    material: YELLOW_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  lime_carpet:
+    name: "<green>Alfombra lima</green>"
+    material: LIME_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  pink_carpet:
+    name: "<light_purple>Alfombra rosa</light_purple>"
+    material: PINK_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  gray_carpet:
+    name: "<gray>Alfombra gris</gray>"
+    material: GRAY_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  light_gray_carpet:
+    name: "<white>Alfombra gris claro</white>"
+    material: LIGHT_GRAY_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  cyan_carpet:
+    name: "<dark_aqua>Alfombra cian</dark_aqua>"
+    material: CYAN_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  purple_carpet:
+    name: "<dark_purple>Alfombra púrpura</dark_purple>"
+    material: PURPLE_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  blue_carpet:
+    name: "<blue>Alfombra azul</blue>"
+    material: BLUE_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  brown_carpet:
+    name: "<brown>Alfombra marrón</brown>"
+    material: BROWN_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  green_carpet:
+    name: "<dark_green>Alfombra verde</dark_green>"
+    material: GREEN_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  red_carpet:
+    name: "<red>Alfombra roja</red>"
+    material: RED_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+  black_carpet:
+    name: "<black>Alfombra negra</black>"
+    material: BLACK_CARPET
+    buy: 0.5
+    sell: 0.25
+    lore:
+      - "<gray>Alfombra para ambientar interiores.</gray>"
+
+
+
+  white_banner:
+    name: "<white>Estandarte blanco</white>"
+    material: WHITE_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  orange_banner:
+    name: "<gold>Estandarte naranja</gold>"
+    material: ORANGE_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  magenta_banner:
+    name: "<light_purple>Estandarte magenta</light_purple>"
+    material: MAGENTA_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  light_blue_banner:
+    name: "<aqua>Estandarte azul claro</aqua>"
+    material: LIGHT_BLUE_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  yellow_banner:
+    name: "<yellow>Estandarte amarillo</yellow>"
+    material: YELLOW_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  lime_banner:
+    name: "<green>Estandarte lima</green>"
+    material: LIME_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  pink_banner:
+    name: "<light_purple>Estandarte rosa</light_purple>"
+    material: PINK_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  gray_banner:
+    name: "<gray>Estandarte gris</gray>"
+    material: GRAY_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  light_gray_banner:
+    name: "<white>Estandarte gris claro</white>"
+    material: LIGHT_GRAY_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  cyan_banner:
+    name: "<dark_aqua>Estandarte cian</dark_aqua>"
+    material: CYAN_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  purple_banner:
+    name: "<dark_purple>Estandarte púrpura</dark_purple>"
+    material: PURPLE_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  blue_banner:
+    name: "<blue>Estandarte azul</blue>"
+    material: BLUE_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  brown_banner:
+    name: "<brown>Estandarte marrón</brown>"
+    material: BROWN_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  green_banner:
+    name: "<dark_green>Estandarte verde</dark_green>"
+    material: GREEN_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  red_banner:
+    name: "<red>Estandarte rojo</red>"
+    material: RED_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+
+
+  black_banner:
+    name: "<black>Estandarte negro</black>"
+    material: BLACK_BANNER
+    buy: 1.5
+    sell: 0.75
+    lore:
+      - "<gray>Personalizable para decoración vertical.</gray>"
+

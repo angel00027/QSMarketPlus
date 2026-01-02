@@ -1,0 +1,7 @@
+items:
+  cabeza_manzana:
+    name: "<aqua>Elephant Head</aqua>"
+    material: PLAYER_HEAD
+    texture: "http://textures.minecraft.net/texture/f87bc24f948b69133875efbee6ee37678ce983660f2be41086dcae34f4e0eecc"
+    buy: 200
+    sell: 100

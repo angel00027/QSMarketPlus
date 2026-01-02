@@ -1,0 +1,104 @@
+ah:
+  # Título del menú de la Casa de Subastas
+  title: "<gold>Casa de Subasta"
+
+  # Tamaño del inventario (debe ser múltiplo de 9)
+  size: 54
+
+  background:
+    # Item usado para rellenar los espacios vacíos del menú
+    material: GRAY_STAINED_GLASS_PANE
+
+    # Nombre del item de fondo (normalmente vacío)
+    name: "<gray> "
+
+  # Slots donde se colocan las subastas
+  # SOLO estos slots mostrarán ítems en venta
+  grid_slots:
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 25
+    - 28
+    - 29
+    - 30
+    - 31
+    - 32
+    - 33
+    - 34
+    - 37
+    - 38
+    - 39
+    - 40
+    - 41
+    - 42
+    - 43
+
+  # Botones de navegación del menú
+  navigation:
+
+    prev:
+      material: ARROW
+      name: "<yellow>Página Anterior"
+      lore: []
+      slot: 45   # Slot del botón
+
+    close:
+      material: BARRIER
+      name: "<red>Cerrar"
+      lore: []
+      slot: 49
+
+    next:
+      material: ARROW
+      name: "<yellow>Página Siguiente"
+      lore: []
+      slot: 53
+
+  # Filtros de búsqueda para subastas
+  filters:
+
+    price_asc:
+      material: LIGHT_BLUE_DYE
+      name: "<aqua>Precio Ascendente"
+      lore: []
+      slot: 0
+      tag: "PRICE_ASC"   # Ordena por precio menor → mayor
+
+    price_desc:
+      material: BLUE_DYE
+      name: "<blue>Precio Descendente"
+      lore: []
+      slot: 1
+      tag: "PRICE_DESC"  # Ordena por precio mayor → menor
+
+    only_items:
+      material: PAPER
+      name: "<yellow>Solo Items"
+      lore: []
+      slot: 2
+      tag: "ONLY_ITEMS"  # Muestra solo subastas individuales
+
+    only_bulk:
+      material: CHEST_MINECART
+      name: "<gold>Solo Cofres"
+      lore: []
+      slot: 3
+      tag: "ONLY_BULK"   # Muestra solo subastas masivas (cofres)
+
+    none:
+      material: BARRIER
+      name: "<red>Quitar Filtros"
+      lore: []
+      slot: 4
+      tag: "NONE"        # Elimina todos los filtros activos

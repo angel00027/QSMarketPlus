@@ -1,0 +1,54 @@
+discord:
+  webhook_enabled: false
+  webhook_url: ""
+
+auction:
+  # Tiempo que dura una subasta antes de expirar (en segundos)
+  # Ejemplos:
+  # 60  = 1 minuto
+  # 3600 = 1 hora
+  # 86400 = 24 horas
+  # 7 días = 7 × 24 × 3600 = 604800 segundos
+  # 14 días = 14 × 24 × 3600 = 1209600 segundos
+  # 30 × 24 × 3600 = 2592000 segundos
+  expiration_seconds: 604800
+
+
+  # Con qué frecuencia se revisan las subastas para ver si han expirado (en segundos)
+  # Ejemplos:
+  # 10 = cada 10 segundos (ideal para pruebas)
+  # 300 = cada 5 minutos (recomendado en producción)
+  expiration_check_interval: 10
+
+auction-limits:
+  default: 5           # Jugadores sin permisos especiales
+  qsmarket.limit.premium: 10
+  qsmarket.limit.vip: 20
+  qsmarket.limit.staff: 999
+
+
+database:
+  type: "sqlite"   # opciones: sqlite / mysql
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "qsmarket"
+    user: "root"
+    password: "root"
+  sqlite:
+    file: "data.db"
+
+
+holograms:
+  enabled: true
+  offset:
+    x: 0.5
+    y: 1.35
+    z: 0.5
+  rotation:
+    enabled: true
+    speed: 1.2
+    interval: 1
+  scale: 0.7
+  view-range: 32
+

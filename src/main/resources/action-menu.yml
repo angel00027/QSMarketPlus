@@ -1,0 +1,49 @@
+menu:
+  # Título del menú
+  title: "<yellow>Selecciona una acción"
+
+  # Número de filas del inventario (3 = 27 slots)
+  rows: 3
+
+  # Si está activo, los slots vacíos se rellenan automáticamente
+  # con el item de fondo configurado por el plugin
+  fill-background: true
+
+buttons:
+
+  buy:
+    # Habilita o deshabilita el botón
+    enabled: true
+
+    # Slot donde aparece el botón
+    slot: 11
+
+    # Material base (se usa si no hay head)
+    material: LIME_WOOL
+
+    # Nombre del botón
+    name: "<green>Comprar"
+
+    # Cabeza personalizada (opcional)
+    head: "http://textures.minecraft.net/texture/bd005ebbf9817d6928de8bc5f7d1c389276020ac87647d28ab8f99eb39ffde76"
+
+    # Descripción del botón
+    lore:
+      - "<gray>Comprar este ítem"
+
+  sell:
+    enabled: true
+    slot: 15
+    material: RED_WOOL
+    name: "<red>Vender"
+    head: "http://textures.minecraft.net/texture/9fd108383dfa5b02e86635609541520e4e158952d68c1c8f8f200ec7e88642d"
+    lore:
+      - "<gray>Vender este ítem"
+
+  back:
+    # Botón para regresar al menú anterior
+    enabled: true
+    slot: 22
+    material: ARROW
+    name: "<yellow>Volver"
+    lore: []

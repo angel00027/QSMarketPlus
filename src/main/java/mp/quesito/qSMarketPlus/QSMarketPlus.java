@@ -3,10 +3,7 @@ package mp.quesito.qSMarketPlus;
 import mp.quesito.qSMarketPlus.auction.AuctionManager;
 import mp.quesito.qSMarketPlus.commands.*;
 import mp.quesito.qSMarketPlus.database.SQLManager;
-import mp.quesito.qSMarketPlus.listeners.ItemsMenuListener;
-import mp.quesito.qSMarketPlus.listeners.PlayerShopListener;
-import mp.quesito.qSMarketPlus.listeners.ShopClickListener;
-import mp.quesito.qSMarketPlus.listeners.SignShopListener;
+import mp.quesito.qSMarketPlus.listeners.*;
 import mp.quesito.qSMarketPlus.manager.*;
 import mp.quesito.qSMarketPlus.shop.PlayerShop;
 import mp.quesito.qSMarketPlus.shop.ShopCategory;
@@ -109,6 +106,7 @@ public final class QSMarketPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ItemsMenuListener(itemManager), this);
         getServer().getPluginManager().registerEvents(new PlayerShopListener(), this);
         getServer().getPluginManager().registerEvents(new SignShopListener(), this);
+        getServer().getPluginManager().registerEvents(new SellStickListener(this), this);
 
         // ============================
         // 8) Registrar comandos

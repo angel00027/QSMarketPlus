@@ -8,6 +8,7 @@ import mp.quesito.qSMarketPlus.utils.Lang;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -169,6 +170,38 @@ public class QSMarketCommand implements CommandExecutor {
             p.sendMessage(ChatColor.GREEN + "✔ SignShop creada correctamente.");
             return true;
         }
+
+
+        /* ======================================================
+         * /qsmarket sellstick
+         * ====================================================== */
+        /* ======================================================
+         * /qsmarket sellstick [jugador]
+         * ====================================================== */
+        if (args[0].equalsIgnoreCase("sellstick")) {
+            if (!hasPerm(sender, "qsmarket.admin.sellstick")) return true;
+
+            Player target = null;
+
+            if (args.length == 2) { // Se especifica jugador
+                target = Bukkit.getPlayerExact(args[1]);
+                if (target == null) {
+                    sender.sendMessage("§cJugador no encontrado.");
+                    return true;
+                }
+            } else if (sender instanceof Player p) { // Sin args, se da a quien ejecuta
+                target = p;
+            } else {
+                sender.sendMessage("§cDebes especificar un jugador válido.");
+                return true;
+            }
+
+            SellStickItem.give(target);
+            sender.sendMessage("§a✔ Sell Stick entregada a " + target.getName());
+            return true;
+        }
+
+
 
         /* ======================================================
          * /qsmarket additem <categoria> <precio_compra> <precio_venta>

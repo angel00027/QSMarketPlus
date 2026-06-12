@@ -71,19 +71,26 @@ database:
 # 📱 Configuración de Menús para Bedrock (Geyser/Floodgate)
 # ======================================================
 bedrock-menus:
+  # Define si se deben remover de raíz los colores en Bedrock.
+  # true = Texto plano y limpio (Evita errores visuales en versiones viejas de Bedrock)
+  # false = Permite códigos minimessage nativos si Geyser los renderiza.
+  strip-colors: true
+
   categories:
-    title: "« Tienda del Servidor »"
-    content: "Selecciona una categoría para explorar los artículos disponibles:"
+    title: "<gold><bold>«</bold> Tienda del Servidor <bold>»</bold></gold>"
+    content: "<gray>Selecciona una categoría para explorar los artículos disponibles:</gray>"
+
   items:
-    content: "Elige un artículo para comprar o vender:"
-    back-button: "« Volver a Categorías"
+    content: "<yellow>Elige un artículo para comprar o vender:</yellow>"
+    back-button: "<red>« Volver a Categorías</red>"
+
   confirm:
-    title: "Transacción: %item%"
-    slider: "Cantidad a comerciar"
-    label-header: "Detalles del Artículo:"
-    label-balance: "Tu Saldo actual: %balance%"
-    toggle-mode: "Modo: COMPRA [Apagado] / VENTA [Encendido]"
-    toggle-back: "¿Volver a la lista de artículos? [Activar]"
+    title: "<dark_aqua>Transacción:</dark_aqua> <green>%item%</green>"
+    slider: "<gray>Cantidad a comerciar</gray>"
+    label-header: "<yellow><bold>Detalles del Artículo:</bold></yellow>"
+    label-balance: "<gray>Tu Saldo actual:</gray> <green>%balance%</green>"
+    toggle-mode: "<gray>Modo:</gray> <red>COMPRA [Apagado]</red> <gray>/</gray> <green>VENTA [Encendido]</green>"
+    toggle-back: "<dark_red>¿Volver a la lista de artículos?</dark_red> <gray>[Activar]</gray>"
 
 holograms:
   enabled: true

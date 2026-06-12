@@ -23,23 +23,31 @@ import java.util.UUID;
 public class BedrockFormMenu {
 
     /**
-     * Utilidad para remover de raíz cualquier formato de color o tag de MiniMessage
-     * y asegurar legibilidad absoluta en los botones nativos de Bedrock.
+     * Procesa el texto dependiendo de la configuración.
+     * Si 'strip' es true, remueve códigos de color y tags de MiniMessage.
+     * Si es false, mantiene el formato original o lo pasa a legacy según prefieras.
      */
-    private static String stripColor(String text) {
+    private static String formatText(String text, boolean strip) {
         if (text == null) return "";
-        // Convierte el texto usando el método de tu plugin
-        String legacy = MessageUtil.toLegacy(text);
-        // Remueve secuencias de colores tradicionales (§a, &e) y tags de MiniMessage (<red>, </green>)
-        return legacy.replaceAll("(?i)[§&][0-9a-fk-orx]", "")
-                .replaceAll("<[^>]*>", "");
+
+        // 1. Si se deben limpiar los colores, borramos tanto códigos legacy como tags <...>
+        if (strip) {
+            return text.replaceAll("(?i)[§&][0-9a-fk-orx]", "")
+                    .replaceAll("<[^>]*>", "");
+        }
+
+        // 2. Si NO se deben limpiar, convertimos MiniMessage (<red>) a formato Legacy (§c)
+        // para que la interfaz nativa de Geyser/Bedrock pueda renderizar el color.
+        return MessageUtil.toLegacy(text);
     }
 
     public static void openCategories(Player player, CategoryManager manager) {
         FileConfiguration config = QSMarketPlus.getInstance().getConfig();
+        // 📌 LEER DE LA CONFIGURACIÓN SI SE LIMPIAN LOS COLORES O NO
+        boolean strip = config.getBoolean("bedrock-menus.strip-colors", true);
 
-        String title = stripColor(config.getString("bedrock-menus.categories.title", "Tienda"));
-        String content = stripColor(config.getString("bedrock-menus.categories.content", "Selecciona una categoría:"));
+        String title = formatText(config.getString("bedrock-menus.categories.title", "Tienda"), strip);
+        String content = formatText(config.getString("bedrock-menus.categories.content", "Selecciona una categoría:"), strip);
 
         SimpleForm.Builder form = SimpleForm.builder()
                 .title(title)
@@ -51,8 +59,8 @@ public class BedrockFormMenu {
             if (!cat.canAccess(player)) continue;
 
             activeCategories.add(cat);
-            // Botón limpio de colores para Bedrock
-            String catNameClean = stripColor(cat.getName());
+            // Formateo dinámico del botón de categoría
+            String catNameClean = formatText(cat.getName(), strip);
             form.button(catNameClean);
         }
 
@@ -77,10 +85,11 @@ public class BedrockFormMenu {
 
     public static void openItems(Player player, ShopCategory category) {
         FileConfiguration config = QSMarketPlus.getInstance().getConfig();
+        boolean strip = config.getBoolean("bedrock-menus.strip-colors", true);
 
-        String title = stripColor(category.getName());
-        String content = stripColor(config.getString("bedrock-menus.items.content", "Selecciona un artículo:"));
-        String backButtonText = stripColor(config.getString("bedrock-menus.items.back-button", "« Volver Atrás"));
+        String title = formatText(category.getName(), strip);
+        String content = formatText(config.getString("bedrock-menus.items.content", "Selecciona un artículo:"), strip);
+        String backButtonText = formatText(config.getString("bedrock-menus.items.back-button", "« Volver Atrás"), strip);
 
         SimpleForm.Builder form = SimpleForm.builder()
                 .title(title)
@@ -95,8 +104,8 @@ public class BedrockFormMenu {
 
             availableItems.add(item);
 
-            // Nombre del artículo completamente limpio para evitar fallos de renderizado
-            String itemNameClean = stripColor(item.getName());
+            // Formateo dinámico del botón del artículo
+            String itemNameClean = formatText(item.getName(), strip);
             form.button(itemNameClean);
         }
 
@@ -134,6 +143,7 @@ public class BedrockFormMenu {
 
     public static void openTransactionConfirm(Player player, ShopItem item, ShopCategory category) {
         FileConfiguration config = QSMarketPlus.getInstance().getConfig();
+        boolean strip = config.getBoolean("bedrock-menus.strip-colors", true);
 
         EconomyProvider ecoProvider = QSMarketPlus.getInstance().getEconomyManager().get(item.getEconomy());
 
@@ -156,7 +166,7 @@ public class BedrockFormMenu {
         }
 
         String rawTitle = config.getString("bedrock-menus.confirm.title", "Transacción: %item%");
-        String title = stripColor(rawTitle.replace("%item%", item.getName()));
+        String title = formatText(rawTitle.replace("%item%", item.getName()), strip);
 
         // =========================================================================
         // 🛠️ CONSTRUCCIÓN DINÁMICA DEL LABEL DESDE EL CONFIG.YML
@@ -164,28 +174,28 @@ public class BedrockFormMenu {
         StringBuilder labelBuilder = new StringBuilder();
 
         String labelHeader = config.getString("bedrock-menus.confirm.label-header", "Detalles del Artículo:");
-        labelBuilder.append(stripColor(labelHeader)).append("\n");
+        labelBuilder.append(formatText(labelHeader, strip)).append("\n");
 
         if (canBuy) {
-            labelBuilder.append("• ").append(stripColor(buyPriceFormatted)).append("\n");
+            labelBuilder.append("• ").append(formatText(buyPriceFormatted, strip)).append("\n");
         }
         if (canSell) {
-            labelBuilder.append("• ").append(stripColor(sellPriceFormatted)).append("\n");
+            labelBuilder.append("• ").append(formatText(sellPriceFormatted, strip)).append("\n");
         }
 
         double currentBalance = ecoProvider.getBalance(player);
         String rawBalanceStr = config.getString("bedrock-menus.confirm.label-balance", "Tu Saldo actual: %balance%");
         String balanceStr = rawBalanceStr.replace("%balance%", String.format("%.2f", currentBalance));
 
-        labelBuilder.append("\n").append(stripColor(balanceStr));
+        labelBuilder.append("\n").append(formatText(balanceStr, strip));
         String label = labelBuilder.toString();
 
         // =========================================================================
         // 🎛️ TEXTOS DE LOS COMPONENTES DESDE EL CONFIG.YML
         // =========================================================================
-        String sliderText = stripColor(config.getString("bedrock-menus.confirm.slider", "Cantidad"));
-        String toggleText = stripColor(config.getString("bedrock-menus.confirm.toggle-mode", "Modo: COMPRA [Apagado] / VENTA [Encendido]"));
-        String backToggleText = stripColor(config.getString("bedrock-menus.confirm.toggle-back", "¿Volver a la lista de artículos?"));
+        String sliderText = formatText(config.getString("bedrock-menus.confirm.slider", "Cantidad"), strip);
+        String toggleText = formatText(config.getString("bedrock-menus.confirm.toggle-mode", "Modo: COMPRA [Apagado] / VENTA [Encendido]"), strip);
+        String backToggleText = formatText(config.getString("bedrock-menus.confirm.toggle-back", "¿Volver a la lista de artículos?"), strip);
 
         CustomForm.Builder form = CustomForm.builder()
                 .title(title)
@@ -212,7 +222,8 @@ public class BedrockFormMenu {
                 }
 
                 String currencyName = config.getString("economies." + ecoProvider.getName() + ".display-name", ecoProvider.getName());
-                String cleanedItemName = stripColor(item.getName());
+                // Para las respuestas del chat/lang se suele preferir limpio, pero usamos la variable también aquí si se desea.
+                String cleanedItemName = formatText(item.getName(), strip);
 
                 // =========================================================================
                 // 🟢 SECCIÓN DE VENTA
@@ -235,7 +246,6 @@ public class BedrockFormMenu {
                     }
 
                     if (totalEncontrado < cantidad) {
-                        // 🔥 FIJADO: Uso de Placeholders individuales separados por comas
                         MessageUtil.lang(targetPlayer, "no_items",
                                 Placeholder.parsed("amount", String.valueOf(cantidad)),
                                 Placeholder.parsed("item", cleanedItemName)
@@ -270,7 +280,6 @@ public class BedrockFormMenu {
                         return;
                     }
 
-                    // 🔥 FIJADO: Uso de Placeholders individuales separados por comas
                     MessageUtil.lang(targetPlayer, "sell_success",
                             Placeholder.parsed("amount", String.valueOf(cantidad)),
                             Placeholder.parsed("item", cleanedItemName),
@@ -301,7 +310,6 @@ public class BedrockFormMenu {
                     double totalCost = item.getBuy() * cantidad;
 
                     if (ecoProvider.getBalance(targetPlayer) < totalCost) {
-                        // 🔥 FIJADO: Uso de Placeholder individual
                         MessageUtil.lang(targetPlayer, "no_money",
                                 Placeholder.parsed("currency", currencyName)
                         );
@@ -334,7 +342,6 @@ public class BedrockFormMenu {
                         upManager.markPurchased(targetPlayer, item);
                     }
 
-                    // 🔥 FIJADO: Uso de Placeholders individuales separados por comas
                     MessageUtil.lang(targetPlayer, "buy_success",
                             Placeholder.parsed("amount", String.valueOf(cantidad)),
                             Placeholder.parsed("item", cleanedItemName),

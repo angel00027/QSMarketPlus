@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.sql.ResultSet;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,27 +34,44 @@ public class QSMarketTabCompleter implements TabCompleter {
                 addIfPerm(completions, sender, "additem", "qsmarket.admin.additem");
                 addIfPerm(completions, sender, "reload", "qsmarket.admin.reload");
                 addIfPerm(completions, sender, "sellstick", "qsmarket.admin.sellstick");
+                addIfPerm(completions, sender, "resetunique", "qsmarket.admin.resetunique"); // NUEVO
                 return filter(completions, args[0]);
             }
-            case 2 -> {
+            case 2 -> { // /qsmarket <subcomando> <jugador/categoria/valor>
                 switch (args[0].toLowerCase()) {
-                    case "set" -> completions.addAll(List.of("1", "5", "10", "50", "100"));
+                    /*case "set" -> completions.addAll(List.of("1", "5", "10", "50", "100"));*/
                     case "setitem", "additem" -> completions.addAll(plugin.getCategoryManager().getCategories().keySet());
-                    case "sellstick" -> { // Tab para nombres de jugadores
+                    case "sellstick", "resetunique" -> { // NUEVO: autocompletar jugadores online
                         Bukkit.getOnlinePlayers().forEach(p -> completions.add(p.getName()));
                     }
                 }
                 return filter(completions, args[1]);
             }
-            case 3 -> {
+            case 3 -> { // /qsmarket <subcomando> <jugador/categoria> <cantidad/itemId>
                 switch (args[0].toLowerCase()) {
-                    case "set" -> completions.addAll(List.of("1", "16", "32", "64"));
-                    case "setitem" -> { // Item IDs de la categoría
+                    /*case "set" -> completions.addAll(List.of("1", "16", "32", "64"));*/
+                    case "setitem" -> { // Item IDs por categoría
                         String categoryId = args[1].toLowerCase();
                         plugin.getItemManager().getItems(categoryId).values()
                                 .forEach(item -> completions.add(item.getId()));
                     }
                     case "additem" -> completions.addAll(List.of("1", "5", "10", "50", "100")); // Precio compra
+                    case "resetunique" -> { // Autocompletar ítems únicos del jugador
+                        Player target = Bukkit.getPlayerExact(args[1]);
+                        if (target != null) {
+                            plugin.getSqlManager().query(
+                                    "SELECT item_id FROM unique_purchases WHERE player_uuid = ?",
+                                    (ResultSet rs) -> {
+                                        try {
+                                            while (rs.next()) {
+                                                completions.add(rs.getString("item_id"));
+                                            }
+                                        } catch (Exception ignored) {}
+                                    },
+                                    target.getUniqueId().toString()
+                            );
+                        }
+                    }
                 }
                 return filter(completions, args[2]);
             }

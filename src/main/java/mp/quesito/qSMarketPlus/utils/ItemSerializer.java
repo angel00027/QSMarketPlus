@@ -42,25 +42,6 @@ public class ItemSerializer {
         }
     }
 
-    // ===================== SERIALIZAR VARIOS ITEMS =====================
-    public static String toBase64(ItemStack[] items) {
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
-
-            dataOutput.writeInt(items.length); // cantidad de items
-
-            for (ItemStack item : items) {
-                dataOutput.writeObject(item);
-            }
-
-            dataOutput.close();
-            return Base64.getEncoder().encodeToString(outputStream.toByteArray());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
 
     // ===================== DESERIALIZAR VARIOS ITEMS =====================

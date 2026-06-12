@@ -132,6 +132,10 @@ public class CategoryManager {
         return categories.get(id.toLowerCase());
     }
 
+    public QSMarketPlus getPlugin() {
+        return this.plugin;
+    }
+
     private int[] generateCenteredSlots(int count) {
 
         int size = getInventorySize(count);

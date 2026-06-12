@@ -1,11 +1,11 @@
 name: QSMarketPlus
-version: '4.1.2'
+version: '4.2.4'
 main: mp.quesito.qSMarketPlus.QSMarketPlus
 api-version: '1.20'
 depend:
   - Vault
   - WorldGuard
-
+softdepend: [QSTexturs]
 commands:
   shop:
     description: Abre el menú de la tienda.
@@ -13,6 +13,7 @@ commands:
   qsmarket:
     description: Comando principal de QSMarketPlus
     usage: /qsmarket reload
+    aliases: [qsm]
     permission: qsmarket.reload
   sell:
     description: Vender objetos del inventario
@@ -20,6 +21,11 @@ commands:
   ah:
     description: Abre el menu de subastas
     usage: /ah
+
+  myshop:
+    description: Configura de forma rápida el precio y cantidad de tu tienda personal
+    permission: qsmarket.shop.set
+    aliases: [pshop, pmarket]
 
 permissions:
   qsmarket.use:

@@ -3,6 +3,8 @@ package mp.quesito.qSMarketPlus;
 import mp.quesito.qSMarketPlus.auction.AuctionManager;
 import mp.quesito.qSMarketPlus.commands.*;
 import mp.quesito.qSMarketPlus.database.SQLManager;
+import mp.quesito.qSMarketPlus.economia.*;
+import mp.quesito.qSMarketPlus.hooks.HookManager;
 import mp.quesito.qSMarketPlus.listeners.*;
 import mp.quesito.qSMarketPlus.manager.*;
 import mp.quesito.qSMarketPlus.shop.PlayerShop;
@@ -11,6 +13,8 @@ import mp.quesito.qSMarketPlus.utils.Lang;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.milkbowl.vault.economy.Economy;
+import org.black_ixx.playerpoints.PlayerPoints;
+import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,11 +39,66 @@ public final class QSMarketPlus extends JavaPlugin {
     private SQLManager sqlManager;
     private SignShopManager signShopManager;
     public static Economy economy;
+    private boolean qstextursHook;
+    private HookManager hookManager;
+    private EconomyManager economyManager;
+
 
     @Override
     public void onEnable() {
 
         instance = this;
+        qstextursHook = getServer().getPluginManager().isPluginEnabled("QSTexturs");
+
+        // ============================
+        // 4) Vault Economy
+        // ============================
+        if (!setupEconomy()) {
+            getLogger().severe("Vault o economía no disponible. Plugin desactivado.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+
+        if (qstextursHook) {
+            getLogger().info("Hooked into QSTexturs ✔");
+        } else {
+            getLogger().info("QSTexturs no encontrado. Soporte desactivado.");
+        }
+
+        economyManager = new EconomyManager();
+
+        // PlayerPoints
+        if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
+
+            PlayerPointsAPI api = PlayerPoints.getInstance().getAPI();
+
+            economyManager.register(
+                    "points",
+                    new PlayerPointsProvider(api, getConfig())
+            );
+
+            getLogger().info("PlayerPoints economy loaded.");
+        }
+
+        // Vault
+        economyManager.register(
+                "vault",
+                new VaultEconomyProvider(QSMarketPlus.economy, getConfig())
+        );
+
+        // XP
+        economyManager.register(
+                "xp",
+                new XPEconomyProvider(getConfig())
+        );
+
+        // Levels
+        economyManager.register(
+                "levels",
+                new LevelEconomyProvider(getConfig())
+        );
+
 
         // Cargar config
         saveDefaultConfig();
@@ -54,7 +113,7 @@ public final class QSMarketPlus extends JavaPlugin {
         // 2) Managers base
         // ============================
         shopManager = new PlayerShopManager(this);
-
+        hookManager = new HookManager();
         categoryManager = new CategoryManager(this);
         itemManager = new ItemManager(this);
 
@@ -81,15 +140,6 @@ public final class QSMarketPlus extends JavaPlugin {
         AHConfig.load(this);
 
         // ============================
-        // 4) Vault Economy
-        // ============================
-        if (!setupEconomy()) {
-            getLogger().severe("Vault o economía no disponible. Plugin desactivado.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        // ============================
         // 5) AuctionManager
         // ============================
         auctionManager = new AuctionManager(this);
@@ -98,7 +148,7 @@ public final class QSMarketPlus extends JavaPlugin {
         // 6) Inicializar SignShopManager
         // ============================
         signShopManager = new SignShopManager();
-
+        ShopSessionManager sessionManager = new ShopSessionManager();
         // ============================
         // 7) Registrar eventos
         // ============================
@@ -107,7 +157,6 @@ public final class QSMarketPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerShopListener(), this);
         getServer().getPluginManager().registerEvents(new SignShopListener(), this);
         getServer().getPluginManager().registerEvents(new SellStickListener(this), this);
-
         // ============================
         // 8) Registrar comandos
         // ============================
@@ -116,6 +165,11 @@ public final class QSMarketPlus extends JavaPlugin {
 
         getCommand("qsmarket").setExecutor(new QSMarketCommand(this));
         getCommand("qsmarket").setTabCompleter(new QSMarketTabCompleter(this));
+        // Registrar el ejecutor del comando
+        this.getCommand("myshop").setExecutor(new PlayerShopCommand(this));
+
+        // ✨ REGISTRO DEL TAB COMPLETER
+        this.getCommand("myshop").setTabCompleter(new PlayerShopTabCompleter());
         getCommand("sell").setExecutor(new SellCommand(this, categoryManager, itemManager));
         getCommand("sell").setTabCompleter(new SellTabCompleter());
         getCommand("ah").setExecutor(new AHCommand(this));
@@ -156,6 +210,11 @@ public final class QSMarketPlus extends JavaPlugin {
 
         getLogger().info("QSMarketPlus ha sido desactivado.");
     }
+
+    public Economy getEconomy() {
+        return economy;
+    }
+
     public SignShopManager getSignShopManager() { return signShopManager; }
 
     // =====================================================
@@ -177,7 +236,13 @@ public final class QSMarketPlus extends JavaPlugin {
     public PlayerShopManager getShopManager() {
         return shopManager;
     }
+    public boolean hasQSTexturs() {
+        return qstextursHook;
+    }
 
+    public EconomyManager getEconomyManager() {
+        return economyManager;
+    }
 
     // =====================================================
     //  GETTERS
@@ -187,8 +252,22 @@ public final class QSMarketPlus extends JavaPlugin {
     public ItemManager getItemManager() { return itemManager; }
     public AuctionManager getAuctionManager() { return auctionManager; }
     public SQLManager getSqlManager() { return sqlManager; }
-
+    public HookManager getHookManager() {
+        return hookManager;
+    }
     public UniquePurchaseManager getUniquePurchaseManager() {
         return uniquePurchaseManager;
+    }
+
+    public AmountMenuConfig getAmountMenuConfig() {
+        return amountMenuConfig;
+    }
+
+    public ConfirmMenuConfig getConfirmMenuConfig() {
+        return confirmMenuConfig;
+    }
+
+    public ActionMenuConfig getActionMenuConfig() {
+        return actionMenuConfig;
     }
 }

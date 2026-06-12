@@ -1,15 +1,43 @@
 prefix: "<yellow>[QSMarket]</yellow> "
 
-no_money: "<red>No tienes suficiente dinero.</red>"
+no_money: "<red>No tienes suficiente <currency>.</red>"
 no_items: "<red>No tienes suficientes ítems.</red>"
 not_enough_space: "<red>No tienes espacio en el inventario.</red>"
 
-sell_success: "<green>✔ Vendiste <yellow><amount>x <item></yellow> por <gold>$<money></gold>"
-buy_success: "<green>✔ Compraste <yellow><amount>x <item></yellow> por <gold>$<money></gold>"
+#variables <amount>
+#<item>
+#<price>
+#<currency>
+#<symbol>
 
+# Mensajes del sistema de venta (/sell)
+sell:
+  usage: |-
+    <yellow>« Sistema de Ventas »</yellow>
+    <gray>Usa uno de los siguientes comandos:</gray>
+    <yellow>• <white>/sell hand</white> <dark_gray>-</dark_gray> <gray>Vende el ítem que tienes en la mano actual.</gray>
+    <yellow>• <white>/sell similar</white> <dark_gray>-</dark_gray> <gray>Vende todos los ítems de tu inventario que sean iguales al de tu mano.</gray>
+    <yellow>• <white>/sell all</white> <dark_gray>-</dark_gray> <gray>Vende absolutamente todos los objetos comerciables de tu inventario.</gray>
+  invalid_arg: "<red>Argumento inválido.</red> <gray>Usa <white>/sell</white> para ver la lista de comandos disponibles.</gray>"
+  hand_empty: "<red>No tienes ningún artículo válido en tu mano.</red>"
+  no_sell_price: "<red>Este objeto no posee precio de venta configurado.</red>"
+  no_items_similar: "<yellow>No posees artículos equivalentes o similares en tu inventario.</yellow>"
+  no_items_all: "<yellow>No tienes ningún artículo comerciable en tu inventario actual.</yellow>"
+
+  success_hand: "<green>Vendiste <yellow><amount>x <item></yellow> por <gold><earnings> <currency></gold></green>"
+  success_similar: "<green>Vendiste un total de <yellow><amount>x <item></yellow> por <gold><earnings> <currency></gold></green>"
+  success_all_item: "<green>[Auto-Sell] <gray><amount>x <item></gray> <yellow>-></yellow> <gold><earnings> <currency></gold></green>"
+  success_all_done: "<dark_green><bold>»</bold> <green>¡Limpieza y procesamiento de venta masiva completado con éxito!</green></dark_green>"
+
+
+
+
+
+buy_success: "<green>Compraste <yellow><amount>x <item></yellow> por <gold><price> <currency></gold>"
+sell_success: "<green>Vendiste <yellow><amount>x <item></yellow> por <gold><price> <currency></gold>"
 sell_all_empty: "<yellow>No tienes nada para vender.</yellow>"
-sell_all_success: "<green>Vendiste todo por <gold>$<money></gold>"
-
+sell_all_success: "<green>Vendiste todo por <gold><money></gold>"
+buy_cancelled: "<red>Compra cancelada: No has confirmado la transacción.</red>"
 menu_select_amount: "<green>Selecciona una cantidad</green>"
 
 swapped_no_items: "<red>No tienes items para vender.</red>"
@@ -23,8 +51,7 @@ reload_success: "<green>✔ Configuraciones recargadas correctamente.</green>"
 
 #subastas (auction house)
 
-# Auction House Messages
-ah_bought: "<green>✔ Compraste <yellow><item></yellow> por <gold>$<money></gold>"
+
 ah_cancelled: "<red>Has cancelado tu subasta.</red>"
 ah_no_items: "<yellow>No tienes subastas activas.</yellow>"
 ah_title: "<green>Casa de Subastas</green>"
@@ -65,22 +92,47 @@ ah_filter_reset: "<red>Se han eliminado todos los filtros.</red>"
 # ======================================================
 # 🧭 Navegación
 # ======================================================
-
+auction-cancelled-title: "<yellow>Tu subasta ha sido cancelada."
+auction-cancelled-footer: "<gray>Los ítems fueron enviados a <gold>/ah expired</gold> para reclamarlos después."
 ah_page_next: "<yellow>Cambiaste a la página siguiente.</yellow>"
 ah_page_prev: "<yellow>Cambiaste a la página anterior.</yellow>"
 ah_page_invalid: "<red>No hay más páginas para mostrar.</red>"
 ah_cannot_buy_own: "<red>No puedes comprar tu propia subasta."
 ah_not_found: "<red>Esta subasta ya no existe."
-ah_broadcast_header: "<dark_gray><st>-----------------------------</st>"
-ah_broadcast_title: "<gold><bold>NUEVA SUBASTA"
-ah_broadcast_player: "<yellow>Jugador:</yellow> <white><player>"
-ah_broadcast_price: "<yellow>Precio:</yellow> <green><price>"
-ah_broadcast_type: "<yellow>Tipo:</yellow> <aqua>Subasta <type>"
-ah_broadcast_footer: "<dark_gray><st>-----------------------------</st>"
 ah_expired: "<yellow>Tu subasta ha expirado:</yellow> <white><item></white>"
 no_permission: "<red>No tienes permiso para hacer esto.</red>"
+no_permission_categori: "<red>No tienes acceso a esta categoría.</red>"
+
+
+# ====================================================================
+#  MESSAGES.YML - CONFIGURACIÓN PARA SUBASTAS (QSMarketPlus)
+# ====================================================================
+
+
+# Límites de subastas alcanzado
+limit-reached: "<red>¡Has alcanzado tu límite máximo de subastas activas (<yellow><limit></yellow>)!</red>"
+
+
+
+# 🔥 NOTIFICACIONES EN TIEMPO REAL PARA EL VENDEDOR (CUANDO LE COMPRAN)
+# Variables disponibles: <buyer> (Nombre del comprador), <item>/<item_count> (Qué se vendió), <money> (Precio final cobrado)
+ah_item_sold: "<green>¡Tu ítem <yellow><item></yellow> fue comprado por <gold><buyer></gold>! Recibiste <light_purple>$<money></light_purple> en tu cuenta.</green>"
+ah_item_sold_bulk: "<green>¡Tu paquete de <yellow><item_count></yellow> ítems fue comprado por <gold><buyer></gold>! Recibiste <light_purple>$<money></light_purple> en tu cuenta.</green>"
+
+# 📡 ANUNCIOS GLOBALES (BROADCAST PARA TODO EL SERVIDOR)
+# Se dispara automáticamente en el chat de todos los usuarios cuando alguien crea una subasta desde el menú de confirmación.
+# Variables disponibles: <player>, <price>, <type> (Individual/Masiva), <item>
+ah_broadcast_header: "<gray>--------------------------------------------------</gray>"
+ah_broadcast_title: "  <gold><b>¡NUEVA SUBASTA EN EL MERCADO!</b></gold>"
+ah_broadcast_player: "  <yellow>• Vendedor:</yellow> <white><player></white>"
+ah_broadcast_price: "  <yellow>• Precio total:</yellow> <green>$<price></green>"
+ah_broadcast_type: "  <yellow>• Modalidad:</yellow> <gray><type></gray>"
+ah_broadcast_item: "  <yellow>• Objeto:</yellow> <aqua><item></aqua>"
+ah_broadcast_footer: "<gray>--------------------------------------------------</gray>"
+
+ah_bought: "<green>✔ Compraste <yellow><item></yellow> por <gold>$<money></gold></green>"
 # mensajes.yml o lang.yml
-ah_claimed_chest: "§aSe han colocado todos los items en un cofre para reclamar."
+ah_claimed_chest: "<green>Se han colocado todos los items en un cofre para reclamar.</green>"
 # Mensajes para subasta
 
 
@@ -102,9 +154,36 @@ shop.buy-success: "<green>Has comprado <yellow><amount><green>x <yellow><item><g
 shop.sell-disabled: "<red>No puedes vender este item."
 shop.not-enough-items: "<red>No tienes suficientes items para vender."
 shop.sell-success: "<green>Has vendido <yellow><amount><green>x <yellow><item><green> por <gold><price><green> monedas."
+buy_command_success: "<green>¡Has adquirido <white>{item}<green>!"
+
+
+# ======================================================
+# 🛒 Tiendas en Cofre (PlayerShops) - ¡TE FALTABAN ESTOS!
+# ======================================================
+shop:
+  already-exists: "<red>Este cofre ya pertenece a una tienda.</red>"
+  chest-locked: "<red>Este cofre está siendo usado por otro jugador.</red>"
+  chest-selected: "<aqua>Cofre seleccionado. Ahora haz click en el cartel.</aqua>"
+  select-chest-first: "<red>Primero selecciona un cofre.</red>"
+  cannot-link-sign: "<red>Este cartel ya pertenece a la tienda de <white><owner></white></red>"
+  limit-reached: "<red>❌ Has alcanzado el límite máximo de tiendas permitidas (<white><limit></white>).</red>"
+  created-successfully: "<green>✔ Tienda creada correctamente.</green>"
+  cannot-delete-others: "<red>No puedes eliminar tiendas ajenas.</red>"
+  deleted: "<red>Tienda eliminada.</red>"
+  cannot-break-others: "<red>No puedes romper tiendas ajenas.</red>"
+  double-chest-blocked: "<red>❌ No puedes colocar un cofre aquí porque alteraría una tienda activa.</red>"
+
+# ======================================================
+# 🛡️ Sistema de Administración (Staff) - ¡TE FALTABAN ESTOS!
+# ======================================================
+admin:
+  inspecting-shop: "<yellow>🔍 Inspeccionando tienda de <owner> (Modo Admin).</yellow>"
+  deleted-by-admin: "<yellow>⚠ Has eliminado la tienda de otro jugador como Admin.</yellow>"
+  broken-by-admin: "<yellow>⚠ Has destruido la tienda de <owner> usando tus permisos de Admin.</yellow>"
+
 
 # Este es el lore del artículo que se muestra en el menú de compra/venta
 price-format:
-  buy: "<green>Compra: <white>$%buy%</white>"
-  sell: "<red>Venta: <white>$%sell%</white>"
+  buy: "<green>Comprar: %symbol%%price% %currency%"
+  sell: "<red>Vender: %symbol%%price% %currency%"
 

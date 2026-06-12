@@ -31,6 +31,14 @@ public class PlayerShopManager {
         addShop(shop, true);
     }
 
+    // =====================================================
+    // 📊 OBTENER CANTIDAD DE TIENDAS ACTIVAS DE UN JUGADOR
+    // =====================================================
+    public int getShopCount(UUID owner) {
+        List<PlayerShop> ownerShops = shopsByOwner.get(owner);
+        return ownerShops == null ? 0 : ownerShops.size();
+    }
+
     public void addShop(PlayerShop shop, boolean save) {
         String key = locKey(shop.getChestLocation());
         if (shops.containsKey(key)) {

@@ -1,6 +1,7 @@
 package mp.quesito.qSMarketPlus.commands;
 
 import mp.quesito.qSMarketPlus.QSMarketPlus;
+import mp.quesito.qSMarketPlus.database.SQLManager;
 import mp.quesito.qSMarketPlus.manager.*;
 import mp.quesito.qSMarketPlus.shop.*;
 import mp.quesito.qSMarketPlus.utils.ItemSerializer;
@@ -53,13 +54,17 @@ public class QSMarketCommand implements CommandExecutor {
          * /qsmarket reload
          * ====================================================== */
         if (args[0].equalsIgnoreCase("reload")) {
-            if (!hasPerm(sender, "qsmarket.admin.reload")) return true;
+
             plugin.reloadConfig();
+
+            plugin.getCategoryManager().reload();
+            plugin.getItemManager().reloadAllItems();
             plugin.getItemManager().reloadItemsMenuConfig();
+
             plugin.actionMenuConfig.reload();
             plugin.confirmMenuConfig.reload();
             plugin.amountMenuConfig.reload();
-            plugin.getCategoryManager().reload();
+
             AHConfig.reload(plugin);
             Lang.init(plugin);
 
@@ -70,6 +75,8 @@ public class QSMarketCommand implements CommandExecutor {
         /* ======================================================
          * /qsmarket set <precio> <cantidad> (PlayerShop)
          * ====================================================== */
+
+        /*
         if (args[0].equalsIgnoreCase("set")) {
 
             if (!hasPerm(sender, "qsmarket.shop.set")) return true;
@@ -107,7 +114,7 @@ public class QSMarketCommand implements CommandExecutor {
             }
             return true;
         }
-
+        */
         /* ======================================================
          * /qsmarket setitem <categoria> <itemId> (SignShop)
          * ====================================================== */
@@ -115,18 +122,20 @@ public class QSMarketCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("setitem")) {
 
             if (!hasPerm(sender, "qsmarket.signshop.setitem")) return true;
+
             if (!(sender instanceof Player p)) {
                 sender.sendMessage("§cSolo jugadores.");
                 return true;
             }
 
-            if (args.length != 3) {
-                p.sendMessage(ChatColor.RED + "Uso: /qsmarket setitem <categoria> <itemId>");
+            if (args.length < 3) {
+                p.sendMessage(ChatColor.RED + "Uso: /qsmarket setitem <categoria> <itemId> [economia]");
                 return true;
             }
 
             Block target = p.getTargetBlockExact(5);
-            if (target == null || !(target.getState() instanceof Sign)) {
+
+            if (target == null || !(target.getState() instanceof Sign sign)) {
                 p.sendMessage(ChatColor.RED + "Debes mirar un cartel válido.");
                 return true;
             }
@@ -134,13 +143,24 @@ public class QSMarketCommand implements CommandExecutor {
             String categoryId = args[1].toLowerCase();
             String itemId = args[2].toLowerCase();
 
+            // Economía opcional
+            String economy = args.length >= 4 ? args[3].toLowerCase() : "vault";
+
+            // Verificar que la economía exista
+            if (plugin.getEconomyManager().get(economy) == null) {
+                p.sendMessage(ChatColor.RED + "La economía '" + economy + "' no está registrada.");
+                return true;
+            }
+
             ShopItem item = itemManager.getItem(categoryId, itemId);
 
-            // Si no existe en la config, crear temporal con el ItemStack de la mano
+            // Si no existe en config, usar el item de la mano
             if (item == null) {
+
                 ItemStack hand = p.getInventory().getItemInMainHand();
+
                 if (hand == null || hand.getType().isAir()) {
-                    p.sendMessage(ChatColor.RED + "Item no encontrado y no tienes nada en la mano.");
+                    p.sendMessage(ChatColor.RED + "El item no existe y no tienes nada en la mano.");
                     return true;
                 }
 
@@ -149,9 +169,10 @@ public class QSMarketCommand implements CommandExecutor {
                         hand.hasItemMeta() && hand.getItemMeta().hasDisplayName()
                                 ? hand.getItemMeta().getDisplayName()
                                 : hand.getType().name(),
-                        1.0, // precio de compra temporal
-                        1.0, // precio de venta temporal
-                        ItemSerializer.toBase64(hand) // <-- Serializamos el ItemStack a Base64
+                        1.0,
+                        1.0,
+                        economy,
+                        ItemSerializer.toBase64(hand)
                 );
             }
 
@@ -165,16 +186,16 @@ public class QSMarketCommand implements CommandExecutor {
             );
 
             signShopManager.addShop(shop, p.getUniqueId().toString());
+
             shop.updateSign();
 
-            p.sendMessage(ChatColor.GREEN + "✔ SignShop creada correctamente.");
+            p.sendMessage(ChatColor.GREEN + "✔ SignShop creada correctamente para: " + item.getName() +
+                    ChatColor.GRAY + " (" + economy + ")");
+
             return true;
         }
 
 
-        /* ======================================================
-         * /qsmarket sellstick
-         * ====================================================== */
         /* ======================================================
          * /qsmarket sellstick [jugador]
          * ====================================================== */
@@ -201,7 +222,44 @@ public class QSMarketCommand implements CommandExecutor {
             return true;
         }
 
+        /* ======================================================
+         * /qsmarket resetunique <jugador> [itemId]
+         * ====================================================== */
+        if (args[0].equalsIgnoreCase("resetunique")) {
 
+            if (!hasPerm(sender, "qsmarket.admin.resetunique")) return true;
+
+            if (args.length < 2) {
+                sender.sendMessage("§cUso: /qsmarket resetunique <jugador> [itemId]");
+                return true;
+            }
+
+            Player target = Bukkit.getPlayerExact(args[1]);
+            if (target == null) {
+                sender.sendMessage("§cJugador no encontrado.");
+                return true;
+            }
+
+            String itemId = args.length >= 3 ? args[2].toLowerCase() : null;
+            SQLManager sql = plugin.getSqlManager();
+
+            if (itemId == null) {
+                // Eliminar todas las compras únicas del jugador
+                int removed = sql.update("DELETE FROM unique_purchases WHERE player_uuid = ?", target.getUniqueId().toString());
+                sender.sendMessage("§a✔ Se han eliminado " + removed + " compras únicas de " + target.getName() + ".");
+            } else {
+                // Eliminar un ítem específico
+                int removed = sql.update("DELETE FROM unique_purchases WHERE player_uuid = ? AND item_id = ?",
+                        target.getUniqueId().toString(), itemId);
+                if (removed > 0) {
+                    sender.sendMessage("§a✔ Se ha eliminado la compra única del ítem §f" + itemId + "§a para " + target.getName() + ".");
+                } else {
+                    sender.sendMessage("§cNo se encontró compra única del ítem §f" + itemId + "§c para " + target.getName() + ".");
+                }
+            }
+
+            return true;
+        }
 
         /* ======================================================
          * /qsmarket additem <categoria> <precio_compra> <precio_venta>
@@ -308,6 +366,9 @@ public class QSMarketCommand implements CommandExecutor {
         sender.sendMessage("§f/qsmarket set <precio> <cantidad>");
         sender.sendMessage("§f/qsmarket setitem <categoria> <itemId>");
         sender.sendMessage("§f/qsmarket additem <categoria> <precio_compra> <precio_venta>");
+        sender.sendMessage("§cUso: /qsmarket resetunique <jugador> [itemId]");
+
+
     }
 
     private boolean hasPerm(CommandSender sender, String perm) {

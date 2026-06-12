@@ -1,62 +1,46 @@
 menu:
-  # Título del menú cuando el jugador COMPRA
-  title-buy: "<green>Selecciona cantidad a comprar</green>"
+  title-buy: "<green>Selecciona cantidad a comprar"
+  title-sell: "<red>Selecciona cantidad a vender"
+  size: 45 #slots permitidos (9, 18, 27, 36, 45, 54)
 
-  # Título del menú cuando el jugador VENDE
-  title-sell: "<red>Selecciona cantidad a vender</red>"
+info-slot:
+  lore-buy:
+    - ""
+    - "<color:#5aa0e6>Cantidad: </color><color:#cedb56><amount></color>"
+    - "<gray>Total: <gold><price>"
+    - ""
+    - "<green>Comprando..."
 
-  # Tamaño del inventario
-  # Valores permitidos: 9, 18, 27, 36, 45, 54
-  size: 45
-
+  lore-sell:
+    - ""
+    - "<color:#5aa0e6>Cantidad: </color><color:#cedb56><amount></color>"
+    - "<gray>Total: <gold><price>"
+    - ""
+    - "<red>Vendiendo..."
 
 buttons:
-  # Slot donde se muestra el ítem informativo
-  # (ítem seleccionado + cantidad + precio)
   info-slot: 22
 
-
-  # ======================================================
-  # MODIFICADORES NUMÉRICOS (SUMAR / RESTAR CANTIDAD)
-  # ======================================================
-
+  # Modificadores numéricos
   minus-16:
-    # Activa o desactiva el botón
     enabled: true
-
-    # Slot del botón
     slot: 9
-
-    # Tag interno usado por el plugin
-    # amount_mod → modifica la cantidad actual
-    tag: "amount_mod"
-
-    # Valor que se suma/resta a la cantidad
+    tag: "amount_mod"     # ← Para KEY_AMOUNT_MOD (-10)
     value: -16
-
-    # Material visual si no hay head
     material: RED_STAINED_GLASS_PANE
-
-    # Cabeza personalizada (opcional)
     head: "http://textures.minecraft.net/texture/2c6f10059a466d7936256449e89c7dfbff8f7fab61a2eed068e22fac8cf0d73b"
-
-    # Nombre del botón
-    name: "<yellow>-16</yellow>"
-
-    # Lore del botón
+    name: "<yellow>-16"
     lore: []
-
-
+    
   minus-8:
     enabled: true
     slot: 18
-    tag: "amount_mod"
+    tag: "amount_mod"     # ← Para KEY_AMOUNT_MOD (-10)
     value: -8
     material: RED_STAINED_GLASS_PANE
     head: "http://textures.minecraft.net/texture/ff32222def1c7b3bd04513b1a40493407c4287b6ec3943f7333f715773d4cb61"
-    name: "<yellow>-8</yellow>"
+    name: "<yellow>-8"
     lore: []
-
 
   minus-1:
     enabled: true
@@ -65,30 +49,25 @@ buttons:
     value: -1
     material: RED_STAINED_GLASS_PANE
     head: "http://textures.minecraft.net/texture/a39c846f65d5f272a839fd9c2aeb11bdc8e3f8229fbe3583486e78f4c23c8b5b"
-    name: "<yellow>-1</yellow>"
-
+    name: "<yellow>-1"
 
   plus-1:
     enabled: true
     slot: 35
     tag: "amount_mod"
     value: 1
+    
     material: LIME_STAINED_GLASS_PANE
-    name: "<yellow>+1</yellow>"
-
+    name: "<yellow>+1"
 
   plus-8:
     enabled: true
     slot: 26
     tag: "amount_mod"
     value: 8
-
-    # Cantidad visual del ítem
     amount: 8
-
     material: LIME_STAINED_GLASS_PANE
-    name: "<yellow>+8</yellow>"
-
+    name: "<yellow>+8"
 
   plus-16:
     enabled: true
@@ -97,53 +76,37 @@ buttons:
     value: 16
     amount: 16
     material: LIME_STAINED_GLASS_PANE
-    name: "<yellow>+16</yellow>"
-
-
-  # ======================================================
-  # BOTONES ESPECIALES
-  # ======================================================
+    name: "<yellow>+16"
 
   min:
-    # Establece la cantidad mínima posible
     enabled: true
     slot: 19
     tag: "special"
     value: "MIN"
     material: COAL_BLOCK
-    name: "<gray>MIN</gray>"
-
+    name: "<gray>MIN"
 
   max:
-    # Establece la cantidad máxima posible
     enabled: true
     slot: 25
     tag: "special"
     value: "MAX"
     material: GOLD_BLOCK
-    name: "<gold>MAX</gold>"
-
-
-  # ======================================================
-  # CONFIRMACIÓN Y NAVEGACIÓN
-  # ======================================================
+    name: "<gold>MAX"
 
   confirm:
-    # Botón para confirmar la compra o venta
-    # ⚠ MUY IMPORTANTE: el tag debe ser "confirm"
     enabled: true
     slot: 30
-    tag: "confirm"
+    tag: "confirm"    # ← MUY IMPORTANTE
     material: LIME_DYE
-    name: "<green>Confirmar</green>"
+    name: "<green>Confirmar"
     head: "http://textures.minecraft.net/texture/a92e31ffb59c90ab08fc9dc1fe26802035a3a47c42fee63423bcdb4262ecb9b6"
 
-
   back:
-    # Botón para regresar al menú anterior
     enabled: true
     slot: 32
-    tag: "back"
+    tag: "back"       # ← Para regresar
     material: ARROW
     head: "http://textures.minecraft.net/texture/beb588b21a6f98ad1ff4e085c552dcb050efc9cab427f46048f18fc803475f7"
-    name: "<yellow>Volver</yellow>"
+    name: "<yellow>Volver"
+

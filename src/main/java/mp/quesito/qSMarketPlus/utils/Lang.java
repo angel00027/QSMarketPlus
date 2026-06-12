@@ -40,23 +40,22 @@ public class Lang {
     }
 
     public static void msg(Player p, String key, Object... placeholders) {
-
         String raw = get(key);
-
         List<TagResolver> resolvers = new ArrayList<>();
 
-        // Recorrer placeholder1, valor1, placeholder2, valor2 ...
         for (int i = 0; i < placeholders.length - 1; i += 2) {
             String name = String.valueOf(placeholders[i]);
-            String value = String.valueOf(placeholders[i + 1]);
+            Object value = placeholders[i + 1];
 
-            // ESTE es el correcto:
-            resolvers.add(Placeholder.unparsed(name, value));
+            if (value instanceof Component c) {
+                resolvers.add(Placeholder.component(name, c));
+            } else {
+                resolvers.add(Placeholder.unparsed(name, String.valueOf(value)));
+            }
         }
 
         MessageUtil.msg(p, raw, resolvers.toArray(TagResolver[]::new));
     }
-
     public static void broadcast(String message) {
         MiniMessage mm = MiniMessage.miniMessage();
         Component comp = mm.deserialize(message);

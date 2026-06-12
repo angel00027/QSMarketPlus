@@ -3,14 +3,19 @@ package mp.quesito.qSMarketPlus.listeners;
 import mp.quesito.qSMarketPlus.QSMarketPlus;
 import mp.quesito.qSMarketPlus.manager.PlayerShopManager;
 import mp.quesito.qSMarketPlus.shop.PlayerShop;
+import mp.quesito.qSMarketPlus.utils.Lang;
+import mp.quesito.qSMarketPlus.utils.MessageUtil;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -35,6 +40,9 @@ public class PlayerShopListener implements Listener {
     // Bloqueos temporales
     private final Map<Location, UUID> lockedBlocks = new HashMap<>();
 
+    // Caras horizontales para verificar cofres dobles adyacentes
+    private final BlockFace[] CARDINAL_FACES = {BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST};
+
     // ===================== INTERACT =====================
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
@@ -50,23 +58,20 @@ public class PlayerShopListener implements Listener {
                 Location loc = block.getLocation();
 
                 if (shopManager.getShopAtLocation(loc) != null) {
-                    player.sendMessage(ChatColor.RED +
-                            "Este cofre ya pertenece a una tienda.");
+                    MessageUtil.msg(player, Lang.get("shop.already-exists"));
                     return;
                 }
 
                 if (lockedBlocks.containsKey(loc)
                         && !lockedBlocks.get(loc).equals(player.getUniqueId())) {
-                    player.sendMessage(ChatColor.RED +
-                            "Este cofre está siendo usado por otro jugador.");
+                    MessageUtil.msg(player, Lang.get("shop.chest-locked"));
                     return;
                 }
 
                 pendingChest.put(player.getUniqueId(), block);
                 lockedBlocks.put(loc, player.getUniqueId());
 
-                player.sendMessage(ChatColor.AQUA +
-                        "Cofre seleccionado. Ahora haz click en el cartel.");
+                MessageUtil.msg(player, Lang.get("shop.chest-selected"));
                 event.setCancelled(true);
                 return;
             }
@@ -76,8 +81,7 @@ public class PlayerShopListener implements Listener {
 
                 Block chestBlock = pendingChest.get(player.getUniqueId());
                 if (chestBlock == null) {
-                    player.sendMessage(ChatColor.RED +
-                            "Primero selecciona un cofre.");
+                    MessageUtil.msg(player, Lang.get("shop.select-chest-first"));
                     return;
                 }
 
@@ -86,12 +90,44 @@ public class PlayerShopListener implements Listener {
 
                 PlayerShop existingShop = shopManager.getShopAtLocation(signLoc);
                 if (existingShop != null && !existingShop.getOwner().equals(player.getUniqueId())) {
-                    player.sendMessage(ChatColor.RED +
-                            "Este cartel ya pertenece a la tienda de " +
-                            Bukkit.getOfflinePlayer(existingShop.getOwner()).getName());
+                    String ownerName = Bukkit.getOfflinePlayer(existingShop.getOwner()).getName();
+                    MessageUtil.msg(player, Lang.get("shop.cannot-link-sign"),
+                            Placeholder.parsed("owner", ownerName != null ? ownerName : "Desconocido"));
                     cleanup(player);
-                    return; // Bloquea vinculación
+                    return;
                 }
+
+                // =========================================================================
+                // 🛑 VERIFICACIÓN DE LÍMITES DINÁMICOS POR NÚMERO
+                // =========================================================================
+                if (!player.hasPermission("qsmarket.shop.limit.bypass")) {
+                    int currentShops = shopManager.getShopCount(player.getUniqueId());
+                    int maxAllowed = 1;
+
+                    for (org.bukkit.permissions.PermissionAttachmentInfo attachment : player.getEffectivePermissions()) {
+                        String permission = attachment.getPermission().toLowerCase();
+
+                        if (permission.startsWith("qsmarket.shop.limit.") && attachment.getValue()) {
+                            try {
+                                String numberPart = permission.substring("qsmarket.shop.limit.".length());
+                                int parsedLimit = Integer.parseInt(numberPart);
+
+                                if (parsedLimit > maxAllowed) {
+                                    maxAllowed = parsedLimit;
+                                }
+                            } catch (NumberFormatException ignored) {}
+                        }
+                    }
+
+                    if (currentShops >= maxAllowed) {
+                        MessageUtil.msg(player, Lang.get("shop.limit-reached"),
+                                Placeholder.parsed("limit", String.valueOf(maxAllowed)));
+                        cleanup(player);
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
+                // =========================================================================
 
                 // 🔐 Registrar dueño del cartel
                 sign.getPersistentDataContainer().set(
@@ -146,12 +182,11 @@ public class PlayerShopListener implements Listener {
                 sign.setLine(3, itemName + ChatColor.GRAY + " : " + stockColor + stock);
                 sign.update();
 
-                player.sendMessage(ChatColor.GREEN + "Tienda creada correctamente.");
+                MessageUtil.msg(player, Lang.get("shop.created-successfully"));
 
                 cleanup(player);
                 event.setCancelled(true);
             }
-
         }
 
         // ===================== INTERACCIÓN NORMAL =====================
@@ -162,16 +197,19 @@ public class PlayerShopListener implements Listener {
 
         // ===== ELIMINAR SHOP (SHIFT + CLICK CARTEL) =====
         if (player.isSneaking() && block.getState() instanceof Sign) {
-            if (!shop.getOwner().equals(player.getUniqueId())) {
-                player.sendMessage(ChatColor.RED +
-                        "No puedes eliminar tiendas ajenas.");
+            if (!shop.getOwner().equals(player.getUniqueId()) && !player.hasPermission("qsmarket.admin")) {
+                MessageUtil.msg(player, Lang.get("shop.cannot-delete-others"));
                 return;
             }
 
             shop.destroyShop(false);
             shopManager.removeShop(shop);
-            player.sendMessage(ChatColor.RED +
-                    "Tienda eliminada.");
+
+            if (!shop.getOwner().equals(player.getUniqueId())) {
+                MessageUtil.msg(player, Lang.get("admin.deleted-by-admin"));
+            } else {
+                MessageUtil.msg(player, Lang.get("shop.deleted"));
+            }
             return;
         }
 
@@ -182,8 +220,42 @@ public class PlayerShopListener implements Listener {
             return;
         }
 
+        // ===== GESTIÓN DE ADMINISTRADORES (INSPECCIONAR VS COMPRAR) =====
+        if (player.hasPermission("qsmarket.admin")) {
+            // Si el admin está agachado (Shift), inspecciona el contenido en vez de comprar
+            if (player.isSneaking()) {
+                Inventory inv = shop.getChestInventory();
+                if (inv != null) {
+                    player.openInventory(inv);
+                    MessageUtil.msg(player, Lang.get("admin.inspecting-shop"),
+                            Placeholder.parsed("owner", shop.getOwnerName()));
+                }
+                return;
+            }
+        }
+
         // ===== COMPRAR =====
         shop.buy(player);
+    }
+
+    // ===================== 🛡️ EVITAR COFRES DOBLES DESTRUCTIVOS =====================
+    @EventHandler
+    public void onChestPlace(BlockPlaceEvent event) {
+        Block placedBlock = event.getBlockPlaced();
+
+        if (placedBlock.getType() != Material.CHEST) return;
+
+        for (BlockFace face : CARDINAL_FACES) {
+            Block relative = placedBlock.getRelative(face);
+            if (relative.getType() == Material.CHEST) {
+                PlayerShop shop = shopManager.getShopAtLocation(relative.getLocation());
+                if (shop != null) {
+                    event.setCancelled(true);
+                    MessageUtil.msg(event.getPlayer(), Lang.get("shop.double-chest-blocked"));
+                    return;
+                }
+            }
+        }
     }
 
     // ===================== INVENTARIO =====================
@@ -191,8 +263,7 @@ public class PlayerShopListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getInventory().getHolder() instanceof Chest chest)) return;
 
-        PlayerShop shop =
-                shopManager.getShopAtLocation(chest.getLocation());
+        PlayerShop shop = shopManager.getShopAtLocation(chest.getLocation());
         if (shop != null) shop.updateSign();
     }
 
@@ -200,28 +271,32 @@ public class PlayerShopListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent event) {
         if (!(event.getInventory().getHolder() instanceof Chest chest)) return;
 
-        PlayerShop shop =
-                shopManager.getShopAtLocation(chest.getLocation());
+        PlayerShop shop = shopManager.getShopAtLocation(chest.getLocation());
         if (shop != null) shop.updateSign();
     }
 
     // ===================== ROMPER TIENDA =====================
     @EventHandler
     public void onShopBreak(BlockBreakEvent event) {
-        PlayerShop shop =
-                getShopFromBlock(event.getBlock());
+        Player player = event.getPlayer();
+        PlayerShop shop = getShopFromBlock(event.getBlock());
         if (shop == null) return;
 
-        if (!shop.getOwner().equals(event.getPlayer().getUniqueId())) {
+        if (!shop.getOwner().equals(player.getUniqueId()) && !player.hasPermission("qsmarket.admin")) {
             event.setCancelled(true);
-            event.getPlayer().sendMessage(
-                    "§cNo puedes romper tiendas ajenas.");
+            MessageUtil.msg(player, Lang.get("shop.cannot-break-others"));
             return;
         }
 
         shop.destroyShop(false);
         shopManager.removeShop(shop);
-        event.getPlayer().sendMessage("§eTienda eliminada.");
+
+        if (!shop.getOwner().equals(player.getUniqueId())) {
+            MessageUtil.msg(player, Lang.get("admin.broken-by-admin"),
+                    Placeholder.parsed("owner", shop.getOwnerName()));
+        } else {
+            MessageUtil.msg(player, Lang.get("shop.deleted"));
+        }
     }
 
     // ===================== SALIR =====================
@@ -243,9 +318,28 @@ public class PlayerShopListener implements Listener {
     }
 
     private PlayerShop getShopFromBlock(Block block) {
-        PlayerShop shop =
-                shopManager.getShopAtLocation(block.getLocation());
+        PlayerShop shop = shopManager.getShopAtLocation(block.getLocation());
         if (shop != null) return shop;
+
+        if (block.getState() instanceof Chest chest) {
+            org.bukkit.block.DoubleChest doubleChest =
+                    chest.getInventory().getHolder() instanceof org.bukkit.block.DoubleChest
+                            ? (org.bukkit.block.DoubleChest) chest.getInventory().getHolder() : null;
+
+            if (doubleChest != null) {
+                Chest leftSide = (Chest) doubleChest.getLeftSide();
+                Chest rightSide = (Chest) doubleChest.getRightSide();
+
+                if (leftSide != null) {
+                    shop = shopManager.getShopAtLocation(leftSide.getLocation());
+                    if (shop != null) return shop;
+                }
+                if (rightSide != null) {
+                    shop = shopManager.getShopAtLocation(rightSide.getLocation());
+                    if (shop != null) return shop;
+                }
+            }
+        }
 
         if (block.getState() instanceof Sign) {
             for (PlayerShop s : shopManager.getAllShops()) {

@@ -5,6 +5,7 @@ import mp.quesito.qSMarketPlus.auction.AuctionItem;
 import mp.quesito.qSMarketPlus.auction.AuctionManager;
 import mp.quesito.qSMarketPlus.auction.holder.*;
 import mp.quesito.qSMarketPlus.auction.menu.*;
+import mp.quesito.qSMarketPlus.economia.EconomyProvider;
 import mp.quesito.qSMarketPlus.holder.*;
 import mp.quesito.qSMarketPlus.manager.CategoryManager;
 import mp.quesito.qSMarketPlus.manager.ItemManager;
@@ -34,10 +35,18 @@ public class ShopClickListener implements Listener {
 
     // Valid holders centralizados
     private static final Set<Class<?>> VALID_HOLDERS = Set.of(
-            CategoryHolder.class, ItemsHolder.class, ActionHolder.class,
-            AmountHolder.class, ConfirmHolder.class, AHHolder.class,
-            AHConfirmHolder.class, AHPreviewHolder.class,
-            AHHistoryHolder.class, AHActionHolder.class, AHExpiredHolder.class
+            CategoryHolder.class,
+            ItemsHolder.class,
+            ActionHolder.class,
+            AmountHolder.class,
+            ConfirmHolder.class,
+            ProShopHolder.class,
+            AHHolder.class,
+            AHConfirmHolder.class,
+            AHPreviewHolder.class,
+            AHHistoryHolder.class,
+            AHActionHolder.class,
+            AHExpiredHolder.class
     );
 
     // Map de handlers centralizados
@@ -104,6 +113,11 @@ public class ShopClickListener implements Listener {
             handleAHExpiredClick(e, player, holder);
         });
 
+        handlers.put(ProShopHolder.class, (e, player) -> {
+            ProShopHolder holder = (ProShopHolder) e.getView().getTopInventory().getHolder();
+            handleProShopClick(e, player, holder);
+        });
+
     }
 
     @EventHandler
@@ -112,9 +126,14 @@ public class ShopClickListener implements Listener {
         if (e.getClickedInventory() == null) return;
 
         Inventory top = e.getView().getTopInventory();
+        // ✅ Corregido: verificar que getHolder() no sea null
+        if (top.getHolder() == null) return;
+
         Inventory clickedInv = e.getClickedInventory();
 
         if (!VALID_HOLDERS.contains(top.getHolder().getClass())) return;
+
+
 
         // Bloquear shift click fuera del menú
         if (clickedInv != top && e.isShiftClick()) {
@@ -193,6 +212,186 @@ public class ShopClickListener implements Listener {
         return free >= amount;
     }
 
+    private void handleProShopClick(InventoryClickEvent e, Player player, ProShopHolder holder) {
+
+        ItemStack clicked = e.getCurrentItem();
+        if (clicked == null || !clicked.hasItemMeta()) return;
+
+        ItemMeta meta = clicked.getItemMeta();
+
+        String categoryId = MetaUtil.getTag(meta, "category");
+        String itemId = MetaUtil.getTag(meta, "shop_item");
+        String btn = MetaUtil.getTag(meta, "btn");
+
+        int categoryIndex = holder.getCategoryIndex();
+        int page = holder.getPage();
+
+        List<ShopCategory> categories = new ArrayList<>(categoryManager.getCategories().values());
+        ShopCategory category = categories.get(categoryIndex);
+
+        UniquePurchaseManager upManager = plugin.getUniquePurchaseManager();
+
+        // ================================
+        // BOTONES DE NAVEGACIÓN Y CATEGORÍAS
+        // ================================
+        if (btn != null) {
+            switch (btn) {
+                case "prev-page" -> ProShopMenu.open(player, categoryManager, itemManager, categoryIndex, page - 1);
+                case "next-page" -> ProShopMenu.open(player, categoryManager, itemManager, categoryIndex, page + 1);
+                case "prev-category" -> ProShopMenu.open(player, categoryManager, itemManager,
+                        Math.max(0, categoryIndex - 1), 0);
+                case "next-category" -> ProShopMenu.open(player, categoryManager, itemManager,
+                        Math.min(categories.size() - 1, categoryIndex + 1), 0);
+                case "back" -> player.closeInventory();
+            }
+            return;
+        }
+
+        // ================================
+        // CLICK EN CATEGORÍA
+        // ================================
+        if (categoryId != null) {
+            int newIndex = -1;
+            for (int i = 0; i < categories.size(); i++) {
+                if (categories.get(i).getId().equals(categoryId)) {
+                    newIndex = i;
+                    break;
+                }
+            }
+            if (newIndex != -1) {
+                ProShopMenu.open(player, categoryManager, itemManager, newIndex, 0);
+            }
+            return;
+        }
+
+        // ================================
+        // CLICK EN ITEM
+        // ================================
+        if (itemId != null) {
+
+            ShopItem item = itemManager.getItem(category.getId(), itemId);
+            if (item == null) return;
+
+            ItemStack real = item.getRealItem();
+
+            // BLOQUEO ITEM ÚNICO
+            if (item.isOnlyOnce() && upManager.hasPurchased(player, item)) {
+                Lang.msg(player, "already_bought");
+                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
+                player.closeInventory();
+                return;
+            }
+
+            // VENTA RÁPIDA (OFFHAND)
+            if (e.getClick().name().equalsIgnoreCase("SWAP_OFFHAND")) {
+                if (item.getSell() <= 0) {
+                    Lang.msg(player, "swapped_no_items");
+                    player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
+                    return;
+                }
+                int total = countMatchingItems(player, real);
+                if (total <= 0) {
+                    Lang.msg(player, "swapped_no_items");
+                    return;
+                }
+                removeMatchingItems(player, real, total);
+
+                double money = item.getSell() * total;
+                EconomyProvider eco = eco(item);
+                eco.deposit(player, money);
+
+                Lang.msg(player, "sell_success",
+                        "amount", total,
+                        "item", MessageUtil.toLegacy(item.getName()),
+                        "price", money,
+                        "currency", currency(eco),
+                        "symbol", eco.getSymbol()
+                );
+
+                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1f, 1.3f);
+                return;
+            }
+
+            // COMPRA RÁPIDA (SHIFT_CLICK)
+            if (e.isShiftClick()) {
+                int amount = real.getMaxStackSize() == 1 ? 1 : (e.isLeftClick() ? 1 : 64);
+                double cost = item.getBuy() * amount;
+                EconomyProvider eco = eco(item);
+                if (eco.getBalance(player) < cost) {
+
+                    Lang.msg(player, "no_money",
+                            "currency", currency(eco));
+                    return;
+
+                }
+
+                if (!hasInventorySpace(player, real, amount)) {
+                    Lang.msg(player, "not_enough_space");
+                    return;
+                }
+
+                eco.withdraw(player, cost);
+
+                if (!item.getCommands().isEmpty()) {
+                    item.executeBuyCommands(player);
+                } else {
+                    giveExactItems(player, real, amount);
+                }
+
+                if (item.isOnlyOnce()) upManager.markPurchased(player, item);
+
+                Lang.msg(player, "buy_success",
+                        "amount", amount,
+                        "item", MessageUtil.toLegacy(item.getName()),
+                        "price", cost,
+                        "currency", currency(eco),
+                        "symbol", eco.getSymbol()
+                );
+
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.2f);
+                return;
+            }
+
+            // VERIFICAR ACCESO
+            if (!item.canAccess(player)) {
+                // Mensaje configurable si el jugador no puede acceder al ítem
+                String noAccessMsg = Lang.get("item_unavailable"); // tu key en el YAML
+                if (noAccessMsg == null || noAccessMsg.isEmpty()) {
+                    noAccessMsg = "<red>⛔ No disponible</red>"; // fallback
+                }
+                player.sendMessage(MessageUtil.toLegacy(noAccessMsg));
+
+                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
+                return;
+            }
+
+            // COMANDOS DE COMPRA
+            if (!item.getCommands().isEmpty()) {
+
+                double cost = item.getBuy();
+                EconomyProvider eco = eco(item);
+
+                if (eco.getBalance(player) < cost) {
+                    Lang.msg(player, "no_money",
+                            "currency", currency(eco));
+                    return;
+                }
+
+                eco.withdraw(player, cost);
+
+                item.executeBuyCommands(player);
+
+                if (item.isOnlyOnce()) upManager.markPurchased(player, item);
+
+                player.closeInventory();
+                return;
+            }
+
+            // ABRIR MENÚ DE ACCIÓN NORMAL
+            ActionMenu.open(player, item, category);
+        }
+    }
+
     // -----------------------------
     // -------- SHOP MENU ----------
     // -----------------------------
@@ -212,12 +411,13 @@ public class ShopClickListener implements Listener {
 
         if ("sell_all".equals(btn)) {
 
-            double totalMoney = 0;
+            boolean soldSomething = false;
 
             for (ShopCategory cat : categoryManager.getCategories().values()) {
                 itemManager.loadCategoryItems(cat);
 
                 for (ShopItem item : itemManager.getItems(cat.getId()).values()) {
+
                     if (item.getSell() <= 0) continue;
 
                     ItemStack real = item.getRealItem();
@@ -225,17 +425,23 @@ public class ShopClickListener implements Listener {
                     if (total <= 0) continue;
 
                     removeMatchingItems(player, real, total);
-                    totalMoney += total * item.getSell();
+
+                    double money = total * item.getSell();
+
+                    EconomyProvider eco = eco(item);
+                    eco.deposit(player, money);
+
+                    soldSomething = true;
                 }
             }
 
-            if (totalMoney > 0) {
-                QSMarketPlus.economy.depositPlayer(player, totalMoney);
-                Lang.msg(player, "sell_all_success", "money", totalMoney);
+            if (soldSomething) {
+                Lang.msg(player, "sell_all_success");
                 player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1f, 1.3f);
             } else {
                 Lang.msg(player, "sell_all_empty");
             }
+
             return;
         }
 
@@ -245,7 +451,7 @@ public class ShopClickListener implements Listener {
         if (cat == null) return;
 
         if (!cat.canAccess(player)) {
-            player.sendMessage("§cNo tienes acceso a esta categoría.");
+            Lang.msg(player, "no_permission_categori");
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
             return;
         }
@@ -300,7 +506,7 @@ public class ShopClickListener implements Listener {
         // BLOQUEO ITEM ÚNICO
         // =========================
         if (clickedItem.isOnlyOnce() && upManager.hasPurchased(player, clickedItem)) {
-            Lang.msg(player, "already_bought"); // Mensaje que ya lo compró
+            Lang.msg(player, "already_bought");
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
             player.closeInventory();
             return;
@@ -308,6 +514,7 @@ public class ShopClickListener implements Listener {
 
         // Venta rápida (SWAP_OFFHAND)
         if (e.getClick().name().equalsIgnoreCase("SWAP_OFFHAND")) {
+
             if (clickedItem.getSell() <= 0) {
                 Lang.msg(player, "swapped_no_items");
                 player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
@@ -315,23 +522,28 @@ public class ShopClickListener implements Listener {
             }
 
             int total = countMatchingItems(player, real);
+
             if (total <= 0) {
                 Lang.msg(player, "swapped_no_items");
                 return;
             }
 
             removeMatchingItems(player, real, total);
+
+            EconomyProvider eco = eco(clickedItem);
+
             double money = clickedItem.getSell() * total;
-            QSMarketPlus.economy.depositPlayer(player, money);
+            eco.deposit(player, money);
 
             Lang.msg(player, "sell_success",
                     "amount", total,
                     "item", MessageUtil.toLegacy(clickedItem.getName()),
-                    "money", money
+                    "price", money,
+                    "currency", currency(eco),
+                    "symbol", eco.getSymbol()
             );
 
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1f, 1.3f);
-            return;
         }
 
         // Compra rápida SHIFT_CLICK
@@ -340,8 +552,11 @@ public class ShopClickListener implements Listener {
             int amount = real.getMaxStackSize() == 1 ? 1 : (e.isLeftClick() ? 1 : 64);
             double cost = clickedItem.getBuy() * amount;
 
-            if (!QSMarketPlus.economy.has(player, cost)) {
-                Lang.msg(player, "no_money");
+            EconomyProvider eco = eco(clickedItem);
+
+            if (eco.getBalance(player) < cost) {
+                Lang.msg(player, "no_money",
+                        "currency", currency(eco));
                 return;
             }
 
@@ -350,7 +565,7 @@ public class ShopClickListener implements Listener {
                 return;
             }
 
-            QSMarketPlus.economy.withdrawPlayer(player, cost);
+            eco.withdraw(player, cost);
 
             if (!clickedItem.getCommands().isEmpty()) {
                 clickedItem.executeBuyCommands(player);
@@ -358,7 +573,6 @@ public class ShopClickListener implements Listener {
                 giveExactItems(player, real, amount);
             }
 
-            // Marcar como comprado si es único
             if (clickedItem.isOnlyOnce()) {
                 upManager.markPurchased(player, clickedItem);
             }
@@ -366,7 +580,9 @@ public class ShopClickListener implements Listener {
             Lang.msg(player, "buy_success",
                     "amount", amount,
                     "item", MessageUtil.toLegacy(clickedItem.getName()),
-                    "money", cost
+                    "price", cost,
+                    "currency", currency(eco),
+                    "symbol", eco.getSymbol()
             );
 
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.2f);
@@ -375,17 +591,32 @@ public class ShopClickListener implements Listener {
 
         // Verifica permisos de acceso
         if (!clickedItem.canAccess(player)) {
-            player.sendMessage("§cNo puedes comprar este ítem.");
+
+            Lang.msg(player, "no_permission");
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
             return;
         }
 
         // Si ejecuta comando de compra, cerrar menú
         if (!clickedItem.getCommands().isEmpty()) {
+
+            double cost = clickedItem.getBuy();
+            EconomyProvider eco = eco(clickedItem);
+
+            if (eco.getBalance(player) < cost) {
+                Lang.msg(player, "no_money",
+                        "currency", currency(eco));
+                return;
+            }
+
+            eco.withdraw(player, cost);
+
             clickedItem.executeBuyCommands(player);
+
             if (clickedItem.isOnlyOnce()) {
                 upManager.markPurchased(player, clickedItem);
             }
+
             player.closeInventory();
             return;
         }
@@ -425,7 +656,33 @@ public class ShopClickListener implements Listener {
                 AmountMenu.open(player, amountHolder);
             }
         } else if (MetaUtil.is(clicked, "back")) {
-            ItemsMenu.open(player, category, itemManager, 1);
+
+            String menu = QSMarketPlus.getInstance()
+                    .getConfig()
+                    .getString("menu", "normal");
+
+            if (menu.equalsIgnoreCase("pro")) {
+
+                List<ShopCategory> categories = new ArrayList<>(
+                        categoryManager.getCategories().values()
+                );
+
+                int index = 0;
+
+                for (int i = 0; i < categories.size(); i++) {
+                    if (categories.get(i).getId().equals(category.getId())) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                ProShopMenu.open(player, categoryManager, itemManager, index, 0);
+
+            } else {
+
+                ItemsMenu.open(player, category, itemManager, 1);
+
+            }
         }
     }
 
@@ -433,6 +690,7 @@ public class ShopClickListener implements Listener {
     // -------- AMOUNT MENU --------
     // -----------------------------
     private void handleAmountClick(InventoryClickEvent e, Player player, AmountHolder holder) {
+
         ItemStack clicked = e.getCurrentItem();
         if (clicked == null || !clicked.hasItemMeta()) return;
 
@@ -441,6 +699,8 @@ public class ShopClickListener implements Listener {
         ItemMeta meta = clicked.getItemMeta();
         ShopItem item = holder.getItem();
         ShopCategory category = holder.getCategory();
+        EconomyProvider eco = eco(item); // economía del item
+
         boolean buying = holder.isBuying();
         int amount = holder.getAmount();
         int maxStack = item.getMaterial().getMaxStackSize();
@@ -461,8 +721,11 @@ public class ShopClickListener implements Listener {
 
         if (maxStack == 1) {
             holder.setAmount(1);
-            if ("confirm".equals(btn)) ConfirmMenu.open(player, item, category, 1, buying);
-            else AmountMenu.open(player, holder);
+            if ("confirm".equals(btn)) {
+                ConfirmMenu.open(player, item, category, 1, buying);
+            } else {
+                AmountMenu.open(player, holder);
+            }
             return;
         }
 
@@ -470,9 +733,11 @@ public class ShopClickListener implements Listener {
             int mod = Integer.parseInt(value);
             int newAmount = Math.max(1, Math.min(maxStack, amount + mod));
 
-            if (buying && !QSMarketPlus.economy.has(player, newAmount * item.getBuy())) {
-                Lang.msg(player, "no_money");
+            if (buying && eco.getBalance(player) < newAmount * item.getBuy()) {
+                Lang.msg(player, "no_money",
+                        "currency", currency(eco));
                 return;
+
             } else if (!buying && countMatchingItems(player, item.getRealItem()) < newAmount) {
                 Lang.msg(player, "no_items");
                 return;
@@ -484,8 +749,11 @@ public class ShopClickListener implements Listener {
         }
 
         if ("MAX".equals(special)) {
-            int maxAmount = buying ? (int) Math.floor(QSMarketPlus.economy.getBalance(player) / item.getBuy())
+
+            int maxAmount = buying
+                    ? (int) Math.floor(eco.getBalance(player) / item.getBuy())
                     : countMatchingItems(player, item.getRealItem());
+
             holder.setAmount(Math.max(1, Math.min(maxStack, maxAmount)));
             AmountMenu.open(player, holder);
             return;
@@ -498,37 +766,57 @@ public class ShopClickListener implements Listener {
         }
 
         if ("confirm".equals(btn)) {
+
             double price = amount * (buying ? item.getBuy() : item.getSell());
+
             if (buying) {
-                if (!QSMarketPlus.economy.has(player, price)) {
-                    Lang.msg(player, "no_money");
+
+                if (eco.getBalance(player) < price) {
+
+                    Lang.msg(player, "no_money",
+                            "currency", currency(eco));
+
                     return;
                 }
+
                 if (!hasInventorySpace(player, item.getRealItem(), amount)) {
                     Lang.msg(player, "not_enough_space");
                     return;
                 }
-                QSMarketPlus.economy.withdrawPlayer(player, price);
-                giveExactItems(player, item.getRealItem(), amount);
 
+                eco.withdraw(player, price);
+                giveExactItems(player, item.getRealItem(), amount);
                 Lang.msg(player, "buy_success",
                         "amount", amount,
                         "item", MessageUtil.toLegacy(item.getName()),
-                        "money", price);
+                        "price", price,
+                        "currency", currency(eco),
+                        "symbol", eco.getSymbol());
             } else {
+
                 if (countMatchingItems(player, item.getRealItem()) < amount) {
                     Lang.msg(player, "no_items");
                     return;
                 }
-                removeMatchingItems(player, item.getRealItem(), amount);
-                QSMarketPlus.economy.depositPlayer(player, price);
 
+                removeMatchingItems(player, item.getRealItem(), amount);
+                eco.deposit(player, price);
+                String moneyFormatted = eco.getSymbol() + price;
                 Lang.msg(player, "sell_success",
                         "amount", amount,
-                        "item", MessageUtil.toLegacy(item.getName()),  // NO stripLegacy
-                        "money", price);
+                        "item", MessageUtil.toLegacy(item.getName()),
+                        "price", price,
+                        "currency", currency(eco),
+                        "symbol", eco.getSymbol());
             }
-            player.playSound(player.getLocation(), buying ? Sound.ENTITY_PLAYER_LEVELUP : Sound.ENTITY_VILLAGER_YES, 1f, 1.2f);
+
+            player.playSound(
+                    player.getLocation(),
+                    buying ? Sound.ENTITY_PLAYER_LEVELUP : Sound.ENTITY_VILLAGER_YES,
+                    1f,
+                    1.2f
+            );
+
             player.closeInventory();
         }
     }
@@ -538,6 +826,7 @@ public class ShopClickListener implements Listener {
     // -----------------------------
 
     private void handleConfirmClick(InventoryClickEvent e, Player player, ConfirmHolder holder) {
+
         ItemStack clicked = e.getCurrentItem();
         if (clicked == null || !clicked.hasItemMeta()) return;
         e.setCancelled(true);
@@ -548,6 +837,7 @@ public class ShopClickListener implements Listener {
         int amount = holder.getAmount();
         ItemStack template = item.getRealItem();
 
+        EconomyProvider eco = eco(item); // ← economía del item
         UniquePurchaseManager upManager = plugin.getUniquePurchaseManager();
 
         if (MetaUtil.is(clicked, "back")) {
@@ -566,12 +856,13 @@ public class ShopClickListener implements Listener {
 
         if (buying) {
 
-            if (!QSMarketPlus.economy.has(player, price)) {
-                Lang.msg(player, "no_money");
+            if (eco.getBalance(player) < price) {
+                Lang.msg(player, "no_money",
+                        "currency", currency(eco));
                 return;
             }
 
-            // ❌ Aquí también va la verificación
+            // Verificación item único
             if (item.isOnlyOnce() && upManager.hasPurchased(player, item)) {
                 Lang.msg(player, "already_bought");
                 player.closeInventory();
@@ -579,47 +870,60 @@ public class ShopClickListener implements Listener {
             }
 
             if (!item.getCommands().isEmpty()) {
+
+                eco.withdraw(player, price);
                 item.executeBuyCommands(player);
+
             } else {
+
                 if (!hasInventorySpace(player, template, amount)) {
                     Lang.msg(player, "not_enough_space");
                     return;
                 }
+
+                eco.withdraw(player, price);
                 giveExactItems(player, template, amount);
             }
 
-            QSMarketPlus.economy.withdrawPlayer(player, price);
+            if (item.isOnlyOnce()) {
+                upManager.markPurchased(player, item);
+            }
 
-            // Marca item como comprado si es único
-            if (item.isOnlyOnce()) upManager.markPurchased(player, item);
+            Lang.msg(player, "buy_success",
+                    "amount", amount,
+                    "item", MessageUtil.toLegacy(item.getName()),
+                    "price", price,
+                    "currency", currency(eco),
+                    "symbol", eco.getSymbol());
 
-            MessageUtil.lang(player, "buy_success",
-                    Placeholder.parsed("amount", String.valueOf(amount)),
-                    Placeholder.parsed("item", item.getName()),
-                    Placeholder.parsed("money", String.valueOf(price))
-            );
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.2f);
             player.closeInventory();
 
         } else { // venta
 
             if (!item.getSellCommands().isEmpty()) {
+
                 item.executeSellCommands(player);
+
             } else {
+
                 if (countMatchingItems(player, template) < amount) {
                     Lang.msg(player, "no_items");
                     return;
                 }
+
                 removeMatchingItems(player, template, amount);
             }
 
-            QSMarketPlus.economy.depositPlayer(player, price);
+            eco.deposit(player, price);
 
-            MessageUtil.lang(player, "sell_success",
-                    Placeholder.parsed("amount", String.valueOf(amount)),
-                    Placeholder.parsed("item", item.getName()),
-                    Placeholder.parsed("money", String.valueOf(price))
-            );
+            Lang.msg(player, "sell_success",
+                    "amount", amount,
+                    "item", MessageUtil.toLegacy(item.getName()),
+                    "price", price,
+                    "currency", currency(eco),
+                    "symbol", eco.getSymbol());
+
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1f, 1.2f);
             player.closeInventory();
         }
@@ -682,12 +986,11 @@ public class ShopClickListener implements Listener {
 
         AuctionManager manager = QSMarketPlus.getInstance().getAuctionManager();
         double price = holder.getPrice();
-        boolean bulk = holder.isBulk(); // true si es sell inventario, false si es sell mano
+        boolean bulk = holder.isBulk();
 
         List<ItemStack> itemsList = new ArrayList<>();
 
         if (bulk) {
-            // Tomar todos los items del inventario que no sean AIR
             for (ItemStack it : player.getInventory().getContents()) {
                 if (it != null && it.getType() != Material.AIR) itemsList.add(it.clone());
             }
@@ -696,9 +999,7 @@ public class ShopClickListener implements Listener {
                 Lang.msg(player, "no_items");
                 return;
             }
-
         } else {
-            // Solo item en la mano
             ItemStack hand = player.getInventory().getItemInMainHand();
             if (hand == null || hand.getType() == Material.AIR) {
                 Lang.msg(player, "no_items");
@@ -707,28 +1008,29 @@ public class ShopClickListener implements Listener {
             itemsList.add(hand.clone());
         }
 
-        // Validaciones completadas, ahora eliminar items del inventario
+        // El copiado y remoción de ítems ahora se sincroniza de forma segura
         if (bulk) {
-            for (ItemStack it : itemsList) {
-                player.getInventory().removeItem(it);
-            }
-        } else {
-            player.getInventory().setItemInMainHand(null);
-        }
-
-        // Crear la subasta según sea bulk o single
-        if (bulk || itemsList.size() > 1) {
-            // Subasta de varios items → cofre
+            // Pasamos el array clonado; 'createBulkAuction' se encargará de remover exactamente lo necesario del inventario del jugador
             manager.createBulkAuction(player, itemsList.toArray(new ItemStack[0]), price);
             Lang.msg(player, "ah_created_bulk", "count", itemsList.size(), "price", price);
         } else {
-            // Subasta de un solo item → single
+            // Subasta de un solo ítem (mano)
             manager.createAuction(player, itemsList.get(0), price);
-            Lang.msg(player, "ah_created", "item", itemsList.get(0).getType().name(), "price", price);
+            player.getInventory().setItemInMainHand(null);
+
+            String itemName = itemsList.get(0).getItemMeta().hasDisplayName()
+                    ? itemsList.get(0).getItemMeta().getDisplayName()
+                    : itemsList.get(0).getType().name().replace("_", " ").toLowerCase();
+
+            Lang.msg(player, "ah_created", "item", itemName, "price", price);
         }
 
         player.closeInventory();
     }
+
+
+
+
 
     private void handleAHPreviewClick(InventoryClickEvent e, Player player, AHPreviewHolder holder) {
         e.setCancelled(true);
@@ -757,6 +1059,7 @@ public class ShopClickListener implements Listener {
             player.closeInventory();
         }
     }
+
     private void handleAHActionClick(InventoryClickEvent e, Player player, AHActionHolder holder) {
         e.setCancelled(true);
 
@@ -777,12 +1080,23 @@ public class ShopClickListener implements Listener {
                     Lang.msg(player, "ah_not_your_auction");
                     return;
                 }
+
+                if (!manager.getAuctions().contains(auc)) {
+                    Lang.msg(player, "ah_not_found");
+                    AHMenu.open(player, holder.getPage());
+                    return;
+                }
+
                 manager.cancelAuction(player, auc);
-                Lang.msg(player, "ah_cancelled");
                 AHMenu.open(player, holder.getPage());
             }
             case "buy" -> {
-                // Validar items
+                if (!manager.getAuctions().contains(auc)) {
+                    Lang.msg(player, "ah_not_found");
+                    AHMenu.open(player, holder.getPage());
+                    return;
+                }
+
                 List<ItemStack> items = new ArrayList<>();
                 boolean bulk = auc.isBulk();
 
@@ -808,7 +1122,6 @@ public class ShopClickListener implements Listener {
 
                 double price = auc.price;
 
-                // Validar dinero
                 if (!QSMarketPlus.economy.has(player, price)) {
                     Lang.msg(player, "no_money");
                     return;
@@ -816,14 +1129,22 @@ public class ShopClickListener implements Listener {
 
                 boolean useChest = bulk || items.size() > 1;
 
+                // Guardamos el nombre legible del ítem principal para las notificaciones
+                String itemName = items.get(0).getItemMeta().hasDisplayName()
+                        ? items.get(0).getItemMeta().getDisplayName()
+                        : items.get(0).getType().name().replace("_", " ").toLowerCase();
+
                 if (useChest) {
-                    // Verificar espacio para al menos 1 cofre
                     if (player.getInventory().firstEmpty() == -1) {
                         Lang.msg(player, "not_enough_space_chest");
                         return;
                     }
 
-                    // Crear cofre portátil con los items
+                    if (!manager.buyAuction(player, auc)) {
+                        Lang.msg(player, "ah_error");
+                        return;
+                    }
+
                     Inventory tempChest = Bukkit.createInventory(null, 54, "Items de Subasta");
                     for (ItemStack it : items) givePartialToInventory(tempChest, it, it.getAmount());
 
@@ -834,39 +1155,59 @@ public class ShopClickListener implements Listener {
                     meta.setBlockState(chest);
                     chestItem.setItemMeta(meta);
 
-                    // Dar cofre y cobrar
                     player.getInventory().addItem(chestItem);
                     QSMarketPlus.economy.withdrawPlayer(player, price);
 
                     Lang.msg(player, "ah_bought_chest", "money", price, "item_count", items.size());
 
                 } else {
-                    // Solo 1 item, dar directo al inventario
                     ItemStack singleItem = items.get(0);
                     if (!hasInventorySpace(player, singleItem, singleItem.getAmount())) {
                         Lang.msg(player, "not_enough_space");
                         return;
                     }
 
+                    if (!manager.buyAuction(player, auc)) {
+                        Lang.msg(player, "ah_error");
+                        return;
+                    }
+
                     forceGiveAuctionItem(player, auc);
                     QSMarketPlus.economy.withdrawPlayer(player, price);
 
-                    Lang.msg(player, "ah_bought", "money", price, "item", singleItem.getType().name());
+                    Lang.msg(player, "ah_bought", "money", price, "item", itemName);
                 }
 
-                // Pagar al vendedor
+                // Pagar de manera segura al vendedor original de la subasta
                 OfflinePlayer seller = Bukkit.getOfflinePlayer(auc.seller);
                 QSMarketPlus.economy.depositPlayer(seller, price);
 
-                // Marcar como comprado
-                if (!manager.buyAuction(player, auc)) {
-                    Lang.msg(player, "ah_error");
+                // 🔥 NOTIFICACIÓN EN TIEMPO REAL PARA EL VENDEDOR
+                // Si el dueño de la subasta está conectado, le avisamos de inmediato
+                if (seller.isOnline() && seller.getPlayer() != null) {
+                    Player onlineSeller = seller.getPlayer();
+
+                    if (bulk) {
+                        Lang.msg(onlineSeller, "ah_item_sold_bulk",
+                                "buyer", player.getName(),
+                                "item_count", items.size(),
+                                "money", price);
+                    } else {
+                        Lang.msg(onlineSeller, "ah_item_sold",
+                                "buyer", player.getName(),
+                                "item", itemName,
+                                "money", price);
+                    }
+
+                    // Sonido sutil de campana/monedas para el vendedor indicando que recibió dinero
+                    onlineSeller.playSound(onlineSeller.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 0.8f);
                 }
 
                 AHMenu.open(player, holder.getPage());
             }
         }
     }
+
 
     private void forceGiveAuctionItem(Player p, AuctionItem auc) {
         if (auc == null) return;
@@ -906,7 +1247,7 @@ public class ShopClickListener implements Listener {
         } else if ("close".equals(btn)) {
             player.closeInventory();
         } else {
-            // Reclamación individual
+            // Reclamación de la subasta expirada (Individual o Bulk)
             Integer index = MetaUtil.getInt(clicked.getItemMeta(), "expired_index");
             if (index != null) {
                 AuctionItem auc = holder.getItems().get(index);
@@ -915,29 +1256,53 @@ public class ShopClickListener implements Listener {
                     return;
                 }
 
-                // Crear un cofre temporal
-                Inventory tempChest = Bukkit.createInventory(null, 54, "Item Expirado");
-                claimSingleExpiredToChest(player, auc, tempChest);
+                int itemsClaimed = 0;
 
-                // Dar cofre portátil al jugador
-                ItemStack chestItem = new ItemStack(Material.CHEST);
-                BlockStateMeta meta = (BlockStateMeta) chestItem.getItemMeta();
-                Chest chest = (Chest) meta.getBlockState();
-                chest.getInventory().setContents(tempChest.getContents());
-                meta.setBlockState(chest);
-                chestItem.setItemMeta(meta);
+                // CASO 1: Es una subasta en lote (Bulk / Paquete de ítems)
+                if (auc.isBulk() && auc.container != null) {
+                    for (ItemStack item : auc.container) {
+                        if (item == null || item.getType().isAir()) continue;
 
-                player.getInventory().addItem(chestItem);
-                Lang.msg(player, "ah_claimed_chest", "count", tempChest.getContents().length);
+                        ItemStack toGive = item.clone();
+                        // Entrega al inventario del jugador
+                        java.util.HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(toGive);
 
-                // Actualizar lista de items expirados y refrescar menú
+                        // Si el inventario se llena, lo tira al suelo de forma natural
+                        for (ItemStack drop : leftOver.values()) {
+                            player.getWorld().dropItemNaturally(player.getLocation(), drop);
+                        }
+                        itemsClaimed += toGive.getAmount(); // Contamos la cantidad total de ítems devueltos
+                    }
+                }
+                // CASO 2: Es una subasta normal (Un solo tipo de ítem)
+                else if (auc.item != null && !auc.item.getType().isAir()) {
+                    ItemStack toGive = auc.item.clone();
+                    java.util.HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(toGive);
+
+                    for (ItemStack drop : leftOver.values()) {
+                        player.getWorld().dropItemNaturally(player.getLocation(), drop);
+                    }
+                    itemsClaimed += toGive.getAmount();
+                }
+
+                // Validación de seguridad por si acaso la subasta estaba corrupta o vacía
+                if (itemsClaimed == 0) {
+                    player.sendMessage("§cError: No se encontraron ítems válidos para reclamar en esta subasta.");
+                    return;
+                }
+
+                // Envia el mensaje usando tu sistema de placeholders (pasa el total de ítems reclamados)
+                Lang.msg(player, "ah_claimed_chest", "count", itemsClaimed);
+
+                // Guardar el cambio de estado en SQL llamando a tu Manager
+                QSMarketPlus.getInstance().getAuctionManager().markAsTaken(auc);
+
+                // Remover de la vista actual del holder de la GUI y actualizar el menú
                 holder.getItems().remove(auc);
                 AHExpiredMenu.open(player, holder.getPage());
             }
         }
     }
-
-
     // -------------------------
     // FILTROS
     // -------------------------
@@ -1039,5 +1404,17 @@ public class ShopClickListener implements Listener {
     }
 
 
+    public EconomyProvider eco(ShopItem item) {
+        return plugin.getEconomyManager().get(item.getEconomy());
+    }
 
+    private String currency(EconomyProvider eco) {
+
+        String id = eco.getName();
+
+        return plugin.getConfig().getString(
+                "economies." + id + ".display-name",
+                id
+        );
+    }
 }

@@ -1,16 +1,19 @@
 package mp.quesito.qSMarketPlus.commands;
 
 import mp.quesito.qSMarketPlus.QSMarketPlus;
+import mp.quesito.qSMarketPlus.economia.EconomyProvider;
 import mp.quesito.qSMarketPlus.manager.CategoryManager;
 import mp.quesito.qSMarketPlus.manager.ItemManager;
 import mp.quesito.qSMarketPlus.shop.ShopCategory;
 import mp.quesito.qSMarketPlus.shop.ShopItem;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Map;
 
@@ -29,13 +32,13 @@ public class SellCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player p)) {
-            sender.sendMessage("Solo jugadores");
+            sender.sendMessage("§cSolo jugadores en línea.");
             return true;
         }
 
+        // Si no pone argumentos, muestra la guía detallada
         if (args.length == 0) {
-            MessageUtil.msg(p,
-                    "<yellow>Uso: <white>/sell hand</white>, <white>/sell similar</white>, <white>/sell all</white>");
+            MessageUtil.lang(p, "sell.usage");
             return true;
         }
 
@@ -43,8 +46,11 @@ public class SellCommand implements CommandExecutor {
             case "hand" -> sellHand(p);
             case "similar" -> sellSimilar(p);
             case "all" -> sellAll(p);
-            default -> MessageUtil.msg(p,
-                    "<red>Comando inválido. Usa: <white>/sell hand</white>, <white>/sell similar</white>, <white>/sell all</white>");
+            default -> {
+                // Avisa del error y acto seguido le pinta la guía de uso completa
+                MessageUtil.lang(p, "sell.invalid_arg");
+                MessageUtil.lang(p, "sell.usage");
+            }
         }
 
         return true;
@@ -53,108 +59,152 @@ public class SellCommand implements CommandExecutor {
     private void sellHand(Player p) {
         ItemStack hand = p.getInventory().getItemInMainHand();
         if (hand == null || hand.getType().isAir()) {
-            MessageUtil.msg(p, "<red>No tienes nada en la mano.");
+            MessageUtil.lang(p, "sell.hand_empty");
             return;
         }
 
         ShopItem shopItem = findShopItem(hand);
         if (shopItem == null || shopItem.getSell() <= 0) {
-            MessageUtil.msg(p, "<red>Este objeto no se puede vender.");
+            MessageUtil.lang(p, "sell.no_sell_price");
+            return;
+        }
+
+        EconomyProvider ecoProvider = plugin.getEconomyManager().get(shopItem.getEconomy());
+        if (ecoProvider == null) {
+            p.sendMessage("§cError interno: El sistema de economía '" + shopItem.getEconomy() + "' no está disponible.");
             return;
         }
 
         int amount = hand.getAmount();
-        double total = shopItem.getSell() * amount;
+        double totalEarnings = shopItem.getSell() * amount;
 
         p.getInventory().setItemInMainHand(null);
-        QSMarketPlus.economy.depositPlayer(p, total);
+
+        ecoProvider.deposit(p, totalEarnings);
         shopItem.executeSellCommands(p);
 
-        MessageUtil.msg(p,
-                "<green>Vendiste <yellow>" + amount + "x " + shopItem.getName() +
-                        "</yellow> por <white>$" + total);
+        String currencyName = plugin.getConfig().getString("economies." + ecoProvider.getName() + ".display-name", ecoProvider.getName());
+
+        // Enviamos el mensaje procesando dinámicamente los tags de MiniMessage
+        MessageUtil.lang(p, "sell.success_hand",
+                Placeholder.parsed("amount", String.valueOf(amount)),
+                Placeholder.parsed("item", shopItem.getName()),
+                Placeholder.parsed("earnings", String.format("%.2f", totalEarnings)),
+                Placeholder.parsed("currency", currencyName)
+        );
     }
 
     private void sellSimilar(Player p) {
         ItemStack hand = p.getInventory().getItemInMainHand();
         if (hand == null || hand.getType().isAir()) {
-            MessageUtil.msg(p, "<red>No tienes nada en la mano.");
+            MessageUtil.lang(p, "sell.hand_empty");
             return;
         }
 
-        ShopItem shopItem = findShopItem(hand);
-        if (shopItem == null || shopItem.getSell() <= 0) {
-            MessageUtil.msg(p, "<red>Este ítem no se puede vender.");
+        ShopItem targetShopItem = findShopItem(hand);
+        if (targetShopItem == null || targetShopItem.getSell() <= 0) {
+            MessageUtil.lang(p, "sell.no_sell_price");
             return;
         }
 
-        int totalItems = 0;
-        for (ItemStack s : p.getInventory().getContents()) {
-            if (s != null && s.isSimilar(shopItem.getRealItem())) totalItems += s.getAmount();
-        }
-
-        if (totalItems <= 0) {
-            MessageUtil.msg(p, "<yellow>No tienes más ítems similares.");
+        EconomyProvider ecoProvider = plugin.getEconomyManager().get(targetShopItem.getEconomy());
+        if (ecoProvider == null) {
+            p.sendMessage("§cError interno: El sistema de economía '" + targetShopItem.getEconomy() + "' no está disponible.");
             return;
         }
 
-        double total = totalItems * shopItem.getSell();
+        int totalEncontrado = 0;
+        PlayerInventory inv = p.getInventory();
 
-        // Quitar todos los ítems similares
-        for (ItemStack s : p.getInventory().getContents()) {
-            if (s != null && s.isSimilar(shopItem.getRealItem())) {
-                p.getInventory().removeItem(s);
+        for (int i = 0; i < 36; i++) {
+            ItemStack s = inv.getItem(i);
+            if (s == null || s.getType().isAir()) continue;
+
+            ShopItem currentShopItem = findShopItem(s);
+            if (currentShopItem != null && currentShopItem.getId().equals(targetShopItem.getId())) {
+                totalEncontrado += s.getAmount();
+                inv.setItem(i, null);
             }
         }
 
-        QSMarketPlus.economy.depositPlayer(p, total);
-        shopItem.executeSellCommands(p);
+        if (totalEncontrado <= 0) {
+            MessageUtil.lang(p, "sell.no_items_similar");
+            return;
+        }
 
-        MessageUtil.msg(p,
-                "<green>Vendiste todos tus <yellow>" + totalItems + "x " + shopItem.getName() +
-                        "</yellow> por <white>$" + total);
+        double totalEarnings = totalEncontrado * targetShopItem.getSell();
+
+        ecoProvider.deposit(p, totalEarnings);
+        targetShopItem.executeSellCommands(p);
+
+        String currencyName = plugin.getConfig().getString("economies." + ecoProvider.getName() + ".display-name", ecoProvider.getName());
+
+        MessageUtil.lang(p, "sell.success_similar",
+                Placeholder.parsed("amount", String.valueOf(totalEncontrado)),
+                Placeholder.parsed("item", targetShopItem.getName()),
+                Placeholder.parsed("earnings", String.format("%.2f", totalEarnings)),
+                Placeholder.parsed("currency", currencyName)
+        );
     }
 
     private void sellAll(Player p) {
-        double totalMoney = 0;
+        PlayerInventory inv = p.getInventory();
+        boolean algunItemVendido = false;
 
         for (ShopCategory cat : categoryManager.getCategories().values()) {
             itemManager.loadCategoryItems(cat);
-            Map<String, ShopItem> items = itemManager.getItems(cat.getId());
+        }
 
-            for (ShopItem shopItem : items.values()) {
-                if (shopItem.getSell() <= 0) continue;
+        for (int i = 0; i < 36; i++) {
+            ItemStack s = inv.getItem(i);
+            if (s == null || s.getType().isAir()) continue;
 
-                for (ItemStack s : p.getInventory().getContents()) {
-                    if (s != null && s.isSimilar(shopItem.getRealItem())) {
-                        int count = s.getAmount();
-                        totalMoney += count * shopItem.getSell();
-                        p.getInventory().removeItem(s);
-                        shopItem.executeSellCommands(p);
-                    }
-                }
+            ShopItem shopItem = findShopItem(s);
+            if (shopItem != null && shopItem.getSell() > 0) {
+                EconomyProvider ecoProvider = plugin.getEconomyManager().get(shopItem.getEconomy());
+                if (ecoProvider == null) continue;
+
+                int amount = s.getAmount();
+                double earnings = amount * shopItem.getSell();
+
+                inv.setItem(i, null);
+
+                ecoProvider.deposit(p, earnings);
+                shopItem.executeSellCommands(p);
+                algunItemVendido = true;
+
+                String currencyName = plugin.getConfig().getString("economies." + ecoProvider.getName() + ".display-name", ecoProvider.getName());
+
+                MessageUtil.lang(p, "sell.success_all_item",
+                        Placeholder.parsed("amount", String.valueOf(amount)),
+                        Placeholder.parsed("item", shopItem.getName()),
+                        Placeholder.parsed("earnings", String.format("%.2f", earnings)),
+                        Placeholder.parsed("currency", currencyName)
+                );
             }
         }
 
-        if (totalMoney <= 0) {
-            MessageUtil.msg(p, "<yellow>No tienes nada que puedas vender.");
+        if (!algunItemVendido) {
+            MessageUtil.lang(p, "sell.no_items_all");
             return;
         }
 
-        QSMarketPlus.economy.depositPlayer(p, totalMoney);
-        MessageUtil.msg(p, "<green>Vendiste todo tu inventario por <white>$" + totalMoney);
+        MessageUtil.lang(p, "sell.success_all_done");
     }
 
     private ShopItem findShopItem(ItemStack item) {
+        if (item == null || item.getType().isAir()) return null;
+
         for (ShopCategory cat : categoryManager.getCategories().values()) {
-            itemManager.loadCategoryItems(cat);
-            for (ShopItem si : itemManager.getItems(cat.getId()).values()) {
-                if (item.getType() == si.getRealItem().getType()) return si;
+            Map<String, ShopItem> items = itemManager.getItems(cat.getId());
+            if (items == null) continue;
+
+            for (ShopItem si : items.values()) {
+                if (item.getType() == si.getRealItem().getType()) {
+                    return si;
+                }
             }
         }
         return null;
     }
-
-
-
 }

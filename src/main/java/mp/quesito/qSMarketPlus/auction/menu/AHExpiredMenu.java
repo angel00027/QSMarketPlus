@@ -23,6 +23,7 @@ public class AHExpiredMenu {
                 .getAuctionManager()
                 .getExpired(p.getUniqueId());
 
+        // Max page calculated based on a 28-slot inner content grid
         int maxPage = Math.max(1, (int) Math.ceil(expired.size() / 28.0));
         page = Math.max(1, Math.min(page, maxPage));
 
@@ -41,22 +42,36 @@ public class AHExpiredMenu {
             AuctionItem auc = expired.get(i);
             ItemStack icon;
 
-            if (auc.isBulk()) {
+            // Handle bulk packaging display
+            if (auc.isBulk() && auc.container != null) {
                 icon = new ItemStack(Material.CHEST);
                 ItemMeta m = icon.getItemMeta();
-                m.setDisplayName("§ePack Expirado (" + auc.container.length + " items)");
-                icon.setItemMeta(m);
-            } else {
+                if (m != null) {
+                    // Mejora: Cuenta ítems reales en lugar de ranuras vacías del cofre
+                    int totalItems = 0;
+                    for (ItemStack stack : auc.container) {
+                        if (stack != null && !stack.getType().isAir()) {
+                            totalItems += stack.getAmount();
+                        }
+                    }
+                    m.setDisplayName("§ePack Expirado (" + totalItems + " items)");
+                    icon.setItemMeta(m);
+                }
+            } else if (auc.item != null) {
                 icon = auc.item.clone();
+            } else {
+                continue; // Skip corrupted database entries
             }
 
             ItemMeta m = icon.getItemMeta();
-            m.getPersistentDataContainer().set(
-                    MetaUtil.key("expired_index"),
-                    PersistentDataType.INTEGER,
-                    i
-            );
-            icon.setItemMeta(m);
+            if (m != null) {
+                m.getPersistentDataContainer().set(
+                        MetaUtil.key("expired_index"),
+                        PersistentDataType.INTEGER,
+                        i
+                );
+                icon.setItemMeta(m);
+            }
 
             inv.setItem(slot, icon);
 
@@ -65,15 +80,21 @@ public class AHExpiredMenu {
         }
 
         // -------------------------------
-        // BOTONES DE NAVEGACIÓN
+        // NAVIGATION BUTTONS (Con limpieza)
         // -------------------------------
         if (page > 1) {
             ItemStack prev = MenuItems.customHead(
                     "<yellow>Anterior",
                     "http://textures.minecraft.net/texture/6e8c47367c3e94312bc7"
             );
-            MetaUtil.setTag(prev.getItemMeta(), "btn", "prev");
-            inv.setItem(45, prev);
+            if (prev != null && prev.getItemMeta() != null) {
+                ItemMeta meta = prev.getItemMeta();
+                MetaUtil.setTag(meta, "btn", "prev");
+                prev.setItemMeta(meta);
+                inv.setItem(45, prev);
+            }
+        } else {
+            inv.setItem(45, null); // Forzar limpieza por cambios de página rápidos
         }
 
         if (page < maxPage) {
@@ -81,18 +102,27 @@ public class AHExpiredMenu {
                     "<yellow>Siguiente",
                     "http://textures.minecraft.net/texture/555e1f985a0c4c3f98"
             );
-            MetaUtil.setTag(next.getItemMeta(), "btn", "next");
-            inv.setItem(53, next);
+            if (next != null && next.getItemMeta() != null) {
+                ItemMeta meta = next.getItemMeta();
+                MetaUtil.setTag(meta, "btn", "next");
+                next.setItemMeta(meta);
+                inv.setItem(53, next);
+            }
+        } else {
+            inv.setItem(53, null); // Forzar limpieza
         }
 
         // -------------------------------
-        // BOTÓN CERRAR
+        // CLOSE BUTTON
         // -------------------------------
         ItemStack close = MenuItems.red("close", "§cCerrar");
-        MetaUtil.setTag(close.getItemMeta(), "btn", "close");
-        inv.setItem(49, close); // lo ponemos al centro debajo de los items
+        if (close != null && close.getItemMeta() != null) {
+            ItemMeta meta = close.getItemMeta();
+            MetaUtil.setTag(meta, "btn", "close");
+            close.setItemMeta(meta);
+            inv.setItem(49, close);
+        }
 
         p.openInventory(inv);
     }
-
 }

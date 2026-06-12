@@ -131,7 +131,7 @@ public final class ItemsMenu {
     // =====================================================
     // BUILD ITEM
     // =====================================================
-    private static ItemStack buildMenuItem(Player player, ShopItem item, ItemManager manager) {
+    public static ItemStack buildMenuItem(Player player, ShopItem item, ItemManager manager) {
 
         ItemStack stack = item.getRealItem();
         ItemMeta meta = stack.getItemMeta();
@@ -187,9 +187,8 @@ public final class ItemsMenu {
         // Mostrar precios solo si el ítem es accesible y no está bloqueado
         // =========================
         if (!blocked) {
-            String buy = MessageUtil.priceFormat("buy", item.getBuy(), item.getSell());
-            String sell = MessageUtil.priceFormat("sell", item.getBuy(), item.getSell());
-
+            String buy = MessageUtil.priceFormat("buy", item);
+            String sell = MessageUtil.priceFormat("sell", item);
             if (!buy.isEmpty()) lore.add(buy);
             if (!sell.isEmpty()) lore.add(sell);
         }

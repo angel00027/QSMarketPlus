@@ -1,6 +1,35 @@
+
+#menu: normal para separa la logica
+#de menu categoria y items , el pro para unir para esto es un resourcepack.
+menu: normal
+pro-menu:
+  title: "<dark_gray>Shop » <yellow>%category% <gray>(%page%/%max_page%)"
+  size: 54
+
+economies:
+  # variables para el price-format , <symbol> <price> <currency>  es para el menu donde seleccionamos la cantidad de compra o venta.
+  price-format: "<symbol> <price>"
+  vault:
+    display-name: "dinero"
+    symbol: "$"
+
+  xp:
+    display-name: "Experiencia"
+    symbol: "XP"
+
+  levels:
+    display-name: "Niveles"
+    symbol: "Lv"
+
+  points:
+    display-name: "PlayerPoints"
+    symbol: "P"
+
+
 discord:
   webhook_enabled: false
-  webhook_url: ""
+  webhook_url: ''
+
 
 auction:
   # Tiempo que dura una subasta antes de expirar (en segundos)
@@ -12,32 +41,49 @@ auction:
   # 14 días = 14 × 24 × 3600 = 1209600 segundos
   # 30 × 24 × 3600 = 2592000 segundos
   expiration_seconds: 604800
-
-
+  
+  
   # Con qué frecuencia se revisan las subastas para ver si han expirado (en segundos)
   # Ejemplos:
   # 10 = cada 10 segundos (ideal para pruebas)
   # 300 = cada 5 minutos (recomendado en producción)
   expiration_check_interval: 10
 
-auction-limits:
-  default: 5           # Jugadores sin permisos especiales
-  qsmarket.limit.premium: 10
-  qsmarket.limit.vip: 20
-  qsmarket.limit.staff: 999
+auction-limits.default: 5 # Jugadores sin permisos especiales
 
 
 database:
-  type: "sqlite"   # opciones: sqlite / mysql
+  type: sqlite # opciones: sqlite / mysql
   mysql:
-    host: "localhost"
+    host: localhost
     port: 3306
-    database: "qsmarket"
-    user: "root"
-    password: "root"
+    database: qsmarket
+    user: root
+    password: root
   sqlite:
-    file: "data.db"
+    file: data.db
 
+
+
+
+
+# ======================================================
+# 📱 Configuración de Menús para Bedrock (Geyser/Floodgate)
+# ======================================================
+bedrock-menus:
+  categories:
+    title: "« Tienda del Servidor »"
+    content: "Selecciona una categoría para explorar los artículos disponibles:"
+  items:
+    content: "Elige un artículo para comprar o vender:"
+    back-button: "« Volver a Categorías"
+  confirm:
+    title: "Transacción: %item%"
+    slider: "Cantidad a comerciar"
+    label-header: "Detalles del Artículo:"
+    label-balance: "Tu Saldo actual: %balance%"
+    toggle-mode: "Modo: COMPRA [Apagado] / VENTA [Encendido]"
+    toggle-back: "¿Volver a la lista de artículos? [Activar]"
 
 holograms:
   enabled: true
@@ -51,4 +97,5 @@ holograms:
     interval: 1
   scale: 0.7
   view-range: 32
+
 

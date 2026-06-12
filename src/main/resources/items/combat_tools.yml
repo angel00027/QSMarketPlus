@@ -8,6 +8,7 @@ items:
     sell: 0.5
     lore:
       - "<gray>Espada básica de madera.</gray>"
+    economy: levels
 
  
   stone_sword:

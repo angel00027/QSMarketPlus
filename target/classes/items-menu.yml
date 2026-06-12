@@ -1,103 +1,58 @@
 menu:
-  # Título del menú de ítems dentro de una categoría
-  # Variables disponibles:
-  # {category} → nombre de la categoría
-  # {page}     → página actual
-  # {max}      → total de páginas
   title: "<gold>{category}</gold> <gray>[{page}/{max}]</gray>"
-
-  # Número de filas del inventario (1–6)
   rows: 6
-
-  # Orden por defecto de los ítems al abrir el menú
-  # Opciones disponibles:
-  # name        → orden alfabético
-  # price_asc  → precio más barato primero
-  # price_desc → precio más caro primero
-  # none       → sin orden automático
-  default-sort: "name"
-
-
+  default-sort: "name" # opciones: name / price_asc / price_desc / none
 buttons:
+ 
+ #LOS BOTONES prev-category, next-category SON IMPORTANTES SI USAS EL MENU PRO , ESTO ES PARA QUE SE PUEDA VER Y MODIFICAR.
+  prev-category:
+    slot: 0
+    name: "<yellow>Categoría anterior"
+    #head: "http://textures.minecraft.net/texture/de1dfc11a837111d22b001a14461f9a7fc093522f88c58faefd6adeffcd4e9ab"
+    material: PAPER
+    custom-model-data: 25
+
+  next-category:
+    slot: 8
+    name: "<yellow>Siguiente categoría"
+    head: "http://textures.minecraft.net/texture/7c69d41076a8dea4f06d3f1a9ac47cc996988b74a0913ab2ac1a74caf7081918"
+    material: ARROW
 
   prev-page:
-    # Slot del botón de página anterior
     slot: 45
-
-    # Nombre del botón
-    name: "<yellow>Anterior</yellow>"
-
-    # Cabeza personalizada (opcional)
-    # Si se define, se ignora el material visualmente
-    head: "http://textures.minecraft.net/texture/de1dfc11a837111d22b001a14461f9a7fc093522f88c58faefd6adeffcd4e9ab"
-
-    # Material usado si no hay head
-    material: ARROW
-
-    # Descripción del botón
+    name: "<yellow>Anterior"
+    head: "http://textures.minecraft.net/texture/de1dfc11a837111d22b001a14461f9a7fc093522f88c58faefd6adeffcd4e9ab"   # opcional
+    material: ARROW        # si no hay head
     lore:
       - "<gray>Página anterior"
-
-
   next-page:
-    # Slot del botón de página siguiente
     slot: 53
-
-    # Nombre del botón
-    name: "<yellow>Siguiente</yellow>"
-
-    # Cabeza personalizada (opcional)
-    head: "http://textures.minecraft.net/texture/7c69d41076a8dea4f06d3f1a9ac47cc996988b74a0913ab2ac1a74caf7081918"
-
-    # Material por defecto si no hay head
+    name: "<yellow>Siguiente"
+    head: "http://textures.minecraft.net/texture/7c69d41076a8dea4f06d3f1a9ac47cc996988b74a0913ab2ac1a74caf7081918"               # vacío → usa material
     material: ARROW
-
     lore:
       - "<gray>Página siguiente"
 
-
   sort-asc:
-    # Botón para ordenar por precio ascendente
     slot: 46
-
-    name: "<green>Ordenar Precio ↑</green>"
-
-    # Cabeza decorativa
+    name: "<green>Ordenar Precio ↑"
     head: "http://textures.minecraft.net/texture/76a5734eaed02907408dff3e3f2c6efcd35a546c8f0af6c5e952d8cb8a516e82"
-
-    # Material alternativo
     material: EMERALD
 
-
   sort-desc:
-    # Botón para ordenar por precio descendente
     slot: 47
-
-    name: "<red>Ordenar Precio ↓</red>"
-
+    name: "<red>Ordenar Precio ↓"
     head: "http://textures.minecraft.net/texture/4e8ba7863b15a5e40fa7da9629bb866aa22699553e931df1f693cbb1c9f3b6"
-
     material: REDSTONE
 
-
   sort-name:
-    # Botón para ordenar alfabéticamente (A-Z)
     slot: 48
-
-    name: "<aqua>Ordenar A-Z</aqua>"
-
+    name: "<aqua>Ordenar A-Z"
     head: "http://textures.minecraft.net/texture/e815317c936ff01b1fb4fd92ede3b3a0e034379a65edee8a504b202173260aee"
-
     material: BOOK
 
-
   back:
-    # Botón para volver al menú de categorías
     slot: 49
-
-    name: "<red>Volver</red>"
-
-    # Si está vacío, se usará el material
+    name: "<red>Volver"
     head: ""
-
     material: BARRIER

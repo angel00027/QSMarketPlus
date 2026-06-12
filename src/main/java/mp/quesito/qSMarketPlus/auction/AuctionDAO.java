@@ -287,9 +287,11 @@ public class AuctionDAO {
 
         for (ItemStack it : contents) {
             if (it == null) {
-                arr.add("null");
+                // En lugar de meter el texto "null", metemos un valor nulo real de JSON
+                arr.add(com.google.gson.JsonNull.INSTANCE);
             } else {
-                arr.add(itemToBase64(it));
+                // Envolvemos el Base64 en una primitiva de Gson para que sea un JsonElement válido
+                arr.add(new com.google.gson.JsonPrimitive(itemToBase64(it)));
             }
         }
 
@@ -310,4 +312,6 @@ public class AuctionDAO {
 
         return out;
     }
+
+
 }

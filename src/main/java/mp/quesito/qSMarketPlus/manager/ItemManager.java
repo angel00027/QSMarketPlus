@@ -115,41 +115,53 @@ public class ItemManager {
             if (mat == null) mat = Material.STONE;
 
             String texture = section.getString(id + ".texture");
+            String qstId = section.getString(id + ".qstexture"); // NUEVO: ID de QSTexturs
             double buy = section.getDouble(id + ".buy", 1);
             double sell = section.getDouble(id + ".sell", 0);
+            String economy = section.getString(id + ".economy", "vault");
             List<String> lore = section.getStringList(id + ".lore");
 
             // ================= ItemStack =================
-            ItemStack itemStack;
+            ItemStack itemStack = null;
 
-            // Primero intentamos cargar desde Base64 si existe
-            String base64 = section.getString(id + ".itemstack");
-            if (base64 != null && !base64.isEmpty()) {
-                itemStack = ItemSerializer.fromBase64(base64);
-                if (itemStack == null) {
-                    // fallback visual
-                    itemStack = new ItemStack(mat);
-                }
-            } else {
-                // fallback: crear desde material, nombre y lore
-                if (mat == Material.PLAYER_HEAD && texture != null && !texture.isEmpty()) {
-                    itemStack = MenuItems.customHead(name, texture);
-                } else {
-                    itemStack = new ItemStack(mat);
-                }
+            // Intentamos primero cargar desde QSTexturs
+            if (qstId != null && !qstId.isEmpty() && plugin.hasQSTexturs()) {
+                itemStack = plugin.getHookManager().getItem(qstId);
+            }
 
-                ItemMeta meta = itemStack.getItemMeta();
-                meta.setDisplayName(MessageUtil.toLegacy(name));
+            // Si no existe QSTexturs, fallback a Base64 o Material normal
+            if (itemStack == null) {
 
-                if (!lore.isEmpty()) {
-                    List<String> coloredLore = new ArrayList<>();
-                    for (String line : lore) {
-                        coloredLore.add(MessageUtil.toLegacy(line));
+                // Primero Base64
+                String base64 = section.getString(id + ".itemstack");
+                if (base64 != null && !base64.isEmpty()) {
+                    itemStack = ItemSerializer.fromBase64(base64);
+                    if (itemStack == null) {
+                        itemStack = new ItemStack(mat);
                     }
-                    meta.setLore(coloredLore);
-                }
+                } else {
+                    // Material normal / cabeza personalizada
+                    if (mat == Material.PLAYER_HEAD && texture != null && !texture.isEmpty()) {
+                        itemStack = MenuItems.customHead(name, texture);
+                    } else {
+                        itemStack = new ItemStack(mat);
+                    }
 
-                itemStack.setItemMeta(meta);
+                    ItemMeta meta = itemStack.getItemMeta();
+                    if (meta != null) {
+                        meta.setDisplayName(MessageUtil.toLegacy(name));
+
+                        if (!lore.isEmpty()) {
+                            List<String> coloredLore = new ArrayList<>();
+                            for (String line : lore) {
+                                coloredLore.add(MessageUtil.toLegacy(line));
+                            }
+                            meta.setLore(coloredLore);
+                        }
+
+                        itemStack.setItemMeta(meta);
+                    }
+                }
             }
 
             // ================= ShopItem =================
@@ -158,7 +170,8 @@ public class ItemManager {
                     name,
                     buy,
                     sell,
-                    ItemSerializer.toBase64(itemStack) // Guardamos Base64 completo
+                    economy,
+                    ItemSerializer.toBase64(itemStack)
             );
 
             // ================= PROPIEDADES =================
@@ -189,6 +202,23 @@ public class ItemManager {
             config.save(file);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    // 🔥 AÑADE ESTE MÉTODO GETTER
+    public QSMarketPlus getPlugin() {
+        return this.plugin;
+    }
+
+
+    public void reloadAllItems() {
+
+        itemsRawByCategory.clear();
+        itemsSortedByCategory.clear();
+
+        for (ShopCategory category : plugin.getCategoryManager().getCategories().values()) {
+            loadCategoryItems(category);
         }
     }
 

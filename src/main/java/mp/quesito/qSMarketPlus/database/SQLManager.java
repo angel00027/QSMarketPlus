@@ -183,6 +183,7 @@ public class SQLManager {
         );
         """;
 
+
         // ======================= MySQL =======================
                 String mysqlSignShops = """
         CREATE TABLE IF NOT EXISTS sign_shops (
@@ -201,7 +202,22 @@ public class SQLManager {
             PRIMARY KEY (world, x, y, z)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         """;
+        // ======================= Unique Purchases =======================
+                String sqliteUnique = """
+            CREATE TABLE IF NOT EXISTS unique_purchases (
+                player_uuid TEXT NOT NULL,
+                item_id TEXT NOT NULL,
+                PRIMARY KEY(player_uuid, item_id)
+            );
+        """;
 
+                String mysqlUnique = """
+            CREATE TABLE IF NOT EXISTS unique_purchases (
+                player_uuid VARCHAR(36) NOT NULL,
+                item_id VARCHAR(64) NOT NULL,
+                PRIMARY KEY(player_uuid, item_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        """;
 
         if (db instanceof MySQLDatabase) {
             update(mysqlShops);
@@ -223,5 +239,17 @@ public class SQLManager {
         } else {
             update(sqliteSignShops);
         }
+
+        // Ejecutar tabla de compras únicas primero
+        if (db instanceof MySQLDatabase) {
+            update(mysqlUnique);
+        } else {
+            update(sqliteUnique);
+        }
+    }
+
+    // Dentro de SQLManager
+    public boolean isMySQL() {
+        return db instanceof MySQLDatabase;
     }
 }

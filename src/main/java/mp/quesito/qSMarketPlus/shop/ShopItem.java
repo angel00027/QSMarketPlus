@@ -1,7 +1,10 @@
 package mp.quesito.qSMarketPlus.shop;
 
 import mp.quesito.qSMarketPlus.utils.ItemSerializer;
+import mp.quesito.qSMarketPlus.utils.Lang;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -27,12 +30,14 @@ public class ShopItem {
     private List<String> lore;
     private List<String> commands;
     private List<String> sellCommands;
+    private String economy;
 
-    public ShopItem(String id, String name, double buy, double sell, String itemstackBase64) {
+    public ShopItem(String id, String name, double buy, double sell, String economy, String itemstackBase64) {
         this.id = id;
         this.name = name;
         this.buy = buy;
         this.sell = sell;
+        this.economy = economy;
         this.itemstackBase64 = itemstackBase64;
     }
 
@@ -75,14 +80,28 @@ public class ShopItem {
     public void setItemstackBase64(String base64) { this.itemstackBase64 = base64; }
 
     // ================= EJECUTAR COMANDOS =================
+    public String getEconomy() {
+        return economy;
+    }
+
     public boolean executeBuyCommands(Player player) {
         if (commands == null || commands.isEmpty()) return false;
 
+        // Ejecutar comandos de consola
         for (String cmd : commands) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%player%", player.getName()));
+            Bukkit.dispatchCommand(
+                    Bukkit.getConsoleSender(),
+                    cmd.replace("%player%", player.getName())
+            );
         }
 
-        player.sendMessage("§a¡Has adquirido §f" + MessageUtil.stripLegacy(name) + "§a!");
+        // Convertir name (MiniMessage) a Component
+        Component itemComponent = MiniMessage.miniMessage().deserialize(name);
+
+        // Mensaje configurable con MiniMessage y placeholder <item>
+        Lang.msg(player, "buy_command_success", "item", itemComponent);
+
+        // Sonido de éxito
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.2f);
 
         return true;

@@ -1,6 +1,8 @@
 package mp.quesito.qSMarketPlus.utils;
 
 import mp.quesito.qSMarketPlus.QSMarketPlus;
+import mp.quesito.qSMarketPlus.economia.EconomyProvider;
+import mp.quesito.qSMarketPlus.shop.ShopItem;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -97,22 +99,43 @@ public class MessageUtil {
                 .replace("%buy%", String.valueOf(buy))
                 .replace("%sell%", String.valueOf(sell));
     }
+    public static String priceFormat(String key, ShopItem item) {
 
-    public static String priceFormat(String key, double buy, double sell) {
+        double buy = item.getBuy();
+        double sell = item.getSell();
 
-        // Ocultar precio de compra si buy <= 0
-        if (key.equals("buy") && buy <= 0)
-            return "";
+        if (key.equals("buy") && buy <= 0) return "";
+        if (key.equals("sell") && sell <= 0) return "";
 
-        // Ocultar precio de venta si sell <= 0
-        if (key.equals("sell") && sell <= 0)
-            return "";
-
-        // Tomar formato de mensajes.yml
         String format = Lang.get("price-format." + key);
         if (format == null) return "";
 
-        return toLegacy(placeholders(format, buy, sell));
+        EconomyProvider eco = QSMarketPlus.getInstance()
+                .getEconomyManager()
+                .get(item.getEconomy());
+
+        String symbol = "$";
+        String currencyName = "Money";
+
+        if (eco != null) {
+
+            symbol = eco.getSymbol();
+
+            String id = eco.getName();
+
+            currencyName = QSMarketPlus.getInstance()
+                    .getConfig()
+                    .getString("economies." + id + ".display-name", id);
+        }
+
+        double price = key.equals("buy") ? buy : sell;
+
+        return toLegacy(
+                format
+                        .replace("%symbol%", symbol)
+                        .replace("%price%", String.valueOf(price))
+                        .replace("%currency%", currencyName)
+        );
     }
 
 
@@ -133,26 +156,5 @@ public class MessageUtil {
         title(player, title, subtitle, 10, 40, 10);
     }
 
-    // -------------------------
-    //   ACTIONBAR
-    // -------------------------
-    public static void action(Player player, String msg) {
-        adventure.player(player).sendActionBar(mm.deserialize(msg));
-    }
 
-    // -------------------------
-    //   ITEM DISPLAY
-    // -------------------------
-
-    // Nombre de item
-    public static Component itemName(String message) {
-        return mm.deserialize(message);
-    }
-
-    // Lore de item
-    public static List<Component> itemLore(List<String> lines) {
-        return lines.stream()
-                .map(mm::deserialize)
-                .collect(Collectors.toList());
-    }
 }

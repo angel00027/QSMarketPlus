@@ -5,6 +5,7 @@ items:
     material: STONE
     buy: 1
     sell: 0.5
+    economy: levels
     lore:
       - "<gray>Bloque común.</gray>"
 

@@ -1,49 +1,59 @@
 package mp.quesito.qSMarketPlus.manager;
 
 import mp.quesito.qSMarketPlus.QSMarketPlus;
+import mp.quesito.qSMarketPlus.database.SQLManager;
 import mp.quesito.qSMarketPlus.shop.ShopItem;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UniquePurchaseManager {
 
     private final QSMarketPlus plugin;
-    private final File file;
-    private final FileConfiguration data;
+    private final SQLManager sql;
 
     public UniquePurchaseManager(QSMarketPlus plugin) {
         this.plugin = plugin;
-        this.file = new File(plugin.getDataFolder(), "unique_purchases.yml");
+        this.sql = plugin.getSqlManager(); // Asegúrate de tener getter para SQLManager
+    }
 
-        if (!file.exists()) {
+    /**
+     * Comprueba si el jugador ya compró un ítem único
+     */
+    public boolean hasPurchased(Player player, ShopItem item) {
+        final boolean[] purchased = {false};
+
+        String sqlQuery = "SELECT 1 FROM unique_purchases WHERE player_uuid = ? AND item_id = ? LIMIT 1;";
+        sql.query(sqlQuery, rs -> {
             try {
-                file.createNewFile();
-            } catch (IOException e) {
+                purchased[0] = rs.next();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }, player.getUniqueId().toString(), item.getId());
 
-        this.data = YamlConfiguration.loadConfiguration(file);
+        return purchased[0];
     }
 
-    public boolean hasPurchased(Player player, ShopItem item) {
-        return data.getBoolean("unique_purchases." + player.getUniqueId() + "." + item.getId(), false);
-    }
-
+    /**
+     * Marca que el jugador compró un ítem único
+     */
     public void markPurchased(Player player, ShopItem item) {
-        data.set("unique_purchases." + player.getUniqueId() + "." + item.getId(), true);
-        save();
-    }
+        String sqlUpdate = """
+            INSERT INTO unique_purchases(player_uuid, item_id)
+            VALUES(?, ?)
+            ON CONFLICT(player_uuid, item_id) DO NOTHING;
+            """;
 
-    public void save() {
-        try {
-            data.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
+        // En MySQL ON CONFLICT se reemplaza por INSERT IGNORE
+        if (sql.isMySQL()) {
+            sqlUpdate = """
+                INSERT IGNORE INTO unique_purchases(player_uuid, item_id)
+                VALUES(?, ?);
+            """;
         }
+
+        sql.update(sqlUpdate, player.getUniqueId().toString(), item.getId());
     }
 }

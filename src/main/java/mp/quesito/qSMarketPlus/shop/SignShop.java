@@ -64,8 +64,8 @@ public class SignShop {
 
         sign.setLine(0, "§aTIENDA");
         sign.setLine(1, itemName);
-        sign.setLine(2, MessageUtil.priceFormat("buy", buyPrice, sellPrice));
-        sign.setLine(3, MessageUtil.priceFormat("sell", buyPrice, sellPrice));
+        sign.setLine(2, MessageUtil.priceFormat("buy", item));
+        sign.setLine(3, MessageUtil.priceFormat("sell", item));
         sign.update();
     }
 

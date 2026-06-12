@@ -1,73 +1,39 @@
 menu:
-  # Título del menú principal de la tienda
-  # Soporta MiniMessage (<green>, <bold>, colores hex, etc.)
   title: "<green>QSMarketPlus</green>"
-
-  # Número de filas del inventario (1–6)
   rows: 6
-
 
 buttons:
   close:
-    # Slot donde aparecerá el botón (0–53)
     slot: 49
-
-    # Material base del ítem
-    # Puede ser cualquier Material de Minecraft
-    material: "BARRIER"
-
-    # Textura personalizada (PLAYER_HEAD)
-    # Si se define, se ignora el material visualmente
-    # Compatible con enlaces de minecraft-heads.com
-    head: "http://textures.minecraft.net/texture/beb588b21a6f98ad1ff4e085c552dcb050efc9cab427f46048f18fc803475f7"
-
-    # Nombre del ítem
+    material: "BARRIER"          # ← O puedes usar...
+    head: "http://textures.minecraft.net/texture/beb588b21a6f98ad1ff4e085c552dcb050efc9cab427f46048f18fc803475f7"   # ← una textura de Minecraft-Heads
     name: "<red>Cerrar</red>"
-
-    # Lore del botón
     lore:
       - "<gray>Cierra el menú"
 
-
   sell-all:
-    # Slot del botón vender todo
     slot: 51
-
-    # Material base
     material: "GOLD_BLOCK"
-
-    # Nombre visible
     name: "<yellow>Vender todo</yellow>"
-
-    # Cabeza personalizada opcional
     head: "http://textures.minecraft.net/texture/9fd108383dfa5b02e86635609541520e4e158952d68c1c8f8f200ec7e88642d"
-
-    # Descripción
     lore:
       - "<gray>Vende todos tus items"
 
 
+
+
+
 categories:
   blocks:
-    # Nombre de la categoría
     name: "<c:#15A2DD>BLOQUES DE CONSTRUCCIÓN</c>"
-
-    # Material base (normalmente PLAYER_HEAD para categorías)
     material: PLAYER_HEAD
-
-    # Textura de la cabeza
     head: "http://textures.minecraft.net/texture/f91209a21302f764b37060c86062a515f533b1a4f90593653ab23b33bfd7a068"
-
-    # Slot dentro del menú
     slot: 10
-
-    # Lore descriptivo
     lore:
       - "<gray>Todo tipo de bloques"
       - "<gray>para construcción."
-      - " "
-      - "<c:#15A2DD>→ <b><u>CLICK</u></b> para explorar</c>"
-
+      - ' '
+      - <c:#15A2DD>→ <b><u>CLICK</u></b> para explorar</c>
 
   blockscolors:
     name: "<c:#FF7222>BLOQUES DE COLORES</c>"
@@ -75,11 +41,10 @@ categories:
     head: "http://textures.minecraft.net/texture/7a7d6c0accd2e9ccaefa96b9438d6e202fec795acf7072bcfd9cd9d4b5a32b0e"
     slot: 11
     lore:
-      - "<gray>Embellece tus construcciones con</gray>"
-      - "<gray>diferentes colores de bloques.</gray>"
-      - " "
-      - "<c:#FF7222>→ <b><u>CLICK</u></b> para explorar</c>"
-
+      - '<gray>Embellece tus construcciones con</gray>'
+      - '<gray>diferentes colores de bloques.</gray>'
+      - ' '
+      - <c:#FF7222>→ <b><u>CLICK</u></b> para explorar</c>
 
   combat_tools:
     name: "<c:#7FEFD0>COMBATE & HERRAMIENTAS</c>"
@@ -87,11 +52,10 @@ categories:
     head: "http://textures.minecraft.net/texture/a8832c1466c841cc79d5f10295d464279967975a2451c7a533c7996897408bea"
     slot: 12
     lore:
-      - "<gray>¿Necesitas equipo para PvP</gray>"
-      - "<gray>o algunas herramientas?</gray>"
-      - " "
-      - "<c:#7FEFD0>→ <b><u>CLICK</u></b> para explorar</c>"
-
+    - <gray>¿Necesitas equipo para PvP</gray>
+    - <gray>o algunas herramientas?</gray>
+    - ' '
+    - <c:#7FEFD0>→ <b><u>CLICK</u></b> para explorar</c>
 
   decoration:
     name: "<c:#E78A8A>DECORACIÓN</c>"
@@ -99,11 +63,10 @@ categories:
     head: "http://textures.minecraft.net/texture/55c5a3338b9b2b17f0fcea34584b1370efc9b5b27923902294f03099155215fc"
     slot: 13
     lore:
-      - "<gray>Decora tus construcciones con</gray>"
-      - "<gray>flores, hojas y más!</gray>"
-      - " "
-      - "<c:#E78A8A>→ <b><u>CLICK</u></b> para explorar</c>"
-
+    - <gray>Decora tus construcciones con</gray>
+    - <gray>flores, hojas y más!</gray>
+    - ' '
+    - <c:#E78A8A>→ <b><u>CLICK</u></b> para explorar</c>
 
   farming:
     name: "<c:#FFD05A>AGRICULTURA</c>"
@@ -111,11 +74,10 @@ categories:
     head: "http://textures.minecraft.net/texture/26459be09998e50abd2ccf4cd383e6b38ab5bc905facb66dce0e14e038ba1968"
     slot: 14
     lore:
-      - "<gray>Crea tu propio jardín y</gray>"
-      - "<gray>comienza a ganar tu dinero.</gray>"
-      - " "
-      - "<c:#FFD05A>→ <b><u>CLICK</u></b> para explorar</c>"
-
+    - <gray>Crea tu propio jardín y<gray>
+    - <gray>comienza a ganar tu dinero.<gray>
+    - ' '
+    - <c:#FFD05A>→ <b><u>CLICK</u></b> para explorar</c>
 
   food:
     name: "<c:#ABE5A7>COMIDA</c>"
@@ -123,11 +85,10 @@ categories:
     head: "http://textures.minecraft.net/texture/ca9c8753780ebc39c351da8efd91bce90bd8cca7b511f93e78df75f6615c79a6"
     slot: 15
     lore:
-      - "<gray>¡No tengas hambre! Compra</gray>"
-      - "<gray>comida deliciosa y aliméntate.</gray>"
-      - " "
-      - "<c:#ABE5A7>→ <b><u>CLICK</u></b> para explorar</c>"
-
+      - "<gray>¡No tengas hambre! Compra"
+      - "<gray>comida deliciosa y aliméntate."
+      - ' '
+      - <c:#ABE5A7>→ <b><u>CLICK</u></b> para explorar</c>
 
   minerales:
     name: "<c:#FF5733>MINERALES</c>"
@@ -135,11 +96,10 @@ categories:
     head: "http://textures.minecraft.net/texture/90bb41a9ed2a6b57464a7938a4ebaf89f3e2a3856da6bff86bb442efc6fe5de5"
     slot: 16
     lore:
-      - "<gray>Encuentra y compra minerales</gray>"
-      - "<gray>valiosos para tus proyectos.</gray>"
-      - " "
-      - "<c:#FF5733>→ <b><u>CLICK</u></b> para explorar</c>"
-
+      - "<gray>Encuentra y compra minerales"
+      - "<gray>valiosos para tus proyectos."
+      - ' '
+      - <c:#FF5733>→ <b><u>CLICK</u></b> para explorar</c>
 
   miscellaneous:
     name: "<c:#DDA0DD>VARIOS</c>"
@@ -147,11 +107,10 @@ categories:
     head: "http://textures.minecraft.net/texture/4bc355ef41bc9f819260a81e70a7bf2892b29523826ed4d0fa400c58334ccfe0"
     slot: 19
     lore:
-      - "<gray>Encuentra una variedad de</gray>"
-      - "<gray>artículos únicos aquí.</gray>"
-      - " "
-      - "<c:#DDA0DD>→ <b><u>CLICK</u></b> para explorar</c>"
-
+      - "<gray>Encuentra una variedad de"
+      - "<gray>artículos únicos aquí."
+      - ' '
+      - <c:#DDA0DD>→ <b><u>CLICK</u></b> para explorar</c>
 
   mob_drops:
     name: "<c:#FFA500>BOTÍN DE MOBS</c>"
@@ -159,25 +118,21 @@ categories:
     head: "http://textures.minecraft.net/texture/6b2feb9f9d867f80ef4fa94136461919666b8d74230d149d5958355f362fe1f3"
     slot: 20
     lore:
-      - "<gray>Consigue botines dejados por</gray>"
-      - "<gray>criaturas y mobs.</gray>"
-      - " "
-      - "<c:#FFA500>→ <b><u>CLICK</u></b> para explorar</c>"
-
+      - "<gray>Consigue botines dejados por"
+      - "<gray>criaturas y mobs."
+      - ' '
+      - <c:#FFA500>→ <b><u>CLICK</u></b> para explorar</c>
 
   potions:
     name: "<c:#8A2BE2>POCIONES</c>"
     material: PLAYER_HEAD
-
-    # Textura en Base64 (también soportada)
     head: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjJiMGExY2EzOTlmMzVkYzU0NTE5YzRjOTk2Zjk2MjlhNTEwYzQ5OTM4MTUxZjc1OWVjOGYwNzA0MWU3ODU2NiJ9fX0="
     slot: 21
     lore:
-      - "<gray>Compra pociones mágicas</gray>"
-      - "<gray>para mejorar tus habilidades.</gray>"
-      - " "
-      - "<c:#8A2BE2>→ <b><u>CLICK</u></b> para explorar</c>"
-
+      - "<gray>Compra pociones mágicas"
+      - "<gray>para mejorar tus habilidades."
+      - ' '
+      - <c:#8A2BE2>→ <b><u>CLICK</u></b> para explorar</c>
 
   redstone:
     name: "<c:#FF0000>REDSTONE & MECÁNICAS</c>"
@@ -185,26 +140,41 @@ categories:
     head: "http://textures.minecraft.net/texture/aea9e885e93f964e0075a75e9ae25cdabda2ffa5d12feedfab0f889b3edbbe6b"
     slot: 22
     lore:
-      - "<gray>Explora componentes de</gray>"
-      - "<gray>Redstone y mecánicas.</gray>"
-      - " "
-      - "<c:#FF0000>→ <b><u>CLICK</u></b> para explorar</c>"
-
+      - "<gray>Explora componentes de"
+      - "<gray>Redstone y mecánicas."
+      - ' '
+      - <c:#FF0000>→ <b><u>CLICK</u></b> para explorar</c>
 
   cabezas:
     name: "<c:#FFD700>HEADS & DECORACIONES</c>"
     material: PLAYER_HEAD
     head: "http://textures.minecraft.net/texture/17661066e036453278d25bf75a305409579e4275e9a043075d5770c7f621f677"
-
-    # Permiso requerido para ver/usar la categoría
     requiredPermission: "qsmarketplus.category.heads"
-
-    # Grupo requerido (opcional, depende del plugin de permisos)
     requiredGroup: "vip_epico"
-
     slot: 23
     lore:
-      - "<gray>Encuentra cabezas decorativas</gray>"
-      - "<gray>y artículos únicos.</gray>"
-      - " "
-      - "<c:#FFD700>→ <b><u>CLICK</u></b> para explorar</c>"
+      - "<gray>Encuentra cabezas decorativas"
+      - "<gray>y artículos únicos."
+      - ' '
+      - <c:#FFD700>→ <b><u>CLICK</u></b> para explorar</c>
+
+  base64:
+    name: "<c:#FFD700>Items Base64</c>"
+    material: PLAYER_HEAD
+    head: "http://textures.minecraft.net/texture/17661066e036453278d25bf75a305409579e4275e9a043075d5770c7f621f677"
+    requiredPermission: "qsmarketplus.category.base64"
+    slot: 24
+    lore:
+      - "<gray>Items personalizados"
+      - ' '
+      - <c:#FFD700>→ <b><u>CLICK</u></b> para explorar</c>
+  rangos:
+    name: "<c:#FFD700>items de comandos y rangos</c>"
+    material: PLAYER_HEAD
+    head: "http://textures.minecraft.net/texture/17661066e036453278d25bf75a305409579e4275e9a043075d5770c7f621f677"
+    requiredPermission: "qsmarketplus.category.rangos"
+    slot: 25
+    lore:
+      - "<gray>Items especiales de comandos"
+      - ' '
+      - <c:#FFD700>→ <b><u>CLICK</u></b> para explorar</c>

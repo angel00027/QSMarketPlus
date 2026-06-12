@@ -5,7 +5,6 @@ items:
     buy: 500
     sell: 0
     only_once: true
-    permission: "qsmarket.vip"
     lore:
       - "<yellow>✨ Este kit contiene artículos exclusivos para VIPs."
       - "<green>✔ Incluye diamantes y más sorpresas."
@@ -24,5 +23,14 @@ items:
     only_once: true
     permission: "qsmarket.rewards"
     commands:
-      - "eco give %player% gold 10"
+      - "eco give %player% 10"
       - "say %player% ha recibido su recompensa"
+
+  silla:
+    name: "<aqua>Silla de decoracion</aqua>"
+    material: TRIPWIRE_HOOK
+    qstexture: "mi_plugin:silla" 
+    buy: 50
+    sell: 0
+    lore:
+      - "<gray>Llave especial para abrir cofres de recompensa.</gray>"

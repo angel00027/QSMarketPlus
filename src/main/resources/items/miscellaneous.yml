@@ -1,330 +1,253 @@
 items:
-
-  # --- Transporte y rieles ---
   minecart:
-    name: "<white>Vagón simple</white>"
+    name: <white>Vagón simple</white>
     material: MINECART
-    buy: 6
-    sell: 3
+    buy: 90.0
+    sell: 15.0
     lore:
-      - "<gray>Vagón para transportar jugadores o mobs.</gray>"
-
-
+    - <white>Vagón para transportar jugadores o mobs.</white>
   chest_minecart:
-    name: "<white>Vagón con cofre</white>"
+    name: <white>Vagón con cofre</white>
     material: CHEST_MINECART
-    buy: 9
-    sell: 4.5
+    buy: 135.0
+    sell: 22.5
     lore:
-      - "<gray>Transporte de almacenamiento.</gray>"
-
-
+    - <white>Transporte de almacenamiento.</white>
   furnace_minecart:
-    name: "<white>Vagón con horno</white>"
+    name: <white>Vagón con horno</white>
     material: FURNACE_MINECART
-    buy: 10
-    sell: 5
+    buy: 150.0
+    sell: 25.0
     lore:
-      - "<gray>Vagón propulsado con carbón.</gray>"
-
-
+    - <white>Vagón propulsado con carbón.</white>
   tnt_minecart:
-    name: "<red>Vagón TNT</red>"
+    name: <white>Vagón TNT</white>
     material: TNT_MINECART
-    buy: 18
-    sell: 9
+    buy: 270.0
+    sell: 45.0
     lore:
-      - "<gray>Peligroso al activarse.</gray>"
-
-
+    - <white>Peligroso al activarse.</white>
   rail:
-    name: "<gray>Riel</gray>"
+    name: <white>Riel</white>
     material: RAIL
-    buy: 0.5
-    sell: 0.2
+    buy: 7.5
+    sell: 1.0
     lore:
-      - "<gray>Riel básico.</gray>"
-
-
+    - <white>Riel básico.</white>
   powered_rail:
-    name: "<gold>Riel propulsor</gold>"
+    name: <white>Riel propulsor</white>
     material: POWERED_RAIL
-    buy: 2
-    sell: 1
+    buy: 30.0
+    sell: 5.0
     lore:
-      - "<gray>Acelera vagones.</gray>"
-
-
+    - <white>Acelera vagones.</white>
   detector_rail:
-    name: "<gold>Riel detector</gold>"
+    name: <white>Riel detector</white>
     material: DETECTOR_RAIL
-    buy: 2
-    sell: 1
+    buy: 30.0
+    sell: 5.0
     lore:
-      - "<gray>Detecta vagones.</gray>"
-
-
+    - <white>Detecta vagones.</white>
   activator_rail:
-    name: "<gold>Riel activador</gold>"
+    name: <white>Riel activador</white>
     material: ACTIVATOR_RAIL
-    buy: 2
-    sell: 1
+    buy: 30.0
+    sell: 5.0
     lore:
-      - "<gray>Activa funciones especiales.</gray>"
-
-
-  # --- Botes ---
+    - <white>Activa funciones especiales.</white>
   oak_boat:
-    name: "<white>Bote (roble)</white>"
+    name: <white>Bote (roble)</white>
     material: OAK_BOAT
-    buy: 3
-    sell: 1.5
+    buy: 45.0
+    sell: 7.5
     lore:
-      - "<gray>Bote básico de roble.</gray>"
-
-
+    - <white>Bote básico de roble.</white>
   spruce_boat:
-    name: "<white>Bote (abeto)</white>"
+    name: <white>Bote (abeto)</white>
     material: SPRUCE_BOAT
-    buy: 3
-    sell: 1.5
+    buy: 45.0
+    sell: 7.5
     lore:
-      - "<gray>Bote de abeto.</gray>"
-
-
+    - <white>Bote de abeto.</white>
   birch_boat:
-    name: "<white>Bote (abedul)</white>"
+    name: <white>Bote (abedul)</white>
     material: BIRCH_BOAT
-    buy: 3
-    sell: 1.5
+    buy: 45.0
+    sell: 7.5
     lore:
-      - "<gray>Bote de abedul.</gray>"
-
-
+    - <white>Bote de abedul.</white>
   jungle_boat:
-    name: "<white>Bote (jungla)</white>"
+    name: <white>Bote (jungla)</white>
     material: JUNGLE_BOAT
-    buy: 3
-    sell: 1.5
+    buy: 45.0
+    sell: 7.5
     lore:
-      - "<gray>Bote de jungla.</gray>"
-
-
+    - <white>Bote de jungla.</white>
   acacia_boat:
-    name: "<white>Bote (acacia)</white>"
+    name: <white>Bote (acacia)</white>
     material: ACACIA_BOAT
-    buy: 3
-    sell: 1.5
+    buy: 45.0
+    sell: 7.5
     lore:
-      - "<gray>Bote de acacia.</gray>"
-
-
+    - <white>Bote de acacia.</white>
   dark_oak_boat:
-    name: "<white>Bote (roble oscuro)</white>"
+    name: <white>Bote (roble oscuro)</white>
     material: DARK_OAK_BOAT
-    buy: 3
-    sell: 1.5
+    buy: 45.0
+    sell: 7.5
     lore:
-      - "<gray>Bote de roble oscuro.</gray>"
-
-
+    - <white>Bote de roble oscuro.</white>
   mangrove_boat:
-    name: "<white>Bote (mangle)</white>"
+    name: <white>Bote (mangle)</white>
     material: MANGROVE_BOAT
-    buy: 3
-    sell: 1.5
+    buy: 45.0
+    sell: 7.5
     lore:
-      - "<gray>Bote de mangle.</gray>"
-
-
-  # --- Cubos ---
+    - <white>Bote de mangle.</white>
   bucket:
-    name: "<white>Cubo vacío</white>"
+    name: <white>Cubo vacío</white>
     material: BUCKET
-    buy: 2
-    sell: 1
+    buy: 30.0
+    sell: 5.0
     lore:
-      - "<gray>Cubo básico.</gray>"
-
-
+    - <white>Cubo básico.</white>
   water_bucket:
-    name: "<aqua>Cubo de agua</aqua>"
+    name: <white>Cubo de agua</white>
     material: WATER_BUCKET
-    buy: 6
-    sell: 3
+    buy: 90.0
+    sell: 15.0
     lore:
-      - "<gray>Contiene agua.</gray>"
-
-
+    - <white>Contiene agua.</white>
   lava_bucket:
-    name: "<red>Cubo de lava</red>"
+    name: <white>Cubo de lava</white>
     material: LAVA_BUCKET
-    buy: 10
-    sell: 5
+    buy: 150.0
+    sell: 25.0
     lore:
-      - "<gray>Combustible poderoso.</gray>"
-
-
+    - <white>Combustible poderoso.</white>
   milk_bucket:
-    name: "<white>Cubo de leche</white>"
+    name: <white>Cubo de leche</white>
     material: MILK_BUCKET
-    buy: 5
-    sell: 2.5
+    buy: 75.0
+    sell: 12.5
     lore:
-      - "<gray>Quita efectos negativos.</gray>"
-
-
-  # --- Utilitarios ---
+    - <white>Quita efectos negativos.</white>
   shears:
-    name: "<white>Tijeras</white>"
+    name: <white>Tijeras</white>
     material: SHEARS
-    buy: 2
-    sell: 1
+    buy: 30.0
+    sell: 5.0
     lore:
-      - "<gray>Para lana y hojas.</gray>"
-
-
+    - <white>Para lana y hojas.</white>
   fishing_rod:
-    name: "<white>Caña de pescar</white>"
+    name: <white>Caña de pescar</white>
     material: FISHING_ROD
-    buy: 4
-    sell: 2
+    buy: 60.0
+    sell: 10.0
     lore:
-      - "<gray>Permite pescar.</gray>"
-
-
+    - <white>Permite pescar.</white>
   lead:
-    name: "<white>Correa</white>"
+    name: <white>Correa</white>
     material: LEAD
-    buy: 3
-    sell: 1.5
+    buy: 45.0
+    sell: 7.5
     lore:
-      - "<gray>Amarra mobs.</gray>"
-
-
+    - <white>Amarra mobs.</white>
   name_tag:
-    name: "<white>Etiqueta de nombre</white>"
+    name: <white>Etiqueta de nombre</white>
     material: NAME_TAG
-    buy: 12
-    sell: 6
+    buy: 180.0
+    sell: 30.0
     lore:
-      - "<gray>Nombrar mobs.</gray>"
-
-
+    - <white>Nombrar mobs.</white>
   saddle:
-    name: "<white>Silla de montar</white>"
+    name: <white>Silla de montar</white>
     material: SADDLE
-    buy: 20
-    sell: 10
+    buy: 300.0
+    sell: 50.0
     lore:
-      - "<gray>Montar mobs.</gray>"
-
-
+    - <white>Montar mobs.</white>
   compass:
-    name: "<white>Brújula</white>"
+    name: <white>Brújula</white>
     material: COMPASS
-    buy: 4
-    sell: 2
+    buy: 60.0
+    sell: 10.0
     lore:
-      - "<gray>Indica el spawn.</gray>"
-
-
+    - <white>Indica el spawn.</white>
   clock:
-    name: "<white>Reloj</white>"
+    name: <white>Reloj</white>
     material: CLOCK
-    buy: 3
-    sell: 1.5
+    buy: 45.0
+    sell: 7.5
     lore:
-      - "<gray>Muestra día y noche.</gray>"
-
-
+    - <white>Muestra día y noche.</white>
   map:
-    name: "<white>Mapa</white>"
+    name: <white>Mapa</white>
     material: MAP
-    buy: 5
+    buy: 75.0
+    sell: 12.5
+    lore:
+    - <white>Mapa en blanco.</white>
+  paper:
+    name: <white>Papel</white>
+    material: PAPER
+    buy: 3.0
+    sell: 0.4
+    lore:
+    - <white>Material básico.</white>
+  book:
+    name: <white>Libro</white>
+    material: BOOK
+    buy: 15.0
     sell: 2.5
     lore:
-      - "<gray>Mapa en blanco.</gray>"
-
-
-  paper:
-    name: "<white>Papel</white>"
-    material: PAPER
-    buy: 0.2
-    sell: 0.08
-    lore:
-      - "<gray>Material básico.</gray>"
-
-
-  book:
-    name: "<white>Libro</white>"
-    material: BOOK
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Base para encantamientos.</gray>"
-
-
+    - <white>Base para encantamientos.</white>
   anvil:
-    name: "<gray>Yunque</gray>"
+    name: <white>Yunque</white>
     material: ANVIL
-    buy: 40
-    sell: 20
+    buy: 720.0
+    sell: 120.0
     lore:
-      - "<gray>Reparar y combinar objetos.</gray>"
-
-
+    - <white>Reparar y combinar objetos.</white>
   enchantment_table:
-    name: "<dark_purple>Mesa de encantamientos</dark_purple>"
+    name: <white>Mesa de encantamientos</white>
     material: ENCHANTING_TABLE
-    buy: 60
-    sell: 30
+    buy: 1080.0
+    sell: 180.0
     lore:
-      - "<gray>Permite encantar.</gray>"
-
-
+    - <white>Permite encantar.</white>
   grindstone:
-    name: "<gray>Rueda de afilado</gray>"
+    name: <white>Rueda de afilado</white>
     material: GRINDSTONE
-    buy: 12
-    sell: 6
+    buy: 180.0
+    sell: 30.0
     lore:
-      - "<gray>Borra encantamientos.</gray>"
-
-
+    - <white>Borra encantamientos.</white>
   smithing_table:
-    name: "<gray>Mesa de herrero</gray>"
+    name: <white>Mesa de herrero</white>
     material: SMITHING_TABLE
-    buy: 20
-    sell: 10
+    buy: 360.0
+    sell: 60.0
     lore:
-      - "<gray>Actualizar a netherita.</gray>"
-
-
+    - <white>Actualizar a netherita.</white>
   beacon:
-    name: "<aqua>Faro (Beacon)</aqua>"
+    name: <white>Faro (Beacon)</white>
     material: BEACON
-    buy: 500
-    sell: 250
+    buy: 9000.0
+    sell: 1500.0
     lore:
-      - "<gray>Da efectos de área.</gray>"
-
-
-  # --- Varios ---
+    - <white>Da efectos de área.</white>
   ender_pearl:
-    name: "<purple>Perla de Ender</purple>"
+    name: <white>Perla de Ender</white>
     material: ENDER_PEARL
-    buy: 12
-    sell: 6
+    buy: 180.0
+    sell: 30.0
     lore:
-      - "<gray>Teletransportación.</gray>"
-
-
+    - <white>Teletransportación.</white>
   eye_of_ender:
-    name: "<purple>Ojo de Ender</purple>"
+    name: <white>Ojo de Ender</white>
     material: ENDER_EYE
-    buy: 20
-    sell: 10
+    buy: 300.0
+    sell: 50.0
     lore:
-      - "<gray>Localiza strongholds.</gray>"
-
+    - <white>Localiza strongholds.</white>

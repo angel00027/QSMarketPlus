@@ -2,521 +2,393 @@ items:
   
   # --- Pociones comunes ---
   potion_water:
-    name: <aqua>Poción de agua</aqua>
+    name: <white>Poción de agua</white>
     material: POTION
-    buy: 2
-    sell: 1
+    buy: 3
     lore:
-    - <gray>Agua embotellada; ingrediente base para pociones.</gray>
-
-  
+    - <white>Agua embotellada; ingrediente base para pociones.</white>
   potion_night_vision:
-    name: <aqua>Poción de visión nocturna</aqua>
+    name: <white>Poción de visión nocturna</white>
     material: POTION
     potion-effect: NIGHT_VISION
     potion-level: 1
     potion-duration: 180
-    buy: 30
-    sell: 15
+    buy: 45
     lore:
-    - <gray>Ver en la oscuridad por 3 minutos.</gray>
-
-  
+    - <white>Ver en la oscuridad por 3 minutos.</white>
   potion_invisibility:
-    name: <purple>Poción de invisibilidad</purple>
+    name: <white>Poción de invisibilidad</white>
     material: POTION
     potion-effect: INVISIBILITY
     potion-level: 1
     potion-duration: 180
-    buy: 40
-    sell: 20
+    buy: 60
     lore:
-    - <gray>Hacerse invisible por 3 minutos.</gray>
-
-  
+    - <white>Hacerse invisible por 3 minutos.</white>
   potion_leaping:
-    name: <green>Poción de salto</green>
+    name: <white>Poción de salto</white>
     material: POTION
     potion-effect: JUMP_BOOST
     potion-level: 1
     potion-duration: 180
-    buy: 20
-    sell: 10
+    buy: 30
     lore:
-    - <gray>Saltar más alto por 3 minutos.</gray>
-
-  
+    - <white>Saltar más alto por 3 minutos.</white>
   potion_fire_resistance:
-    name: <red>Poción de resistencia al fuego</red>
+    name: <white>Poción de resistencia al fuego</white>
     material: POTION
     potion-effect: FIRE_RESISTANCE
     potion-level: 1
     potion-duration: 180
-    buy: 35
-    sell: 17.5
+    buy: 52.5
     lore:
-    - <gray>Resistir el fuego y lava por 3 minutos.</gray>
-
-  
+    - <white>Resistir el fuego y lava por 3 minutos.</white>
   potion_swiftness:
-    name: <yellow>Poción de celeridad</yellow>
+    name: <white>Poción de celeridad</white>
     material: POTION
     potion-effect: SPEED
     potion-level: 1
     potion-duration: 180
-    buy: 25
-    sell: 12.5
+    buy: 37.5
     lore:
-    - <gray>Aumenta la velocidad por 3 minutos.</gray>
-
-  
+    - <white>Aumenta la velocidad por 3 minutos.</white>
   potion_slowness:
-    name: <gray>Poción de lentitud</gray>
+    name: <white>Poción de lentitud</white>
     material: POTION
     potion-effect: SLOWNESS
     potion-level: 1
     potion-duration: 90
-    buy: 15
-    sell: 7.5
+    buy: 22.5
     lore:
-    - <gray>Reduce la velocidad del objetivo.</gray>
-
-  
+    - <white>Reduce la velocidad del objetivo.</white>
   potion_underwater_breathing:
-    name: <aqua>Poción de respiración acuática</aqua>
+    name: <white>Poción de respiración acuática</white>
     material: POTION
     potion-effect: WATER_BREATHING
     potion-level: 1
     potion-duration: 180
-    buy: 45
-    sell: 22.5
+    buy: 67.5
     lore:
-    - <gray>Respirar bajo el agua por 3 minutos.</gray>
-
-  
+    - <white>Respirar bajo el agua por 3 minutos.</white>
   potion_healing:
-    name: <red>Poción de curación</red>
+    name: <white>Poción de curación</white>
     material: POTION
     potion-effect: INSTANT_HEALTH
     potion-level: 1
     potion-duration: 1
-    buy: 30
-    sell: 15
+    buy: 45
     lore:
-    - <gray>Restaura salud instantáneamente.</gray>
-
-  
+    - <white>Restaura salud instantáneamente.</white>
   potion_harming:
-    name: <dark_red>Poción de daño</dark_red>
+    name: <white>Poción de daño</white>
     material: POTION
     potion-effect: INSTANT_DAMAGE
     potion-level: 1
     potion-duration: 1
-    buy: 25
-    sell: 12.5
+    buy: 37.5
     lore:
-    - <gray>Causa daño instantáneo.</gray>
-
-  
+    - <white>Causa daño instantáneo.</white>
   potion_poison:
-    name: <green>Poción de veneno</green>
+    name: <white>Poción de veneno</white>
     material: POTION
     potion-effect: POISON
     potion-level: 1
     potion-duration: 45
-    buy: 20
-    sell: 10
+    buy: 30
     lore:
-    - <gray>Envenenamiento gradual por 45 segundos.</gray>
-
-  
+    - <white>Envenenamiento gradual por 45 segundos.</white>
   potion_regeneration:
-    name: <dark_red>Poción de regeneración</dark_red>
+    name: <white>Poción de regeneración</white>
     material: POTION
     potion-effect: REGENERATION
     potion-level: 1
     potion-duration: 45
-    buy: 50
-    sell: 25
+    buy: 75
     lore:
-    - <gray>Regeneración de salud por 45 segundos.</gray>
-
-  
+    - <white>Regeneración de salud por 45 segundos.</white>
   potion_strength:
-    name: <red>Poción de fuerza</red>
+    name: <white>Poción de fuerza</white>
     material: POTION
     potion-effect: STRENGTH
     potion-level: 1
     potion-duration: 180
-    buy: 35
-    sell: 17.5
+    buy: 52.5
     lore:
-    - <gray>Aumenta el daño del ataque por 3 minutos.</gray>
-
-  
+    - <white>Aumenta el daño del ataque por 3 minutos.</white>
   potion_weakness:
-    name: <gray>Poción de debilidad</gray>
+    name: <white>Poción de debilidad</white>
     material: POTION
     potion-effect: WEAKNESS
     potion-level: 1
     potion-duration: 90
-    buy: 15
-    sell: 7.5
+    buy: 22.5
     lore:
-    - <gray>Reduce el daño del ataque del objetivo.</gray>
-
-  
+    - <white>Reduce el daño del ataque del objetivo.</white>
   potion_luck:
-    name: <gold>Poción de suerte</gold>
+    name: <white>Poción de suerte</white>
     material: POTION
     potion-effect: LUCK
     potion-level: 1
     potion-duration: 300
-    buy: 60
-    sell: 30
+    buy: 90
     lore:
-    - <gray>Aumenta calidad de botines por 5 minutos.</gray>
-
-  
+    - <white>Aumenta calidad de botines por 5 minutos.</white>
   potion_slow_falling:
-    name: <blue>Poción de caída lenta</blue>
+    name: <white>Poción de caída lenta</white>
     material: POTION
     potion-effect: SLOW_FALLING
     potion-level: 1
     potion-duration: 90
-    buy: 40
-    sell: 20
+    buy: 60
     lore:
-    - <gray>Cae lentamente por 1.5 minutos.</gray>
-
-  
+    - <white>Cae lentamente por 1.5 minutos.</white>
   potion_wind_charge:
     name: <white>Poción de viento (wind charge)</white>
     material: POTION
     potion-effect: SPEED
     potion-level: 1
     potion-duration: 60
-    buy: 35
-    sell: 17.5
+    buy: 52.5
     lore:
-    - <gray>Efecto de velocidad y rebote (simulado).</gray>
-
-  
+    - <white>Efecto de velocidad y rebote (simulado).</white>
   # --- Pociones extendidas (8:00) ---
   potion_night_vision_extended:
-    name: <aqua>Poción de visión nocturna (extendida)</aqua>
+    name: <white>Poción de visión nocturna (extendida)</white>
     material: POTION
     potion-effect: NIGHT_VISION
     potion-level: 1
     potion-duration: 480
-    buy: 40
-    sell: 20
+    buy: 60
     lore:
-    - <gray>Visión nocturna por 8 minutos.</gray>
-
-  
+    - <white>Visión nocturna por 8 minutos.</white>
   potion_invisibility_extended:
-    name: <purple>Poción de invisibilidad (extendida)</purple>
+    name: <white>Poción de invisibilidad (extendida)</white>
     material: POTION
     potion-effect: INVISIBILITY
     potion-level: 1
     potion-duration: 480
-    buy: 50
-    sell: 25
+    buy: 75
     lore:
-    - <gray>Invisibilidad por 8 minutos.</gray>
-
-  
+    - <white>Invisibilidad por 8 minutos.</white>
   potion_fire_resistance_extended:
-    name: <red>Poción de resistencia al fuego (extendida)</red>
+    name: <white>Poción de resistencia al fuego (extendida)</white>
     material: POTION
     potion-effect: FIRE_RESISTANCE
     potion-level: 1
     potion-duration: 480
-    buy: 45
-    sell: 22.5
+    buy: 67.5
     lore:
-    - <gray>Resistencia al fuego por 8 minutos.</gray>
-
-  
+    - <white>Resistencia al fuego por 8 minutos.</white>
   potion_swiftness_extended:
-    name: <yellow>Poción de celeridad (extendida)</yellow>
+    name: <white>Poción de celeridad (extendida)</white>
     material: POTION
     potion-effect: SPEED
     potion-level: 1
     potion-duration: 480
-    buy: 35
-    sell: 17.5
+    buy: 52.5
     lore:
-    - <gray>Celeridad por 8 minutos.</gray>
-
-  
+    - <white>Celeridad por 8 minutos.</white>
   potion_underwater_breathing_extended:
-    name: <aqua>Poción de respiración acuática (extendida)</aqua>
+    name: <white>Poción de respiración acuática (extendida)</white>
     material: POTION
     potion-effect: WATER_BREATHING
     potion-level: 1
     potion-duration: 480
-    buy: 60
-    sell: 30
+    buy: 90
     lore:
-    - <gray>Respiración acuática por 8 minutos.</gray>
-
-  
+    - <white>Respiración acuática por 8 minutos.</white>
   # --- Pociones mejoradas (II - Potenciadas) ---
   potion_leaping_strong:
-    name: <green>Poción de salto (II)</green>
+    name: <white>Poción de salto (II)</white>
     material: POTION
     potion-effect: JUMP_BOOST
     potion-level: 2
     potion-duration: 90
-    buy: 30
-    sell: 15
+    buy: 45
     lore:
-    - <gray>Salto potenciado por 1.5 minutos.</gray>
-
-  
+    - <white>Salto potenciado por 1.5 minutos.</white>
   potion_swiftness_strong:
-    name: <yellow>Poción de celeridad (II)</yellow>
+    name: <white>Poción de celeridad (II)</white>
     material: POTION
     potion-effect: SPEED
     potion-level: 2
     potion-duration: 90
-    buy: 40
-    sell: 20
+    buy: 60
     lore:
-    - <gray>Celeridad potenciada por 1.5 minutos.</gray>
-
-  
+    - <white>Celeridad potenciada por 1.5 minutos.</white>
   potion_healing_strong:
-    name: <red>Poción de curación (II)</red>
+    name: <white>Poción de curación (II)</white>
     material: POTION
     potion-effect: INSTANT_HEALTH
     potion-level: 2
     potion-duration: 1
-    buy: 45
-    sell: 22.5
+    buy: 67.5
     lore:
-    - <gray>Curación potenciada.</gray>
-
-  
+    - <white>Curación potenciada.</white>
   potion_harming_strong:
-    name: <dark_red>Poción de daño (II)</dark_red>
+    name: <white>Poción de daño (II)</white>
     material: POTION
     potion-effect: INSTANT_DAMAGE
     potion-level: 2
     potion-duration: 1
-    buy: 35
-    sell: 17.5
+    buy: 52.5
     lore:
-    - <gray>Daño potenciado.</gray>
-
-  
+    - <white>Daño potenciado.</white>
   potion_poison_strong:
-    name: <green>Poción de veneno (II)</green>
+    name: <white>Poción de veneno (II)</white>
     material: POTION
     potion-effect: POISON
     potion-level: 2
     potion-duration: 21
-    buy: 30
-    sell: 15
+    buy: 45
     lore:
-    - <gray>Veneno potenciado.</gray>
-
-  
+    - <white>Veneno potenciado.</white>
   potion_regeneration_strong:
-    name: <dark_red>Poción de regeneración (II)</dark_red>
+    name: <white>Poción de regeneración (II)</white>
     material: POTION
     potion-effect: REGENERATION
     potion-level: 2
     potion-duration: 22
-    buy: 65
-    sell: 32.5
+    buy: 97.5
     lore:
-    - <gray>Regeneración potenciada.</gray>
-
-  
+    - <white>Regeneración potenciada.</white>
   potion_strength_strong:
-    name: <red>Poción de fuerza (II)</red>
+    name: <white>Poción de fuerza (II)</white>
     material: POTION
     potion-effect: STRENGTH
     potion-level: 2
     potion-duration: 90
-    buy: 50
-    sell: 25
+    buy: 75
     lore:
-    - <gray>Fuerza potenciada por 1.5 minutos.</gray>
-
-  
+    - <white>Fuerza potenciada por 1.5 minutos.</white>
   # --- Splash potions ---
   splash_potion_healing:
-    name: <red>Poción dispersable de curación</red>
+    name: <white>Poción dispersable de curación</white>
     material: SPLASH_POTION
     potion-effect: INSTANT_HEALTH
     potion-level: 1
     potion-duration: 1
-    buy: 35
-    sell: 17.5
+    buy: 52.5
     lore:
-    - <gray>Se dispersa al impactar; cura a múltiples objetivos.</gray>
-
-  
+    - <white>Se dispersa al impactar; cura a múltiples objetivos.</white>
   splash_potion_harming:
-    name: <dark_red>Poción dispersable de daño</dark_red>
+    name: <white>Poción dispersable de daño</white>
     material: SPLASH_POTION
     potion-effect: INSTANT_DAMAGE
     potion-level: 1
     potion-duration: 1
-    buy: 30
-    sell: 15
+    buy: 45
     lore:
-    - <gray>Daño dispersable.</gray>
-
-  
+    - <white>Daño dispersable.</white>
   splash_potion_poison:
-    name: <green>Poción dispersable de veneno</green>
+    name: <white>Poción dispersable de veneno</white>
     material: SPLASH_POTION
     potion-effect: POISON
     potion-level: 1
     potion-duration: 33
-    buy: 25
-    sell: 12.5
+    buy: 37.5
     lore:
-    - <gray>Veneno dispersable.</gray>
-
-  
+    - <white>Veneno dispersable.</white>
   splash_potion_weakness:
-    name: <gray>Poción dispersable de debilidad</gray>
+    name: <white>Poción dispersable de debilidad</white>
     material: SPLASH_POTION
     potion-effect: WEAKNESS
     potion-level: 1
     potion-duration: 67
-    buy: 20
-    sell: 10
+    buy: 30
     lore:
-    - <gray>Debilidad dispersable.</gray>
-
-  
+    - <white>Debilidad dispersable.</white>
   splash_potion_slowness:
-    name: <gray>Poción dispersable de lentitud</gray>
+    name: <white>Poción dispersable de lentitud</white>
     material: SPLASH_POTION
     potion-effect: SLOWNESS
     potion-level: 1
     potion-duration: 67
-    buy: 20
-    sell: 10
+    buy: 30
     lore:
-    - <gray>Lentitud dispersable.</gray>
-
-  
+    - <white>Lentitud dispersable.</white>
   splash_potion_swiftness:
-    name: <yellow>Poción dispersable de celeridad</yellow>
+    name: <white>Poción dispersable de celeridad</white>
     material: SPLASH_POTION
     potion-effect: SPEED
     potion-level: 1
     potion-duration: 135
-    buy: 30
-    sell: 15
+    buy: 45
     lore:
-    - <gray>Celeridad dispersable.</gray>
-
-  
+    - <white>Celeridad dispersable.</white>
   splash_potion_fire_resistance:
-    name: <red>Poción dispersable de resistencia al fuego</red>
+    name: <white>Poción dispersable de resistencia al fuego</white>
     material: SPLASH_POTION
     potion-effect: FIRE_RESISTANCE
     potion-level: 1
     potion-duration: 135
-    buy: 40
-    sell: 20
+    buy: 60
     lore:
-    - <gray>Resistencia al fuego dispersable.</gray>
-
-  
+    - <white>Resistencia al fuego dispersable.</white>
   splash_potion_invisibility:
-    name: <purple>Poción dispersable de invisibilidad</purple>
+    name: <white>Poción dispersable de invisibilidad</white>
     material: SPLASH_POTION
     potion-effect: INVISIBILITY
     potion-level: 1
     potion-duration: 135
-    buy: 50
-    sell: 25
+    buy: 75
     lore:
-    - <gray>Invisibilidad dispersable.</gray>
-
-  
+    - <white>Invisibilidad dispersable.</white>
   # --- Lingering potions ---
   lingering_potion_healing:
-    name: <red>Poción persistente de curación</red>
+    name: <white>Poción persistente de curación</white>
     material: LINGERING_POTION
     potion-effect: INSTANT_HEALTH
     potion-level: 1
     potion-duration: 1
-    buy: 50
-    sell: 25
+    buy: 75
     lore:
-    - <gray>Crea nube persistente de curación.</gray>
-
-  
+    - <white>Crea nube persistente de curación.</white>
   lingering_potion_poison:
-    name: <green>Poción persistente de veneno</green>
+    name: <white>Poción persistente de veneno</white>
     material: LINGERING_POTION
     potion-effect: POISON
     potion-level: 1
     potion-duration: 22
-    buy: 40
-    sell: 20
+    buy: 60
     lore:
-    - <gray>Nube persistente de veneno.</gray>
-
-  
+    - <white>Nube persistente de veneno.</white>
   lingering_potion_weakness:
-    name: <gray>Poción persistente de debilidad</gray>
+    name: <white>Poción persistente de debilidad</white>
     material: LINGERING_POTION
     potion-effect: WEAKNESS
     potion-level: 1
     potion-duration: 22
-    buy: 30
-    sell: 15
+    buy: 45
     lore:
-    - <gray>Nube persistente de debilidad.</gray>
-
-  
+    - <white>Nube persistente de debilidad.</white>
   # --- Objetos de soporte ---
   glass_bottle:
     name: <white>Botella de vidrio</white>
     material: GLASS_BOTTLE
-    buy: 0.5
-    sell: 0.2
+    buy: 0.75
     lore:
-    - <gray>Recipiente para pociones.</gray>
-
-  
+    - <white>Recipiente para pociones.</white>
   cauldron:
-    name: <gray>Caldero</gray>
+    name: <white>Caldero</white>
     material: CAULDRON
-    buy: 8
-    sell: 4
+    buy: 12
     lore:
-    - <gray>Prepara pociones; requiere partitura.</gray>
-
-  
+    - <white>Prepara pociones; requiere partitura.</white>
   brewing_stand:
-    name: <gray>Soporte de elaboración</gray>
+    name: <white>Soporte de elaboración</white>
     material: BREWING_STAND
-    buy: 5
-    sell: 2.5
+    buy: 7.5
     lore:
-    - <gray>Elabora pociones con ingredientes.</gray>
+    - <white>Elabora pociones con ingredientes.</white>
 
-  
+    
   # --- MULTI EFFECTS ---
   potion_multi_warrior:
-    name: <red>Poción del Guerrero</red>
+    name: <white>Poción del Guerrero</white>
     material: POTION
-    buy: 120
-    sell: 60
-    
+    potion-color: "#ff6600"
+    buy: 180
     effects:
     - type: STRENGTH
       duration: 180
@@ -529,15 +401,12 @@ items:
       level: 1
     
     lore:
-    - <gray>Poción ideal para combates cuerpo a cuerpo.</gray>
+    - <white>Poción ideal para combates cuerpo a cuerpo.</white>
 
-  
   potion_multi_chaos:
-    name: <dark_red>Poción del Caos</dark_red>
+    name: <white>Poción del Caos</white>
     material: SPLASH_POTION
-    buy: 180
-    sell: 90
-    
+    buy: 330
     effects:
     - type: POISON
       duration: 60
@@ -553,18 +422,4 @@ items:
       level: 1
     
     lore:
-    - <gray>Una mezcla oscura que atormenta a tus enemigos.</gray>
-
-  item_1764112765011:
-    name: §x§C§E§F§F§8§F§lPocion de tamaño
-    material: POTION
-    buy: 800.0
-    sell: 0.0
-    lore:
-    - §x§F§F§C§A§4§FEsta pocion te hace mas pequeño
-    - §x§F§F§C§A§4§Fal beberlo , tendras que usar otra
-    - §x§F§F§C§A§4§Fpocion para regresar a tu tamaño
-    - §x§F§F§C§A§4§Foriginal.
-
-    itemstack: rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGphdmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAkU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2YWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09dAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1TdGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAA9zdAAGUE9USU9Oc3EAfgAAc3EAfgADdXEAfgAGAAAAB3EAfgAIdAAJbWV0YS10eXBldAAMZGlzcGxheS1uYW1ldAAEbG9yZXQAGmVuY2hhbnRtZW50LWdsaW50LW92ZXJyaWRldAASUHVibGljQnVra2l0VmFsdWVzdAALcG90aW9uLXR5cGV1cQB+AAYAAAAHdAAISXRlbU1ldGFxAH4AEXQAm3sidGV4dCI6IiIsImV4dHJhIjpbeyJ0ZXh0IjoiUG9jaW9uIGRlIHRhbWHDsW8iLCJvYmZ1c2NhdGVkIjpmYWxzZSwiaXRhbGljIjpmYWxzZSwidW5kZXJsaW5lZCI6ZmFsc2UsInN0cmlrZXRocm91Z2giOmZhbHNlLCJjb2xvciI6IiNDRUZGOEYiLCJib2xkIjp0cnVlfV19c3IAE2phdmEudXRpbC5BcnJheUxpc3R4gdIdmcdhnQMAAUkABHNpemV4cAAAAAR3BAAAAAR0AKt7InRleHQiOiIiLCJleHRyYSI6W3sidGV4dCI6IkVzdGEgcG9jaW9uIHRlIGhhY2UgbWFzIHBlcXVlw7FvIiwib2JmdXNjYXRlZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwiY29sb3IiOiIjRkZDQTRGIiwiYm9sZCI6ZmFsc2V9XX10AK17InRleHQiOiIiLCJleHRyYSI6W3sidGV4dCI6ImFsIGJlYmVybG8gLCB0ZW5kcmFzIHF1ZSB1c2FyIG90cmEiLCJvYmZ1c2NhdGVkIjpmYWxzZSwiaXRhbGljIjpmYWxzZSwidW5kZXJsaW5lZCI6ZmFsc2UsInN0cmlrZXRocm91Z2giOmZhbHNlLCJjb2xvciI6IiNGRkNBNEYiLCJib2xkIjpmYWxzZX1dfXQArHsidGV4dCI6IiIsImV4dHJhIjpbeyJ0ZXh0IjoicG9jaW9uIHBhcmEgcmVncmVzYXIgYSB0dSB0YW1hw7FvIiwib2JmdXNjYXRlZCI6ZmFsc2UsIml0YWxpYyI6ZmFsc2UsInVuZGVybGluZWQiOmZhbHNlLCJzdHJpa2V0aHJvdWdoIjpmYWxzZSwiY29sb3IiOiIjRkZDQTRGIiwiYm9sZCI6ZmFsc2V9XX10AJR7InRleHQiOiIiLCJleHRyYSI6W3sidGV4dCI6Im9yaWdpbmFsLiIsIm9iZnVzY2F0ZWQiOmZhbHNlLCJpdGFsaWMiOmZhbHNlLCJ1bmRlcmxpbmVkIjpmYWxzZSwic3RyaWtldGhyb3VnaCI6ZmFsc2UsImNvbG9yIjoiI0ZGQ0E0RiIsImJvbGQiOmZhbHNlfV19eHNyABFqYXZhLmxhbmcuQm9vbGVhbs0gcoDVnPruAgABWgAFdmFsdWV4cAF0AMB7CiAgICAiaXRlbXRhZzpjb25zdW1lX2FjdGlvbnMiOiAiY29tbWFuZGFzb3AlJTolJWVudGl0eXNpemUgcGxheWVyICVwbGF5ZXIlIDAuNiUlOyUlY29tbWFuZCUlOiUlZW50aXR5c2l6ZSBwbGF5ZXIgJXBsYXllciUgMC42IiwKICAgICJpdGVtdGFnOmVmZmVjdHNfZXF1aXBzIjogIkhBTkQiLAogICAgIml0ZW10YWc6c21lbHQiOiAwCn10AA9taW5lY3JhZnQ6d2F0ZXI=
-
+    - <white>Una mezcla oscura que atormenta a tus enemigos.</white>

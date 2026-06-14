@@ -1,189 +1,141 @@
 items:
-
-  # --- Semillas y plantables ---
   wheat_seeds:
-    name: "<yellow>Semillas de trigo</yellow>"
+    name: <white>Semillas de trigo</white>
     material: WHEAT_SEEDS
-    buy: 0.1
-    sell: 0.05
+    buy: 20.0
+    sell: 2.0
     lore:
-      - "<gray>Semillas para cultivar trigo.</gray>"
-
-
+    - <white>Semillas para cultivar trigo.</white>
   beetroot_seeds:
-    name: "<red>Semillas de remolacha</red>"
+    name: <white>Semillas de remolacha</white>
     material: BEETROOT_SEEDS
-    buy: 0.15
-    sell: 0.07
+    buy: 18.0
+    sell: 2.0
     lore:
-      - "<gray>Semillas para remolacha.</gray>"
-
-
+    - <white>Semillas para remolacha.</white>
   melon_seeds:
-    name: "<green>Semillas de melón</green>"
+    name: <white>Semillas de melón</white>
     material: MELON_SEEDS
-    buy: 0.2
-    sell: 0.1
+    buy: 25.0
+    sell: 3.0
     lore:
-      - "<gray>Semillas para melones.</gray>"
-
-
+    - <white>Semillas para melones.</white>
   pumpkin_seeds:
-    name: "<orange>Semillas de calabaza</orange>"
+    name: <white>Semillas de calabaza</white>
     material: PUMPKIN_SEEDS
-    buy: 0.2
-    sell: 0.1
+    buy: 25.0
+    sell: 3.0
     lore:
-      - "<gray>Semillas para calabazas.</gray>"
-
-
+    - <white>Semillas para calabazas.</white>
   nether_wart:
-    name: "<dark_purple>Nether Wart</dark_purple>"
+    name: <white>Nether Wart</white>
     material: NETHER_WART
-    buy: 0.5
-    sell: 0.25
+    buy: 40.0
+    sell: 5.0
     lore:
-      - "<gray>Cultivo del Nether para pociones.</gray>"
-
-
+    - <white>Cultivo del Nether para pociones.</white>
   cocoa_beans:
-    name: "<brown>Granos de cacao</brown>"
+    name: <white>Granos de cacao</white>
     material: COCOA_BEANS
-    buy: 0.15
-    sell: 0.07
+    buy: 18.0
+    sell: 2.0
     lore:
-      - "<gray>Útil para teñir y fabricar alimentos.</gray>"
-
-
-  # --- Cultivos (productos) ---
+    - <white>Útil para teñir y fabricar alimentos.</white>
   wheat:
-    name: "<yellow>Trigo</yellow>"
+    name: <white>Trigo</white>
     material: WHEAT
-    buy: 1
-    sell: 0.4
+    buy: 60.0
+    sell: 4.0
     lore:
-      - "<gray>Alimento básico para pan y cría.</gray>"
-
-
+    - <white>Alimento básico para pan y cría.</white>
   carrot:
-    name: "<gold>Zanahoria</gold>"
+    name: <white>Zanahoria</white>
     material: CARROT
-    buy: 0.6
-    sell: 0.25
+    buy: 45.0
+    sell: 3.0
     lore:
-      - "<gray>Perfecta para granjas y cría de cerdos.</gray>"
-
-
+    - <white>Perfecta para granjas y cría de cerdos.</white>
   potato:
-    name: "<gold>Patata</gold>"
+    name: <white>Patata</white>
     material: POTATO
-    buy: 0.6
-    sell: 0.25
+    buy: 45.0
+    sell: 3.0
     lore:
-      - "<gray>Alimento versátil; puede cocinarse.</gray>"
-
-
+    - <white>Alimento versátil; puede cocinarse.</white>
   beetroot:
-    name: "<red>Remolacha</red>"
+    name: <white>Remolacha</white>
     material: BEETROOT
-    buy: 0.5
-    sell: 0.2
+    buy: 35.0
+    sell: 3.0
     lore:
-      - "<gray>Ingrediente para sopas y cultivos.</gray>"
-
-
+    - <white>Ingrediente para sopas y cultivos.</white>
   melon_slice:
-    name: "<green>Rodaja de melón</green>"
+    name: <white>Rodaja de melón</white>
     material: MELON_SLICE
-    buy: 0.25
-    sell: 0.1
+    buy: 30.0
+    sell: 2.0
     lore:
-      - "<gray>Fruta refrescante, viene del melón.</gray>"
-
-
+    - <white>Fruta refrescante, viene del melón.</white>
   pumpkin:
-    name: "<orange>Calabaza</orange>"
+    name: <white>Calabaza</white>
     material: PUMPKIN
-    buy: 0.5
-    sell: 0.2
+    buy: 50.0
+    sell: 4.0
     lore:
-      - "<gray>Útil para linternas y decoración.</gray>"
-
-
+    - <white>Útil para linternas y decoración.</white>
   sweet_berries:
-    name: "<red>Moras</red>"
+    name: <white>Moras</white>
     material: SWEET_BERRIES
-    buy: 0.3
-    sell: 0.12
+    buy: 35.0
+    sell: 3.0
     lore:
-      - "<gray>Cultivo de arbustos; alimento rápido.</gray>"
-
-
+    - <white>Cultivo de arbustos; alimento rápido.</white>
   sugar_cane:
-    name: "<white>Caña de azúcar</white>"
+    name: <white>Caña de azúcar</white>
     material: SUGAR_CANE
-    buy: 0.4
-    sell: 0.15
+    buy: 30.0
+    sell: 3.0
     lore:
-      - "<gray>Usado para azúcar y papel.</gray>"
-
-
+    - <white>Usado para azúcar y papel.</white>
   kelp:
-    name: "<aqua>Kelp</aqua>"
+    name: <white>Kelp</white>
     material: KELP
-    buy: 0.2
-    sell: 0.08
+    buy: 18.0
+    sell: 2.0
     lore:
-      - "<gray>Algas marinas; secas sirven de alimento.</gray>"
-
-
-  # --- Apicultura y miel ---
+    - <white>Algas marinas; secas sirven de alimento.</white>
   honey_bottle:
-    name: "<gold>Tarro de miel</gold>"
+    name: <white>Tarro de miel</white>
     material: HONEY_BOTTLE
-    buy: 4
-    sell: 2
+    buy: 120.0
+    sell: 8.0
     lore:
-      - "<gray>Recolectado de colmenas; alimento y curación.</gray>"
-
-
+    - <white>Recolectado de colmenas; alimento y curación.</white>
   honeycomb:
-    name: "<gold>Panal</gold>"
+    name: <white>Panal</white>
     material: HONEYCOMB
-    buy: 2
-    sell: 1
+    buy: 90.0
+    sell: 6.0
     lore:
-      - "<gray>Material para decoración y fabricación.</gray>"
-
-
-  # --- Materiales útiles para agricultura ---
+    - <white>Material para decoración y fabricación.</white>
   bone_meal:
-    name: "<white>Hueso molido</white>"
+    name: <white>Hueso molido</white>
     material: BONE_MEAL
-    buy: 0.5
-    sell: 0.2
+    buy: 30.0
+    sell: 3.0
     lore:
-      - "<gray>Fertilizante para crecer cultivos rápidamente.</gray>"
-
-
+    - <white>Fertilizante para crecer cultivos rápidamente.</white>
   compost:
-    name: "<brown>Compost</brown>"
+    name: <white>Compost</white>
     material: COMPOSTER
-    buy: 6
-    sell: 3
+    buy: 150.0
+    sell: 10.0
     lore:
-      - "<gray>Usa para procesar restos orgánicos.</gray>"
-
-
+    - <white>Usa para procesar restos orgánicos.</white>
   straw_hay:
-    name: "<yellow>Bloque de heno</yellow>"
+    name: <white>Bloque de heno</white>
     material: HAY_BLOCK
-    buy: 2
-    sell: 1
+    buy: 70.0
+    sell: 5.0
     lore:
-      - "<gray>Almacenamiento de forraje; decoración rural.</gray>"
-
-
-  # --- Animales y productos de granja ---
-  # Nota: este archivo contiene solo items de agricultura (semillas, cultivos, materiales, apicultura).
-  # Si quieres que los productos animales estén en una categoría separada, los puedo mover a `animal_products.yml`.
+    - <white>Almacenamiento de forraje; decoración rural.</white>

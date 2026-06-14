@@ -6,12 +6,16 @@ import mp.quesito.qSMarketPlus.shop.ShopItem;
 import mp.quesito.qSMarketPlus.utils.ItemSerializer;
 import mp.quesito.qSMarketPlus.utils.MenuItems;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
 import java.io.IOException;
@@ -148,18 +152,123 @@ public class ItemManager {
                     }
 
                     ItemMeta meta = itemStack.getItemMeta();
+
                     if (meta != null) {
+
+                        // =========================
+                        // NAME
+                        // =========================
                         meta.setDisplayName(MessageUtil.toLegacy(name));
 
+                        // =========================
+                        // LORE
+                        // =========================
                         if (!lore.isEmpty()) {
+
                             List<String> coloredLore = new ArrayList<>();
+
                             for (String line : lore) {
                                 coloredLore.add(MessageUtil.toLegacy(line));
                             }
+
                             meta.setLore(coloredLore);
                         }
 
-                        itemStack.setItemMeta(meta);
+                        // =====================================================
+                        // POTION SUPPORT
+                        // =====================================================
+                        if (meta instanceof PotionMeta potionMeta) {
+
+                            // =========================
+                            // SINGLE EFFECT
+                            // =========================
+                            String effectName = section.getString(id + ".potion-effect");
+
+                            if (effectName != null && !effectName.isEmpty()) {
+
+                                PotionEffectType type =
+                                        PotionEffectType.getByName(effectName.toUpperCase());
+
+                                int level = section.getInt(id + ".potion-level", 1);
+                                int duration = section.getInt(id + ".potion-duration", 60);
+
+                                if (type != null) {
+
+                                    potionMeta.addCustomEffect(
+                                            new PotionEffect(
+                                                    type,
+                                                    duration * 20,
+                                                    level - 1
+                                            ),
+                                            true
+                                    );
+                                }
+                            }
+
+                            // =========================
+                            // MULTI EFFECTS
+                            // =========================
+                            List<Map<?, ?>> effects =
+                                    section.getMapList(id + ".effects");
+
+                            for (Map<?, ?> map : effects) {
+
+                                String typeName = String.valueOf(map.get("type"));
+
+                                PotionEffectType type =
+                                        PotionEffectType.getByName(typeName.toUpperCase());
+
+                                if (type == null) continue;
+
+                                Object durationObj = map.get("duration");
+                                Object levelObj = map.get("level");
+
+                                int duration = durationObj != null
+                                        ? Integer.parseInt(durationObj.toString())
+                                        : 60;
+
+                                int level = levelObj != null
+                                        ? Integer.parseInt(levelObj.toString())
+                                        : 1;
+
+                                potionMeta.addCustomEffect(
+                                        new PotionEffect(
+                                                type,
+                                                duration * 20,
+                                                level - 1
+                                        ),
+                                        true
+                                );
+                            }
+
+                            // =========================
+                            // POTION COLOR
+                            // =========================
+                            String color = section.getString(id + ".potion-color");
+
+                            if (color != null && !color.isEmpty()) {
+
+                                try {
+
+                                    potionMeta.setColor(
+                                            Color.fromRGB(
+                                                    Integer.parseInt(
+                                                            color.replace("#", ""),
+                                                            16
+                                                    )
+                                            )
+                                    );
+
+                                } catch (Exception ignored) {
+                                }
+                            }
+
+                            itemStack.setItemMeta(potionMeta);
+
+                        } else {
+
+                            itemStack.setItemMeta(meta);
+                        }
                     }
                 }
             }

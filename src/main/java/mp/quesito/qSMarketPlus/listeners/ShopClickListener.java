@@ -149,35 +149,50 @@ public class ShopClickListener implements Listener {
         handlers.getOrDefault(top.getHolder().getClass(), (ev, pl) -> {}).accept(e, player);
     }
 
-    // -----------------------------
-    // ---------- NBT UTILS --------
-    // -----------------------------
-// Contar cuántos items iguales al Base64 del ShopItem tiene el jugador
     private int countMatchingItems(Player player, ItemStack template) {
+        if (template == null) return 0;
         int count = 0;
-        String templateBase64 = ItemSerializer.toBase64(template);
+
+        // Detectamos si la plantilla de la tienda es un item vanilla puro (no tiene nombre custom ni lore)
+        boolean isVanillaPure = !template.hasItemMeta() ||
+                (!template.getItemMeta().hasDisplayName() && !template.getItemMeta().hasLore());
 
         for (ItemStack invItem : player.getInventory().getContents()) {
-            if (invItem == null) continue;
-            String itemBase64 = ItemSerializer.toBase64(invItem);
-            if (templateBase64.equals(itemBase64)) {
-                count += invItem.getAmount();
+            if (invItem == null || invItem.getType() == Material.AIR) continue;
+
+            if (isVanillaPure) {
+                // Si el item configurado es vanilla puro, solo nos importa que coincida el Material base
+                if (template.getType() == invItem.getType()) {
+                    count += invItem.getAmount();
+                }
+            } else {
+                // Si tiene meta/lore customizado en el yml, usamos la comparación estricta de metadatos
+                if (template.isSimilar(invItem)) {
+                    count += invItem.getAmount();
+                }
             }
         }
 
         return count;
     }
 
+
+
     // Remover una cantidad exacta de items iguales al Base64 del ShopItem
     private void removeMatchingItems(Player player, ItemStack template, int amount) {
-        String templateBase64 = ItemSerializer.toBase64(template);
+        if (template == null || amount <= 0) return;
+
+        boolean isVanillaPure = !template.hasItemMeta() ||
+                (!template.getItemMeta().hasDisplayName() && !template.getItemMeta().hasLore());
 
         for (int i = 0; i < player.getInventory().getSize(); i++) {
             ItemStack invItem = player.getInventory().getItem(i);
-            if (invItem == null) continue;
+            if (invItem == null || invItem.getType() == Material.AIR) continue;
 
-            String itemBase64 = ItemSerializer.toBase64(invItem);
-            if (templateBase64.equals(itemBase64)) {
+            // Validamos con la misma lógica si cumple la condición de material o de similitud meta
+            boolean matches = isVanillaPure ? (template.getType() == invItem.getType()) : template.isSimilar(invItem);
+
+            if (matches) {
                 int itemAmount = invItem.getAmount();
                 if (itemAmount <= amount) {
                     player.getInventory().setItem(i, null);
@@ -192,7 +207,6 @@ public class ShopClickListener implements Listener {
             }
         }
     }
-
 
     private void giveExactItems(Player player, ItemStack target, int amount) {
         ItemStack clone = target.clone();
@@ -412,39 +426,69 @@ public class ShopClickListener implements Listener {
         if ("sell_all".equals(btn)) {
 
             boolean soldSomething = false;
+            double totalEarnings = 0.0;
+            EconomyProvider activeEco = null;
 
-            for (ShopCategory cat : categoryManager.getCategories().values()) {
-                itemManager.loadCategoryItems(cat);
+            // 1. Escaneamos todo el inventario del jugador (slots del 0 al 35 para evitar la armadura/mano secundaria)
+            for (int i = 0; i < 36; i++) {
+                ItemStack invItem = player.getInventory().getItem(i);
+                if (invItem == null || invItem.getType() == Material.AIR) continue;
 
-                for (ShopItem item : itemManager.getItems(cat.getId()).values()) {
+                // 2. Buscamos si este ítem del inventario existe en la tienda usando tu lógica exacta
+                ShopItem shopItem = null;
 
-                    if (item.getSell() <= 0) continue;
+                // Iteramos por las categorías e ítems cargados
+                for (ShopCategory cat : categoryManager.getCategories().values()) {
+                    itemManager.loadCategoryItems(cat);
+                    Map<String, ShopItem> items = itemManager.getItems(cat.getId());
+                    if (items == null) continue;
 
-                    ItemStack real = item.getRealItem();
-                    int total = countMatchingItems(player, real);
-                    if (total <= 0) continue;
+                    for (ShopItem si : items.values()) {
+                        // Comparación exacta por Material (igual que en tu findShopItem)
+                        if (invItem.getType() == si.getRealItem().getType()) {
+                            shopItem = si;
+                            break;
+                        }
+                    }
+                    if (shopItem != null) break;
+                }
 
-                    removeMatchingItems(player, real, total);
+                // 3. Si el ítem existe en la tienda y se puede vender, lo procesamos
+                if (shopItem != null && shopItem.getSell() > 0) {
+                    EconomyProvider ecoProvider = plugin.getEconomyManager().get(shopItem.getEconomy());
+                    if (ecoProvider == null) continue;
 
-                    double money = total * item.getSell();
+                    int amount = invItem.getAmount();
+                    double earnings = amount * shopItem.getSell();
 
-                    EconomyProvider eco = eco(item);
-                    eco.deposit(player, money);
+                    // Removemos el ítem del inventario
+                    player.getInventory().setItem(i, null);
 
+                    // Depositamos el dinero y ejecutamos comandos de venta si los hay
+                    ecoProvider.deposit(player, earnings);
+                    shopItem.executeSellCommands(player);
+
+                    totalEarnings += earnings;
+                    activeEco = ecoProvider; // Guardamos una referencia del proveedor para el éxito
                     soldSomething = true;
                 }
             }
 
+            // 4. Mensaje final unificado utilizando MessageUtil y MiniMessage
             if (soldSomething) {
-                Lang.msg(player, "sell_all_success");
+                String formattedMoney = String.format("%.2f", totalEarnings);
+
+                MessageUtil.lang(player, "sell_all_success",
+                        Placeholder.parsed("money", formattedMoney)
+                );
+
                 player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1f, 1.3f);
             } else {
-                Lang.msg(player, "sell_all_empty");
+                MessageUtil.lang(player, "sell_all_empty");
             }
 
             return;
         }
-
         if (categoryId == null) return;
 
         ShopCategory cat = categoryManager.getCategories().get(categoryId);
@@ -705,6 +749,9 @@ public class ShopClickListener implements Listener {
         int amount = holder.getAmount();
         int maxStack = item.getMaterial().getMaxStackSize();
 
+        // Obtenemos el material base registrado para la tienda para comparar directamente
+        Material shopMaterial = item.getRealItem().getType();
+
         String btn = MetaUtil.getTag(meta, "btn");
         String value = MetaUtil.getTag(meta, "value");
         String special = MetaUtil.getTag(meta, "special");
@@ -738,9 +785,18 @@ public class ShopClickListener implements Listener {
                         "currency", currency(eco));
                 return;
 
-            } else if (!buying && countMatchingItems(player, item.getRealItem()) < newAmount) {
-                Lang.msg(player, "no_items");
-                return;
+            } else if (!buying) {
+                // CORRECCIÓN: Conteo directo en inventario por tipo de Material
+                int playerHas = 0;
+                for (ItemStack invItem : player.getInventory().getContents()) {
+                    if (invItem != null && invItem.getType() == shopMaterial) {
+                        playerHas += invItem.getAmount();
+                    }
+                }
+                if (playerHas < newAmount) {
+                    Lang.msg(player, "no_items");
+                    return;
+                }
             }
 
             holder.setAmount(newAmount);
@@ -749,10 +805,17 @@ public class ShopClickListener implements Listener {
         }
 
         if ("MAX".equals(special)) {
-
-            int maxAmount = buying
-                    ? (int) Math.floor(eco.getBalance(player) / item.getBuy())
-                    : countMatchingItems(player, item.getRealItem());
+            int maxAmount = 0;
+            if (buying) {
+                maxAmount = (int) Math.floor(eco.getBalance(player) / item.getBuy());
+            } else {
+                // CORRECCIÓN: Conteo para botón MAX usando el tipo de Material
+                for (ItemStack invItem : player.getInventory().getContents()) {
+                    if (invItem != null && invItem.getType() == shopMaterial) {
+                        maxAmount += invItem.getAmount();
+                    }
+                }
+            }
 
             holder.setAmount(Math.max(1, Math.min(maxStack, maxAmount)));
             AmountMenu.open(player, holder);
@@ -794,14 +857,38 @@ public class ShopClickListener implements Listener {
                         "symbol", eco.getSymbol());
             } else {
 
-                if (countMatchingItems(player, item.getRealItem()) < amount) {
+                // CORRECCIÓN: Conteo y remoción manual por tipo de Material en la confirmación
+                int playerHas = 0;
+                for (ItemStack invItem : player.getInventory().getContents()) {
+                    if (invItem != null && invItem.getType() == shopMaterial) {
+                        playerHas += invItem.getAmount();
+                    }
+                }
+
+                if (playerHas < amount) {
                     Lang.msg(player, "no_items");
                     return;
                 }
 
-                removeMatchingItems(player, item.getRealItem(), amount);
+                // Remover del inventario usando la lógica del comando
+                int amountToRemove = amount;
+                for (int i = 0; i < 36; i++) {
+                    ItemStack invItem = player.getInventory().getItem(i);
+                    if (invItem == null || invItem.getType() != shopMaterial) continue;
+
+                    int itemAmount = invItem.getAmount();
+                    if (itemAmount <= amountToRemove) {
+                        player.getInventory().setItem(i, null);
+                        amountToRemove -= itemAmount;
+                    } else {
+                        invItem.setAmount(itemAmount - amountToRemove);
+                        player.getInventory().setItem(i, invItem);
+                        amountToRemove = 0;
+                    }
+                    if (amountToRemove <= 0) break;
+                }
+
                 eco.deposit(player, price);
-                String moneyFormatted = eco.getSymbol() + price;
                 Lang.msg(player, "sell_success",
                         "amount", amount,
                         "item", MessageUtil.toLegacy(item.getName()),
@@ -821,6 +908,7 @@ public class ShopClickListener implements Listener {
         }
     }
 
+
     // -----------------------------
     // -------- CONFIRM MENU --------
     // -----------------------------
@@ -836,8 +924,9 @@ public class ShopClickListener implements Listener {
         boolean buying = holder.isBuying();
         int amount = holder.getAmount();
         ItemStack template = item.getRealItem();
+        Material shopMaterial = template.getType(); // Guardamos el tipo de material
 
-        EconomyProvider eco = eco(item); // ← economía del item
+        EconomyProvider eco = eco(item); // economía del item
         UniquePurchaseManager upManager = plugin.getUniquePurchaseManager();
 
         if (MetaUtil.is(clicked, "back")) {
@@ -870,12 +959,9 @@ public class ShopClickListener implements Listener {
             }
 
             if (!item.getCommands().isEmpty()) {
-
                 eco.withdraw(player, price);
                 item.executeBuyCommands(player);
-
             } else {
-
                 if (!hasInventorySpace(player, template, amount)) {
                     Lang.msg(player, "not_enough_space");
                     return;
@@ -899,20 +985,41 @@ public class ShopClickListener implements Listener {
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.2f);
             player.closeInventory();
 
-        } else { // venta
+        } else { // venta individual en panel de confirmación
 
             if (!item.getSellCommands().isEmpty()) {
-
                 item.executeSellCommands(player);
-
             } else {
+                // CORRECCIÓN: Contar la cantidad usando Material para evitar el bug estricto del Base64
+                int playerHas = 0;
+                for (ItemStack invItem : player.getInventory().getContents()) {
+                    if (invItem != null && invItem.getType() == shopMaterial) {
+                        playerHas += invItem.getAmount();
+                    }
+                }
 
-                if (countMatchingItems(player, template) < amount) {
+                if (playerHas < amount) {
                     Lang.msg(player, "no_items");
                     return;
                 }
 
-                removeMatchingItems(player, template, amount);
+                // CORRECCIÓN: Remover los objetos por coincidencia exacta de Material básico (Slots 0 al 35)
+                int amountToRemove = amount;
+                for (int i = 0; i < 36; i++) {
+                    ItemStack invItem = player.getInventory().getItem(i);
+                    if (invItem == null || invItem.getType() != shopMaterial) continue;
+
+                    int itemAmount = invItem.getAmount();
+                    if (itemAmount <= amountToRemove) {
+                        player.getInventory().setItem(i, null);
+                        amountToRemove -= itemAmount;
+                    } else {
+                        invItem.setAmount(itemAmount - amountToRemove);
+                        player.getInventory().setItem(i, invItem);
+                        amountToRemove = 0;
+                    }
+                    if (amountToRemove <= 0) break;
+                }
             }
 
             eco.deposit(player, price);
@@ -928,7 +1035,6 @@ public class ShopClickListener implements Listener {
             player.closeInventory();
         }
     }
-
 
     // -----------------------------
     // ---------- AH MENU -----------

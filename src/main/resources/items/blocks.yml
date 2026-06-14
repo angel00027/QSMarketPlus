@@ -1,475 +1,372 @@
 items:
-
   stone:
-    name: "<white>Piedra</white>"
+    name: <white>Piedra</white>
     material: STONE
-    buy: 1
-    sell: 0.5
-    economy: levels
+    buy: 120
+    sell: 2
     lore:
-      - "<gray>Bloque común.</gray>"
-
-
+    - <white>Bloque común.</white>
   granite:
-    name: "<white>Granito</white>"
+    name: <white>Granito</white>
     material: GRANITE
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Variante rojiza de piedra.</gray>"
-
-
-  polished_granite:
-    name: "<white>Granito pulido</white>"
-    material: POLISHED_GRANITE
-    buy: 1.25
-    sell: 0.6
-    lore:
-      - "<gray>Granito refinado.</gray>"
-
-
-  diorite:
-    name: "<white>Diorita</white>"
-    material: DIORITE
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Variante clara de piedra.</gray>"
-
-
-  polished_diorite:
-    name: "<white>Diorita pulida</white>"
-    material: POLISHED_DIORITE
-    buy: 1.25
-    sell: 0.6
-    lore:
-      - "<gray>Diorita refinada.</gray>"
-
-
-  andesite:
-    name: "<white>Andesita</white>"
-    material: ANDESITE
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Variante gris de piedra.</gray>"
-
-
-  polished_andesite:
-    name: "<white>Andesita pulida</white>"
-    material: POLISHED_ANDESITE
-    buy: 1.25
-    sell: 0.6
-    lore:
-      - "<gray>Andesita refinada.</gray>"
-
-
-  cobblestone:
-    name: "<gray>Piedra picada</gray>"
-    material: COBBLESTONE
-    buy: 0.5
-    sell: 0.25
-    lore:
-      - "<gray>Resultado de picar piedra.</gray>"
-
-
-  mossy_cobblestone:
-    name: "<green>Piedra picada musgosa</green>"
-    material: MOSSY_COBBLESTONE
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Piedra con musgo.</gray>"
-
-
-  dirt:
-    name: "<gold>Tierra</gold>"
-    material: DIRT
-    buy: 0.25
-    sell: 0.1
-    lore:
-      - "<gray>La clásica tierra.</gray>"
-
-
-  coarse_dirt:
-    name: "<gold>Tierra estéril</gold>"
-    material: COARSE_DIRT
-    buy: 0.25
-    sell: 0.1
-    lore:
-      - "<gray>No se convierte en hierba.</gray>"
-
-
-  rooted_dirt:
-    name: "<gold>Tierra enraizada</gold>"
-    material: ROOTED_DIRT
-    buy: 0.5
-    sell: 0.25
-    lore:
-      - "<gray>Tierra con raíces.</gray>"
-
-
-  grass_block:
-    name: "<green>Bloque de hierba</green>"
-    material: GRASS_BLOCK
-    buy: 0.75
-    sell: 0.35
-    lore:
-      - "<gray>Tierra cubierta de hierba.</gray>"
-
-
-  podzol:
-    name: "<gold>Podzol</gold>"
-    material: PODZOL
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Tierra oscura de bosques gigantes.</gray>"
-
-
-  mycelium:
-    name: "<light_purple>Micelio</light_purple>"
-    material: MYCELIUM
-    buy: 1.5
-    sell: 0.75
-    lore:
-      - "<gray>Tierra de bioma de setas.</gray>"
-
-
-  sand:
-    name: "<yellow>Arena</yellow>"
-    material: SAND
-    buy: 0.25
-    sell: 0.1
-    lore:
-      - "<gray>Arena común.</gray>"
-
-
-  red_sand:
-    name: "<gold>Arena roja</gold>"
-    material: RED_SAND
-    buy: 0.25
-    sell: 0.1
-    lore:
-      - "<gray>Arena rojiza.</gray>"
-
-
-  gravel:
-    name: "<gray>Grava</gray>"
-    material: GRAVEL
-    buy: 0.25
-    sell: 0.1
-    lore:
-      - "<gray>Material suelto, se cae.</gray>"
-
-
-  clay:
-    name: "<gray>Arcilla</gray>"
-    material: CLAY
-    buy: 0.75
-    sell: 0.35
-    lore:
-      - "<gray>Bloque de arcilla.</gray>"
-
-
-  snow_block:
-    name: "<white>Bloque de nieve</white>"
-    material: SNOW_BLOCK
-    buy: 0.25
-    sell: 0.1
-    lore:
-      - "<gray>Nieve comprimida.</gray>"
-
-
-  ice:
-    name: "<aqua>Hielo</aqua>"
-    material: ICE
-    buy: 0.75
-    sell: 0.35
-    lore:
-      - "<gray>Bloque resbaladizo.</gray>"
-
-
-  packed_ice:
-    name: "<aqua>Hielo compacto</aqua>"
-    material: PACKED_ICE
-    buy: 1.5
-    sell: 0.75
-    lore:
-      - "<gray>Más sólido y duradero.</gray>"
-
-
-  blue_ice:
-    name: "<blue>Hielo azul</blue>"
-    material: BLUE_ICE
-    buy: 2.5
-    sell: 1.25
-    lore:
-      - "<gray>El hielo más rápido.</gray>"
-
-
-  obsidian:
-    name: "<dark_purple>Obsidiana</dark_purple>"
-    material: OBSIDIAN
-    buy: 6
+    buy: 130
     sell: 3
     lore:
-      - "<gray>Formada al solidificar lava y agua.</gray>"
-
-
-  crying_obsidian:
-    name: "<dark_purple>Obsidiana llorosa</dark_purple>"
-    material: CRYING_OBSIDIAN
-    buy: 8
+    - <white>Variante rojiza de piedra.</white>
+  polished_granite:
+    name: <white>Granito pulido</white>
+    material: POLISHED_GRANITE
+    buy: 160
     sell: 4
     lore:
-      - "<gray>Emite partículas brillantes.</gray>"
-
-
-  netherrack:
-    name: "<red>Netherrack</red>"
-    material: NETHERRACK
-    buy: 0.25
-    sell: 0.1
+    - <white>Granito refinado.</white>
+  diorite:
+    name: <white>Diorita</white>
+    material: DIORITE
+    buy: 130
+    sell: 3
     lore:
-      - "<gray>Piedra base del Nether.</gray>"
-
-
-  soul_sand:
-    name: "Arena de almas"
-    material: SOUL_SAND
-    buy: 0.5
-    sell: 0.25
+    - <white>Variante clara de piedra.</white>
+  polished_diorite:
+    name: <white>Diorita pulida</white>
+    material: POLISHED_DIORITE
+    buy: 160
+    sell: 4
     lore:
-      - "<gray>Ralentiza el movimiento.</gray>"
-
-
-  soul_soil:
-    name: "Tierra de almas"
-    material: SOUL_SOIL
-    buy: 0.5
-    sell: 0.25
+    - <white>Diorita refinada.</white>
+  andesite:
+    name: <white>Andesita</white>
+    material: ANDESITE
+    buy: 130
+    sell: 3
     lore:
-      - "<gray>No ralentiza como la arena de almas.</gray>"
-
-
-  basalt:
-    name: "<gray>Basalto</gray>"
-    material: BASALT
-    buy: 0.75
-    sell: 0.35
+    - <white>Variante gris de piedra.</white>
+  polished_andesite:
+    name: <white>Andesita pulida</white>
+    material: POLISHED_ANDESITE
+    buy: 160
+    sell: 4
     lore:
-      - "<gray>Columna volcánica.</gray>"
-
-
-  smooth_basalt:
-    name: "<gray>Basalto liso</gray>"
-    material: SMOOTH_BASALT
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Encontrado en geodas.</gray>"
-
-
-  blackstone:
-    name: "<dark_gray>Piedranegra</dark_gray>"
-    material: BLACKSTONE
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Piedra oscura del Nether.</gray>"
-
-
-  end_stone:
-    name: "<yellow>Piedra del End</yellow>"
-    material: END_STONE
-    buy: 2.5
-    sell: 1.25
-    lore:
-      - "<gray>Superficie del End.</gray>"
-
-  mud:
-    name: "<dark_gray>Barro</dark_gray>"
-    material: MUD
-    buy: 0.5
-    sell: 0.25
-    lore:
-      - "<gray>Tierra húmeda y compacta.</gray>"
-
-
-  packed_mud:
-    name: "<dark_gray>Barro compactado</dark_gray>"
-    material: PACKED_MUD
-    buy: 0.75
-    sell: 0.35
-    lore:
-      - "<gray>Barro endurecido.</gray>"
-
-
-  mud_bricks:
-    name: "<dark_gray>Ladrillos de barro</dark_gray>"
-    material: MUD_BRICKS
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Bloques de barro procesado.</gray>"
-
-
-  dripstone_block:
-    name: "<gray>Bloque de espeleotema</gray>"
-    material: DRIPSTONE_BLOCK
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Bloque rocoso de cuevas húmedas.</gray>"
-
-
-  calcite:
-    name: "<white>Calcita</white>"
-    material: CALCITE
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Roca blanca de geodas.</gray>"
-
-
-  tuff:
-    name: "<gray>Toba</gray>"
-    material: TUFF
-    buy: 0.75
-    sell: 0.35
-    lore:
-      - "<gray>Roca volcánica encontrada en cuevas.</gray>"
-
-
-  deepslate:
-    name: "<dark_gray>Pizarra profunda</dark_gray>"
-    material: DEEPSLATE
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Piedra dura del subsuelo profundo.</gray>"
-
-
-  cobbled_deepslate:
-    name: "<dark_gray>Pizarra profunda picada</dark_gray>"
-    material: COBBLED_DEEPSLATE
-    buy: 0.75
-    sell: 0.35
-    lore:
-      - "<gray>Resultado de picar pizarra profunda.</gray>"
-
-
-  polished_deepslate:
-    name: "<dark_gray>Pizarra profunda pulida</dark_gray>"
-    material: POLISHED_DEEPSLATE
-    buy: 1.25
-    sell: 0.6
-    lore:
-      - "<gray>Pizarra trabajada y refinada.</gray>"
-
-
-  dripstone:
-    name: "<gray>Espeleotema</gray>"
-    material: POINTED_DRIPSTONE
-    buy: 0.5
-    sell: 0.25
-    lore:
-      - "<gray>Punta de roca afilada.</gray>"
-
-  amethyst_block:
-    name: "<light_purple>Bloque de amatista</light_purple>"
-    material: AMETHYST_BLOCK
-    buy: 2
+    - <white>Andesita refinada.</white>
+  cobblestone:
+    name: <white>Piedra picada</white>
+    material: COBBLESTONE
+    buy: 80
     sell: 1
     lore:
-      - "<gray>Cristal morado resonante.</gray>"
-
-
-  budding_amethyst:
-    name: "<light_purple>Amatista brotante</light_purple>"
-    material: BUDDING_AMETHYST
-    buy: 5
-    sell: 2.5
+    - <white>Resultado de picar piedra.</white>
+  mossy_cobblestone:
+    name: <white>Piedra picada musgosa</white>
+    material: MOSSY_COBBLESTONE
+    buy: 100
+    sell: 2
     lore:
-      - "<gray>Genera cristales de amatista.</gray>"
-
-  magma_block:
-    name: "<red>Bloque de magma</red>"
-    material: MAGMA_BLOCK
-    buy: 1
-    sell: 0.5
+    - <white>Piedra con musgo.</white>
+  dirt:
+    name: <white>Tierra</white>
+    material: DIRT
+    buy: 100
+    sell: 2
     lore:
-      - "<gray>Bloque ardiente del Nether.</gray>"
-
-
-  ancient_debris:
-    name: "<dark_gray>Restos ancestrales</dark_gray>"
-    material: ANCIENT_DEBRIS
-    buy: 50
+    - <white>La clásica tierra.</white>
+  coarse_dirt:
+    name: <white>Tierra estéril</white>
+    material: COARSE_DIRT
+    buy: 100
+    sell: 3
+    lore:
+    - <white>No se convierte en hierba.</white>
+  rooted_dirt:
+    name: <white>Tierra enraizada</white>
+    material: ROOTED_DIRT
+    buy: 140
+    sell: 4
+    lore:
+    - <white>Tierra con raíces.</white>
+  grass_block:
+    name: <white>Bloque de hierba</white>
+    material: GRASS_BLOCK
+    buy: 120
+    sell: 3
+    lore:
+    - <white>Tierra cubierta de hierba.</white>
+  podzol:
+    name: <white>Podzol</white>
+    material: PODZOL
+    buy: 350
+    sell: 4
+    lore:
+    - <white>Tierra oscura de bosques gigantes.</white>
+  mycelium:
+    name: <white>Micelio</white>
+    material: MYCELIUM
+    buy: 700
+    sell: 8
+    lore:
+    - <white>Tierra de bioma de setas.</white>
+  sand:
+    name: <white>Arena</white>
+    material: SAND
+    buy: 100
+    sell: 2
+    lore:
+    - <white>Arena común.</white>
+  red_sand:
+    name: <white>Arena roja</white>
+    material: RED_SAND
+    buy: 120
+    sell: 3
+    lore:
+    - <white>Arena rojiza.</white>
+  gravel:
+    name: <white>Grava</white>
+    material: GRAVEL
+    buy: 120
+    sell: 2
+    lore:
+    - <white>Material suelto, se cae.</white>
+  clay:
+    name: <white>Arcilla</white>
+    material: CLAY
+    buy: 360
+    sell: 12
+    lore:
+    - <white>Bloque de arcilla.</white>
+  snow_block:
+    name: <white>Bloque de nieve</white>
+    material: SNOW_BLOCK
+    buy: 180
+    sell: 6
+    lore:
+    - <white>Nieve comprimida.</white>
+  ice:
+    name: <white>Hielo</white>
+    material: ICE
+    buy: 250
+    sell: 4
+    lore:
+    - <white>Bloque resbaladizo.</white>
+  packed_ice:
+    name: <white>Hielo compacto</white>
+    material: PACKED_ICE
+    buy: 620
+    sell: 14
+    lore:
+    - <white>Más sólido y duradero.</white>
+  blue_ice:
+    name: <white>Hielo azul</white>
+    material: BLUE_ICE
+    buy: 1350
+    sell: 28
+    lore:
+    - <white>El hielo más rápido.</white>
+  obsidian:
+    name: <white>Obsidiana</white>
+    material: OBSIDIAN
+    buy: 600
     sell: 25
     lore:
-      - "<gray>Mineral raro muy resistente.</gray>"
-
-
-  nether_bricks:
-    name: "<dark_red>Ladrillos del Nether</dark_red>"
-    material: NETHER_BRICKS
-    buy: 1.5
-    sell: 0.75
+    - <white>Formada al solidificar lava y agua.</white>
+  crying_obsidian:
+    name: <white>Obsidiana llorosa</white>
+    material: CRYING_OBSIDIAN
+    buy: 800
+    sell: 30
     lore:
-      - "<gray>Ladrillos hechos en fortalezas.</gray>"
-
-
-  crimson_nylium:
-    name: "<red>Niliocarmesí</red>"
-    material: CRIMSON_NYLIUM
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Suelo carmesí del Nether.</gray>"
-
-
-  warped_nylium:
-    name: "<aqua>Nilio distorsionado</aqua>"
-    material: WARPED_NYLIUM
-    buy: 1
-    sell: 0.5
-    lore:
-      - "<gray>Suelo azul del Nether distorsionado.</gray>"
-
-
-  crimson_stem:
-    name: "<red>Tallo carmesí</red>"
-    material: CRIMSON_STEM
-    buy: 0.5
-    sell: 0.25
-    lore:
-      - "<gray>Madera del bosque carmesí.</gray>"
-
-
-  warped_stem:
-    name: "<aqua>Tallo distorsionado</aqua>"
-    material: WARPED_STEM
-    buy: 0.5
-    sell: 0.25
-    lore:
-      - "<gray>Madera del bosque distorsionado.</gray>"
-
-  purpur_block:
-    name: "<light_purple>Bloque purpur</light_purple>"
-    material: PURPUR_BLOCK
-    buy: 2
+    - <white>Emite partículas brillantes.</white>
+  netherrack:
+    name: <white>Netherrack</white>
+    material: NETHERRACK
+    buy: 70
     sell: 1
     lore:
-      - "<gray>Material de las ciudades del End.</gray>"
-
-
-  purpur_pillar:
-    name: "<light_purple>Pilar purpur</light_purple>"
-    material: PURPUR_PILLAR
-    buy: 2.25
-    sell: 1.1
+    - <white>Piedra base del Nether.</white>
+  soul_sand:
+    name: <white>Arena de almas</white>
+    material: SOUL_SAND
+    buy: 150
+    sell: 3
     lore:
-      - "<gray>Pilar decorativo purpur.</gray>"
-
+    - <white>Ralentiza el movimiento.</white>
+  soul_soil:
+    name: <white>Tierra de almas</white>
+    material: SOUL_SOIL
+    buy: 140
+    sell: 3
+    lore:
+    - <white>No ralentiza como la arena de almas.</white>
+  basalt:
+    name: <white>Basalto</white>
+    material: BASALT
+    buy: 120
+    sell: 2
+    lore:
+    - <white>Columna volcánica.</white>
+  smooth_basalt:
+    name: <white>Basalto liso</white>
+    material: SMOOTH_BASALT
+    buy: 150
+    sell: 3
+    lore:
+    - <white>Encontrado en geodas.</white>
+  blackstone:
+    name: <white>Piedranegra</white>
+    material: BLACKSTONE
+    buy: 180
+    sell: 4
+    lore:
+    - <white>Piedra oscura del Nether.</white>
+  end_stone:
+    name: <white>Piedra del End</white>
+    material: END_STONE
+    buy: 250
+    sell: 5
+    lore:
+    - <white>Superficie del End.</white>
+  mud:
+    name: <white>Barro</white>
+    material: MUD
+    buy: 180
+    sell: 3
+    lore:
+    - <white>Tierra húmeda y compacta.</white>
+  packed_mud:
+    name: <white>Barro compactado</white>
+    material: PACKED_MUD
+    buy: 260
+    sell: 6
+    lore:
+    - <white>Barro endurecido.</white>
+  mud_bricks:
+    name: <white>Ladrillos de barro</white>
+    material: MUD_BRICKS
+    buy: 420
+    sell: 8
+    lore:
+    - <white>Bloques de barro procesado.</white>
+  dripstone_block:
+    name: <white>Bloque de espeleotema</white>
+    material: DRIPSTONE_BLOCK
+    buy: 150
+    sell: 3
+    lore:
+    - <white>Bloque rocoso de cuevas húmedas.</white>
+  calcite:
+    name: <white>Calcita</white>
+    material: CALCITE
+    buy: 140
+    sell: 3
+    lore:
+    - <white>Roca blanca de geodas.</white>
+  tuff:
+    name: <white>Toba</white>
+    material: TUFF
+    buy: 120
+    sell: 2
+    lore:
+    - <white>Roca volcánica encontrada en cuevas.</white>
+  deepslate:
+    name: <white>Pizarra profunda</white>
+    material: DEEPSLATE
+    buy: 170
+    sell: 4
+    lore:
+    - <white>Piedra dura del subsuelo profundo.</white>
+  cobbled_deepslate:
+    name: <white>Pizarra profunda picada</white>
+    material: COBBLED_DEEPSLATE
+    buy: 150
+    sell: 3
+    lore:
+    - <white>Resultado de picar pizarra profunda.</white>
+  polished_deepslate:
+    name: <white>Pizarra profunda pulida</white>
+    material: POLISHED_DEEPSLATE
+    buy: 200
+    sell: 5
+    lore:
+    - <white>Pizarra trabajada y refinada.</white>
+  dripstone:
+    name: <white>Espeleotema</white>
+    material: POINTED_DRIPSTONE
+    buy: 100
+    sell: 2
+    lore:
+    - <white>Punta de roca afilada.</white>
+  amethyst_block:
+    name: <white>Bloque de amatista</white>
+    material: AMETHYST_BLOCK
+    buy: 300
+    sell: 8
+    lore:
+    - <white>Cristal morado resonante.</white>
+  budding_amethyst:
+    name: <white>Amatista brotante</white>
+    material: BUDDING_AMETHYST
+    buy: 500
+    sell: 15
+    lore:
+    - <white>Genera cristales de amatista.</white>
+  magma_block:
+    name: <white>Bloque de magma</white>
+    material: MAGMA_BLOCK
+    buy: 200
+    sell: 4
+    lore:
+    - <white>Bloque ardiente del Nether.</white>
+  ancient_debris:
+    name: <white>Restos ancestrales</white>
+    material: ANCIENT_DEBRIS
+    buy: 2500
+    sell: 60
+    lore:
+    - <white>Mineral raro muy resistente.</white>
+  nether_bricks:
+    name: <white>Ladrillos del Nether</white>
+    material: NETHER_BRICKS
+    buy: 220
+    sell: 5
+    lore:
+    - <white>Ladrillos hechos en fortalezas.</white>
+  crimson_nylium:
+    name: <white>Niliocarmesí</white>
+    material: CRIMSON_NYLIUM
+    buy: 150
+    sell: 3
+    lore:
+    - <white>Suelo carmesí del Nether.</white>
+  warped_nylium:
+    name: <white>Nilio distorsionado</white>
+    material: WARPED_NYLIUM
+    buy: 150
+    sell: 3
+    lore:
+    - <white>Suelo azul del Nether distorsionado.</white>
+  crimson_stem:
+    name: <white>Tallo carmesí</white>
+    material: CRIMSON_STEM
+    buy: 100
+    sell: 2
+    lore:
+    - <white>Madera del bosque carmesí.</white>
+  warped_stem:
+    name: <white>Tallo distorsionado</white>
+    material: WARPED_STEM
+    buy: 100
+    sell: 2
+    lore:
+    - <white>Madera del bosque distorsionado.</white>
+  purpur_block:
+    name: <white>Bloque purpur</white>
+    material: PURPUR_BLOCK
+    buy: 300
+    sell: 8
+    lore:
+    - <white>Material de las ciudades del End.</white>
+  purpur_pillar:
+    name: <white>Pilar purpur</white>
+    material: PURPUR_PILLAR
+    buy: 350
+    sell: 10
+    lore:
+    - <white>Pilar decorativo purpur.</white>

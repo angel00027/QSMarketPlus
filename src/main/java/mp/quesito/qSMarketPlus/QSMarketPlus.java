@@ -5,10 +5,12 @@ import mp.quesito.qSMarketPlus.commands.*;
 import mp.quesito.qSMarketPlus.database.SQLManager;
 import mp.quesito.qSMarketPlus.economia.*;
 import mp.quesito.qSMarketPlus.hooks.HookManager;
+import mp.quesito.qSMarketPlus.hooks.impl.QsProteccionHook;
 import mp.quesito.qSMarketPlus.listeners.*;
 import mp.quesito.qSMarketPlus.manager.*;
 import mp.quesito.qSMarketPlus.shop.PlayerShop;
 import mp.quesito.qSMarketPlus.shop.ShopCategory;
+import mp.quesito.qSMarketPlus.trade.TradeManager;
 import mp.quesito.qSMarketPlus.utils.Lang;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -42,6 +44,7 @@ public final class QSMarketPlus extends JavaPlugin {
     private boolean qstextursHook;
     private HookManager hookManager;
     private EconomyManager economyManager;
+    private TradeManager tradeManager;
 
 
     @Override
@@ -49,6 +52,39 @@ public final class QSMarketPlus extends JavaPlugin {
 
         instance = this;
         qstextursHook = getServer().getPluginManager().isPluginEnabled("QSTexturs");
+
+        // ============================
+        // Hook con QsProteccion (softdepend)
+        // ============================
+        QsProteccionHook.init();
+
+        if (QsProteccionHook.isAvailable()) {
+            getLogger().info("Hooked into QsProteccion ✔");
+        } else {
+            getLogger().info("QsProteccion no encontrado. Soporte de protes desactivado.");
+        }
+
+        // ============================
+        // Hook dinámico con QsProteccion:
+        // si QsProteccion se activa DESPUÉS de QSMarketPlus
+        // (posible por softdepend), lo detectamos y reinicializamos.
+        // ============================
+        getServer().getPluginManager().registerEvents(new org.bukkit.event.Listener() {
+            @org.bukkit.event.EventHandler
+            public void onPluginEnable(org.bukkit.event.server.PluginEnableEvent event) {
+                if (event.getPlugin().getName().equals("QsProteccion")) {
+                    QsProteccionHook.init();
+                    getLogger().info("Hooked into QsProteccion ✔ (activado después de QSMarketPlus)");
+                }
+            }
+
+            @org.bukkit.event.EventHandler
+            public void onPluginDisable(org.bukkit.event.server.PluginDisableEvent event) {
+                if (event.getPlugin().getName().equals("QsProteccion")) {
+                    QsProteccionHook.reset();
+                }
+            }
+        }, this);
 
         // ============================
         // 4) Vault Economy
@@ -145,6 +181,11 @@ public final class QSMarketPlus extends JavaPlugin {
         auctionManager = new AuctionManager(this);
 
         // ============================
+        // 5.1) TradeManager
+        // ============================
+        tradeManager = new TradeManager(this);
+
+        // ============================
         // 6) Inicializar SignShopManager
         // ============================
         signShopManager = new SignShopManager();
@@ -157,6 +198,7 @@ public final class QSMarketPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerShopListener(), this);
         getServer().getPluginManager().registerEvents(new SignShopListener(), this);
         getServer().getPluginManager().registerEvents(new SellStickListener(this), this);
+        getServer().getPluginManager().registerEvents(new TradeListener(), this);
         // ============================
         // 8) Registrar comandos
         // ============================
@@ -174,6 +216,14 @@ public final class QSMarketPlus extends JavaPlugin {
         getCommand("sell").setTabCompleter(new SellTabCompleter());
         getCommand("ah").setExecutor(new AHCommand(this));
         getCommand("ah").setTabCompleter(new AHTab());
+
+        // ============================
+        // Tradeo entre jugadores
+        // ============================
+        if (getCommand("trade") != null) {
+            getCommand("trade").setExecutor(new TradeCommand(this));
+            getCommand("trade").setTabCompleter(new TradeTabCompleter());
+        }
 
         // ============================
         // 9) Cargar SignShops (después de que los mundos estén listos)
@@ -204,6 +254,10 @@ public final class QSMarketPlus extends JavaPlugin {
 
         if (shopManager != null)
             shopManager.removeAllHolograms();
+
+        // Cancelar tradeos activos para no perder ítems
+        if (tradeManager != null)
+            tradeManager.cancelAll();
 
         if (sqlManager != null)
             sqlManager.shutdown();
@@ -252,6 +306,7 @@ public final class QSMarketPlus extends JavaPlugin {
     public ItemManager getItemManager() { return itemManager; }
     public AuctionManager getAuctionManager() { return auctionManager; }
     public SQLManager getSqlManager() { return sqlManager; }
+    public TradeManager getTradeManager() { return tradeManager; }
     public HookManager getHookManager() {
         return hookManager;
     }

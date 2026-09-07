@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="QSMarketPlus:jar">
-    <output-path>$PROJECT_DIR$/../../servidores/1.21.11/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../servidores/patrona/plugins</output-path>
     <root id="archive" name="QSMarketPlus.jar">
       <element id="module-output" name="QSMarketPlus" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/kyori/adventure-text-serializer-legacy/4.13.1/adventure-text-serializer-legacy-4.13.1.jar" path-in-jar="/" />

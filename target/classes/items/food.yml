@@ -1,205 +1,155 @@
 items:
-
-  # --- Carnes (cocidas y crudas) ---
   cooked_beef:
-    name: "<brown>Carne asada (vaca)</brown>"
+    name: <white>Carne asada (vaca)</white>
     material: COOKED_BEEF
-    buy: 3
-    sell: 1.5
+    buy: 380.0
+    sell: 14.0
     lore:
-      - "<gray>Carne de vaca, cocinada para consumo.</gray>"
-
-
+    - <white>Carne de vaca, cocinada para consumo.</white>
   cooked_porkchop:
-    name: "<brown>Chuleta asada (cerdo)</brown>"
+    name: <white>Chuleta asada (cerdo)</white>
     material: COOKED_PORKCHOP
-    buy: 3
-    sell: 1.5
+    buy: 380.0
+    sell: 13.0
     lore:
-      - "<gray>Chuleta cocinada, alimento energético.</gray>"
-
-
+    - <white>Chuleta cocinada, alimento energético.</white>
   cooked_chicken:
-    name: "<brown>Pollo asado</brown>"
+    name: <white>Pollo asado</white>
     material: COOKED_CHICKEN
-    buy: 2.5
-    sell: 1.25
+    buy: 320.0
+    sell: 10.0
     lore:
-      - "<gray>Pollo cocinado, cuidado con el hambre.</gray>"
-
-
+    - <white>Pollo cocinado, cuidado con el hambre.</white>
   cooked_mutton:
-    name: "<brown>Cordero asado</brown>"
+    name: <white>Cordero asado</white>
     material: COOKED_MUTTON
-    buy: 2.5
-    sell: 1.25
+    buy: 340.0
+    sell: 12.0
     lore:
-      - "<gray>Carne de oveja, cocinada.</gray>"
-
-
+    - <white>Carne de oveja, cocinada.</white>
   cooked_rabbit:
-    name: "<brown>Carne de conejo asada</brown>"
+    name: <white>Carne de conejo asada</white>
     material: COOKED_RABBIT
-    buy: 2.5
-    sell: 1.25
+    buy: 420.0
+    sell: 12.0
     lore:
-      - "<gray>Carne de conejo, ligera y nutritiva.</gray>"
-
-
-  # --- Pescados ---
+    - <white>Carne de conejo, ligera y nutritiva.</white>
   cooked_cod:
-    name: "<aqua>Bacalao asado</aqua>"
+    name: <white>Bacalao asado</white>
     material: COOKED_COD
-    buy: 2
-    sell: 1
+    buy: 20.0
+    sell: 5.0
     lore:
-      - "<gray>Pescado cocinado, fuente de alimento marino.</gray>"
-
-
+    - <white>Pescado cocinado, fuente de alimento marino.</white>
   cooked_salmon:
-    name: "<aqua>Salmón asado</aqua>"
+    name: <white>Salmón asado</white>
     material: COOKED_SALMON
-    buy: 2.5
-    sell: 1.25
+    buy: 22.0
+    sell: 6.0
     lore:
-      - "<gray>Salmón cocinado, mejor valor nutricional.</gray>"
-
-
-  # --- Panes y productos horneados ---
+    - <white>Salmón cocinado, mejor valor nutricional.</white>
   bread:
-    name: "<white>Pan</white>"
+    name: <white>Pan</white>
     material: BREAD
-    buy: 1.5
-    sell: 0.75
+    buy: 260.0
+    sell: 8.0
     lore:
-      - "<gray>Básico para muchas recetas y supervivencia.</gray>"
-
-
+    - <white>Básico para muchas recetas y supervivencia.</white>
   cake:
-    name: "<white>Tarta</white>"
+    name: <white>Tarta</white>
     material: CAKE
-    buy: 8
-    sell: 4
+    buy: 900.0
+    sell: 25.0
     lore:
-      - "<gray>Postre que sirve varias porciones.</gray>"
-
-
+    - <white>Postre que sirve varias porciones.</white>
   cookie:
-    name: "<white>Galleta</white>"
+    name: <white>Galleta</white>
     material: COOKIE
-    buy: 0.5
-    sell: 0.2
+    buy: 140.0
+    sell: 3.0
     lore:
-      - "<gray>Pequeño dulce, barato y sabroso.</gray>"
-
-
+    - <white>Pequeño dulce, barato y sabroso.</white>
   pumpkin_pie:
-    name: "<orange>Pastel de calabaza</orange>"
+    name: <white>Pastel de calabaza</white>
     material: PUMPKIN_PIE
-    buy: 2
-    sell: 1
+    buy: 300.0
+    sell: 10.0
     lore:
-      - "<gray>Postre sabroso hecho con calabaza.</gray>"
-
-
+    - <white>Postre sabroso hecho con calabaza.</white>
   baked_potato:
-    name: "<gold>Patata asada</gold>"
+    name: <white>Patata asada</white>
     material: BAKED_POTATO
-    buy: 1
-    sell: 0.5
+    buy: 140.0
+    sell: 7.0
     lore:
-      - "<gray>Patata cocinada, alimento económico.</gray>"
-
-
-  # --- Sopas, guisos y comidas especiales ---
+    - <white>Patata cocinada, alimento económico.</white>
   mushroom_stew:
-    name: "<green>Sopa de setas</green>"
+    name: <white>Sopa de setas</white>
     material: MUSHROOM_STEW
-    buy: 3
-    sell: 1.5
+    buy: 250.0
+    sell: 12.0
     lore:
-      - "<gray>Sopa hecha con setas; una ración por cuenco.</gray>"
-
-
+    - <white>Sopa hecha con setas; una ración por cuenco.</white>
   beetroot_soup:
-    name: "<red>Sopa de remolacha</red>"
+    name: <white>Sopa de remolacha</white>
     material: BEETROOT_SOUP
-    buy: 2.5
-    sell: 1.25
+    buy: 220.0
+    sell: 12.0
     lore:
-      - "<gray>Sopa nutritiva hecha de remolacha.</gray>"
-
-
+    - <white>Sopa nutritiva hecha de remolacha.</white>
   suspicious_stew:
-    name: "<dark_purple>Guiso sospechoso</dark_purple>"
+    name: <white>Guiso sospechoso</white>
     material: SUSPICIOUS_STEW
-    buy: 4
-    sell: 2
+    buy: 40.0
+    sell: 8.0
     lore:
-      - "<gray>Guiso con efectos; usa con precaución.</gray>"
-
-
+    - <white>Guiso con efectos; usa con precaución.</white>
   rabbit_stew:
-    name: "<brown>Guiso de conejo</brown>"
+    name: <white>Guiso de conejo</white>
     material: RABBIT_STEW
-    buy: 4
-    sell: 2
+    buy: 450.0
+    sell: 18.0
     lore:
-      - "<gray>Comida completa en un cuenco (hecha con ingredientes).</gray>"
-
-
-  # --- Frutas y simples consumibles ---
+    - <white>Comida completa en un cuenco (hecha con ingredientes).</white>
   apple:
-    name: "<red>Manzana</red>"
+    name: <white>Manzana</white>
     material: APPLE
-    buy: 0.5
-    sell: 0.2
+    buy: 120.0
+    sell: 6.0
     lore:
-      - "<gray>Fruta común, sirve para muchas recetas.</gray>"
-
-
+    - <white>Fruta común, sirve para muchas recetas.</white>
   melon_slice:
-    name: "<green>Rodaja de melón</green>"
+    name: <white>Rodaja de melón</white>
     material: MELON_SLICE
-    buy: 0.25
-    sell: 0.1
+    buy: 12.0
+    sell: 2.0
     lore:
-      - "<gray>Fruta refrescante (melón).</gray>"
-
-
+    - <white>Fruta refrescante (melón).</white>
   chorus_fruit:
-    name: "<purple>Fruta del coro</purple>"
+    name: <white>Fruta del coro</white>
     material: CHORUS_FRUIT
-    buy: 1.5
-    sell: 0.6
+    buy: 30.0
+    sell: 5.0
     lore:
-      - "<gray>Fruta exótica que teletransporta al comer.</gray>"
-
-
+    - <white>Fruta exótica que teletransporta al comer.</white>
   dried_kelp:
-    name: "<aqua>Kelp seco</aqua>"
+    name: <white>Kelp seco</white>
     material: DRIED_KELP
-    buy: 0.2
-    sell: 0.08
+    buy: 10.0
+    sell: 2.0
     lore:
-      - "<gray>Snack marino; barato y ligero.</gray>"
-
-
-  # --- Especiales ---
+    - <white>Snack marino; barato y ligero.</white>
   golden_apple:
-    name: "<gold>Manzana dorada</gold>"
+    name: <white>Manzana dorada</white>
     material: GOLDEN_APPLE
-    buy: 40
-    sell: 20
+    buy: 180.0
+    sell: 25.0
     lore:
-      - "<gray>Otorga efectos; valiosa en combate y supervivencia.</gray>"
-
-
+    - <white>Otorga efectos; valiosa en combate y supervivencia.</white>
   enchanted_golden_apple:
-    name: "<dark_purple>Manzana encantada</dark_purple>"
+    name: <white>Manzana encantada</white>
     material: ENCHANTED_GOLDEN_APPLE
-    buy: 200
-    sell: 100
+    buy: 900.0
+    sell: 120.0
     lore:
-      - "<gray>Manzana extremadamente poderosa.</gray>"
-
+    - <white>Manzana extremadamente poderosa.</white>

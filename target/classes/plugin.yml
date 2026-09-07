@@ -1,5 +1,5 @@
 name: QSMarketPlus
-version: '4.2.6'
+version: '4.2.7'
 main: mp.quesito.qSMarketPlus.QSMarketPlus
 api-version: '1.20'
 depend:
@@ -27,9 +27,34 @@ commands:
     permission: qsmarket.shop.set
     aliases: [pshop, pmarket]
 
+  trade:
+    description: Tradeo entre jugadores
+    usage: /trade <jugador|accept|deny|history>
+    aliases: [t]
+    permission: qsmarket.trade
+
 permissions:
   qsmarket.use:
     default: true
+
+  qsmarket.trade:
+    description: Permite usar el sistema de tradeo (comando maestro)
+    default: true
+    children:
+      qsmarket.trade.request: true
+      qsmarket.trade.history: true
+
+  qsmarket.trade.request:
+    description: Permite enviar, aceptar y rechazar solicitudes de tradeo
+    default: true
+
+  qsmarket.trade.history:
+    description: Permite ver tu propio historial de tradeos
+    default: true
+
+  qsmarket.trade.history.others:
+    description: Permite ver el historial de tradeos de otros jugadores
+    default: op
 
   qsmarket.shop.set:
     default: true

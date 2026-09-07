@@ -172,6 +172,12 @@ shop:
   deleted: "<red>Tienda eliminada.</red>"
   cannot-break-others: "<red>No puedes romper tiendas ajenas.</red>"
   double-chest-blocked: "<red>❌ No puedes colocar un cofre aquí porque alteraría una tienda activa.</red>"
+  chest-protected: "<red>❌ Este cofre está protegido por QsProteccion y no puede usarse como tienda.</red>"
+  sign-protected: "<red>❌ Este cartel pertenece a una protección y no puede usarse para tiendas.</red>"
+  sign-too-far: "<red>❌ El cartel está demasiado lejos del cofre. Máximo <white><distance></white> bloques.</red>"
+  shop-protected-by-other: "<red>❌ Este cofre está protegido por otro jugador. La tienda no puede operar.</red>"
+  no-region-permission: "<red>❌ No puedes crear tiendas dentro de la región de otra persona.</red>"
+  required-item-missing: "<red>❌ Necesitas sostener <white><item></white> en tu mano para crear una tienda.</red>"
 
 # ======================================================
 # 🛡️ Sistema de Administración (Staff) - ¡TE FALTABAN ESTOS!
@@ -181,6 +187,43 @@ admin:
   deleted-by-admin: "<yellow>⚠ Has eliminado la tienda de otro jugador como Admin.</yellow>"
   broken-by-admin: "<yellow>⚠ Has destruido la tienda de <owner> usando tus permisos de Admin.</yellow>"
 
+
+# ======================================================
+# 🤝 Sistema de Tradeo entre jugadores
+# ======================================================
+trade:
+  usage: |-
+    <yellow>« Sistema de Tradeo »</yellow>
+    <gray>Usa uno de los siguientes comandos:</gray>
+    <yellow>• <white>/trade <jugador></white> <dark_gray>-</dark_gray> <gray>Envía una solicitud de tradeo.</gray>
+    <yellow>• <white>/trade accept <jugador></white> <dark_gray>-</dark_gray> <gray>Acepta la solicitud pendiente.</gray>
+    <yellow>• <white>/trade deny <jugador></white> <dark_gray>-</dark_gray> <gray>Rechaza la solicitud pendiente.</gray>
+    <yellow>• <white>/trade history</white> <dark_gray>-</dark_gray> <gray>Abre tu historial de tradeos.</gray>
+    <yellow>• <white>/trade history <jugador></white> <dark_gray>-</dark_gray> <gray>(Staff) Ver historial de otro jugador.</gray>
+  self: "<red>No puedes tradearte a ti mismo.</red>"
+  not-found: "<red>Jugador no encontrado o no conectado.</red>"
+  no-permission-target: "<red>Ese jugador no tiene permiso para tradear.</red>"
+  busy: "<red>Ese jugador ya está en un tradeo.</red>"
+  in-trade: "<red>Ya estás dentro de un tradeo.</red>"
+  request-sent: "<green>✔ Has enviado una solicitud de tradeo a <yellow><player></yellow>.</green>"
+  request-received: "<yellow><player></yellow> <gray>te ha enviado una solicitud de tradeo.</gray> <green>» /trade accept <white><player></white></green>"
+  no-request: "<red>No tienes ninguna solicitud pendiente de <yellow><player></yellow>.</red>"
+  started: "<green>✔ Tradeo iniciado con <yellow><player></yellow>.</green>"
+  denied: "<yellow>Has rechazado la solicitud de <white><player></white>.</yellow>"
+  sender-denied: "<gray><yellow><player></yellow> rechazó tu solicitud de tradeo.</gray>"
+  cancel: "<red>✘ Tradeo cancelado.</red>"
+  cancelled-by: "<red><yellow><player></yellow> canceló el tradeo.</red>"
+  completed: "<green>✔ ¡Tradeo completado con <yellow><player></yellow>!</green>"
+  too-far: "<red>Demasiado lejos para tradear con <yellow><player></yellow>. Máximo <white><distance></white> bloques.</red>"
+  offer-full: "<red>Tu área de oferta está llena.</red>"
+  no-money: "<red>No puedes ofrecer más dinero de tu saldo actual.</red>"
+  no-xp: "<red>No puedes ofrecer más niveles de los que tienes.</red>"
+  no-funds: "<red>No hay suficientes fondos para completar el tradeo. Revisa tu oferta.</red>"
+  no-permission: "<red>No tienes permiso para usar este comando.</red>"
+  input-prompt-money: "<yellow>Escribe en el chat cuánto dinero quieres ofrecer.</yellow> <gray>(máx <green>$<max></green>, o escribe <red>cancelar</red>)</gray>"
+  input-prompt-xp: "<aqua>Escribe en el chat cuántos niveles de XP quieres ofrecer.</aqua> <gray>(máx <white><max></white>, o escribe <red>cancelar</red>)</gray>"
+  input-invalid: "<red>Cantidad inválida. Escribe un número o <yellow>cancelar</yellow>.</red>"
+  input-cancelled: "<gray>Has cancelado la entrada de cantidad.</gray>"
 
 # Este es el lore del artículo que se muestra en el menú de compra/venta
 price-format:

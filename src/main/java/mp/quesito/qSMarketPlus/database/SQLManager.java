@@ -219,6 +219,37 @@ public class SQLManager {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         """;
 
+        // ======================= Trade History =======================
+        String sqliteTradeHistory = """
+            CREATE TABLE IF NOT EXISTS trade_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                player_a TEXT NOT NULL,
+                player_b TEXT NOT NULL,
+                items_a TEXT,
+                items_b TEXT,
+                money_a DOUBLE NOT NULL DEFAULT 0,
+                money_b DOUBLE NOT NULL DEFAULT 0,
+                xp_a INTEGER NOT NULL DEFAULT 0,
+                xp_b INTEGER NOT NULL DEFAULT 0,
+                timestamp BIGINT NOT NULL
+            );
+        """;
+
+        String mysqlTradeHistory = """
+            CREATE TABLE IF NOT EXISTS trade_history (
+                id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                player_a VARCHAR(36) NOT NULL,
+                player_b VARCHAR(36) NOT NULL,
+                items_a LONGTEXT,
+                items_b LONGTEXT,
+                money_a DECIMAL(15,2) NOT NULL DEFAULT 0,
+                money_b DECIMAL(15,2) NOT NULL DEFAULT 0,
+                xp_a INT NOT NULL DEFAULT 0,
+                xp_b INT NOT NULL DEFAULT 0,
+                timestamp BIGINT NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        """;
+
         if (db instanceof MySQLDatabase) {
             update(mysqlShops);
         } else {
@@ -245,6 +276,13 @@ public class SQLManager {
             update(mysqlUnique);
         } else {
             update(sqliteUnique);
+        }
+
+        // Ejecutar creación de tabla de historial de tradeos
+        if (db instanceof MySQLDatabase) {
+            update(mysqlTradeHistory);
+        } else {
+            update(sqliteTradeHistory);
         }
     }
 

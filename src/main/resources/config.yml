@@ -51,6 +51,19 @@ auction:
 
 auction-limits.default: 5 # Jugadores sin permisos especiales
 
+# ======================================================
+# 🤝 Sistema de Tradeo entre Jugadores
+# ======================================================
+trade:
+  # Distancia máxima (en bloques) para iniciar o completar un tradeo.
+  max-distance: 10
+
+  # Tiempo (en segundos) que dura una solicitud de tradeo antes de expirar.
+  request-timeout: 60
+
+  # Tiempo (en segundos) que espera la cantidad escrita en el chat antes de descartarse.
+  input-timeout: 45
+
 
 database:
   type: sqlite # opciones: sqlite / mysql
@@ -104,5 +117,51 @@ holograms:
     interval: 1
   scale: 0.7
   view-range: 32
+
+
+# ======================================================
+# 🛒 Tiendas de Jugador (PlayerShops)
+# ======================================================
+player-shops:
+  # Máxima distancia (en bloques) permitida entre el cartel
+  # y el cofre al crear una tienda. 0 = sin límite.
+  max-sign-distance: 10
+
+  # Permitir crear una tienda sobre un cofre PROPIO protegido
+  # por QsProteccion. Si es false, ningún cofre protegido
+  # puede usarse como tienda (excepto admins/Bypass).
+  allow-own-protected-chest: true
+
+  # Requiere ser DUEÑO o MIEMBRO de la región de
+  # ProtectionStones para poder crear una tienda
+  # dentro de esa región.
+  # Los tenats/inquilinos y externos NO podrán crear tiendas.
+  require-region-permission: true
+
+  # Permisos que ignoran los chequeos de QsProteccion.
+  # Se configuran en un plugin de permisos (LuckPerms, etc.)
+  bypass-protection-permission: qsmarket.shop.bypass.protection
+
+  # ======================================================
+  # Item requerido para permitir colocar tiendas
+  # ======================================================
+  # Si enabled es true, en vez de usar redstone para
+  # vincular (click cofre → click cartel), el jugador
+  # deberá sostener el item configurado.
+  #
+  # Esto sirve para gatear/limitar quién puede crear
+  # tiendas con items especiales (ej: un token de tienda).
+  #
+  # NOTA: Este item SOLO se usa para crear/vinculár la
+  # tienda. No se necesitará para comprar.
+  require-item:
+    enabled: false
+    material: EMERALD
+    # 0 = acepta cualquier custom model data
+    custom-model-data: 0
+    # Nombre exacto (con colores legacy §). Vacío = cualquiera
+    display-name: ""
+    # true = se consume 1 item al crear la tienda correctamente
+    consume: true
 
 

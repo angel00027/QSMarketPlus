@@ -27,60 +27,220 @@ public class MessageUtil {
     }
 
     // -------------------------
+    //   MiniMessage seguro
+    // -------------------------
+
+    /**
+     * Deserializa MiniMessage.
+     *
+     * Si encuentra códigos legacy (§a, §f, §l, etc.),
+     * los convierte automáticamente a MiniMessage.
+     *
+     * Si aun así falla, elimina los códigos legacy como
+     * último recurso para evitar que el plugin genere una excepción.
+     */
+    public static Component safeDeserialize(String message, TagResolver... placeholders) {
+
+        if (message == null || message.isEmpty()) {
+            return Component.empty();
+        }
+
+        try {
+            // Primer intento: MiniMessage normal
+            return mm.deserialize(message, placeholders);
+
+        } catch (Exception firstError) {
+
+            // Segundo intento: convertir códigos legacy
+            try {
+                String converted = legacyToMiniMessage(message);
+
+                return mm.deserialize(converted, placeholders);
+
+            } catch (Exception secondError) {
+
+                // Último recurso: eliminar códigos legacy
+                try {
+                    String stripped = stripLegacy(message);
+
+                    return mm.deserialize(stripped, placeholders);
+
+                } catch (Exception ignored) {
+
+                    // Evita que un mensaje roto tumbe la tarea
+                    return Component.text(stripLegacy(message));
+                }
+            }
+        }
+    }
+
+
+    // -------------------------
     //   Enviar mensajes
     // -------------------------
+
     public static void msg(Player player, String message, TagResolver... placeholders) {
+
         adventure.player(player).sendMessage(
-                mm.deserialize(message, placeholders)
+                safeDeserialize(message, placeholders)
         );
     }
+
+
     public static void lang(Player player, String key, TagResolver... placeholders) {
+
         String raw = Lang.get(key);
 
         adventure.player(player).sendMessage(
-                mm.deserialize(raw, placeholders)
+                safeDeserialize(raw, placeholders)
         );
     }
 
 
-    // Quitar códigos legacy para evitar crasheo con MiniMessage
-    public static String stripLegacy(String text) {
-        if (text == null) return "";
+    // -------------------------
+    //   Legacy -> MiniMessage
+    // -------------------------
 
-        // Eliminar códigos hex: §x§A§B§C§D§E§F
-        text = text.replaceAll("§x(§[0-9A-Fa-f]){6}", "");
+    /**
+     * Convierte códigos legacy de Minecraft a MiniMessage.
+     *
+     * Ejemplo:
+     *
+     * §fPan
+     * ->
+     * <white>Pan</white>
+     *
+     * §aHola §cMundo
+     * ->
+     * <green>Hola <red>Mundo
+     */
+    public static String legacyToMiniMessage(String text) {
 
-        // Eliminar todos los códigos legacy estándar §a §b §l §o §r ...
-        text = text.replaceAll("§[0-9A-FK-ORa-fk-or]", "");
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+
+        // Colores normales
+        text = text
+                .replace("§0", "<black>")
+                .replace("§1", "<dark_blue>")
+                .replace("§2", "<dark_green>")
+                .replace("§3", "<dark_aqua>")
+                .replace("§4", "<dark_red>")
+                .replace("§5", "<dark_purple>")
+                .replace("§6", "<gold>")
+                .replace("§7", "<gray>")
+                .replace("§8", "<dark_gray>")
+                .replace("§9", "<blue>")
+                .replace("§a", "<green>")
+                .replace("§b", "<aqua>")
+                .replace("§c", "<red>")
+                .replace("§d", "<light_purple>")
+                .replace("§e", "<yellow>")
+                .replace("§f", "<white>");
+
+        // Formatos
+        text = text
+                .replace("§k", "<obfuscated>")
+                .replace("§l", "<bold>")
+                .replace("§m", "<strikethrough>")
+                .replace("§n", "<underlined>")
+                .replace("§o", "<italic>")
+                .replace("§r", "<reset>");
+
+        // También soportar &, por si algún nombre usa &f
+        text = text
+                .replace("&0", "<black>")
+                .replace("&1", "<dark_blue>")
+                .replace("&2", "<dark_green>")
+                .replace("&3", "<dark_aqua>")
+                .replace("&4", "<dark_red>")
+                .replace("&5", "<dark_purple>")
+                .replace("&6", "<gold>")
+                .replace("&7", "<gray>")
+                .replace("&8", "<dark_gray>")
+                .replace("&9", "<blue>")
+                .replace("&a", "<green>")
+                .replace("&b", "<aqua>")
+                .replace("&c", "<red>")
+                .replace("&d", "<light_purple>")
+                .replace("&e", "<yellow>")
+                .replace("&f", "<white>");
 
         return text;
     }
 
 
+    // -------------------------
+    //   Quitar Legacy
+    // -------------------------
+
+    public static String stripLegacy(String text) {
+
+        if (text == null) {
+            return "";
+        }
+
+        // Hex legacy:
+        // §x§A§B§C§D§E§F
+        text = text.replaceAll(
+                "§x(§[0-9A-Fa-f]){6}",
+                ""
+        );
+
+        // Legacy normal:
+        // §0-§9, §a-§f, §k-§o, §r
+        text = text.replaceAll(
+                "§[0-9A-FK-ORa-fk-or]",
+                ""
+        );
+
+        return text;
+    }
+
+
+    // -------------------------
+    //   MiniMessage -> Legacy
+    // -------------------------
 
     public static String toLegacy(String mmText) {
 
-        // Si ya contiene códigos § → NO procesar con MiniMessage
+        if (mmText == null) {
+            return "";
+        }
+
+        // Si ya contiene códigos §, devolverlos tal cual
         if (mmText.contains("§")) {
             return mmText;
         }
 
-        // Si contiene MiniMessage (<red>, <green>, etc)
+        // Si contiene MiniMessage
         if (mmText.contains("<")) {
-            return LegacyComponentSerializer.legacySection().serialize(
-                    mm.deserialize(mmText)
-            );
+
+            try {
+
+                return LegacyComponentSerializer
+                        .legacySection()
+                        .serialize(
+                                safeDeserialize(mmText)
+                        );
+
+            } catch (Exception e) {
+
+                // Último recurso
+                return stripLegacy(mmText);
+            }
         }
 
-        // Si no contiene ni § ni < > → se devuelve tal cual
         return mmText;
     }
 
 
-
-
     public static List<String> toLegacy(List<String> lines) {
-        if (lines == null) return null;
+
+        if (lines == null) {
+            return null;
+        }
 
         return lines.stream()
                 .map(MessageUtil::toLegacy)
@@ -89,26 +249,59 @@ public class MessageUtil {
 
 
     public static List<String> loreToLegacy(List<String> lines) {
+
+        if (lines == null) {
+            return null;
+        }
+
         return lines.stream()
                 .map(MessageUtil::toLegacy)
                 .collect(Collectors.toList());
     }
 
-    public static String placeholders(String text, double buy, double sell) {
+
+    // -------------------------
+    //   Placeholders
+    // -------------------------
+
+    public static String placeholders(
+            String text,
+            double buy,
+            double sell
+    ) {
+
+        if (text == null) {
+            return "";
+        }
+
         return text
                 .replace("%buy%", String.valueOf(buy))
                 .replace("%sell%", String.valueOf(sell));
     }
+
+
+    // -------------------------
+    //   Precio
+    // -------------------------
+
     public static String priceFormat(String key, ShopItem item) {
 
         double buy = item.getBuy();
         double sell = item.getSell();
 
-        if (key.equals("buy") && buy <= 0) return "";
-        if (key.equals("sell") && sell <= 0) return "";
+        if (key.equals("buy") && buy <= 0) {
+            return "";
+        }
+
+        if (key.equals("sell") && sell <= 0) {
+            return "";
+        }
 
         String format = Lang.get("price-format." + key);
-        if (format == null) return "";
+
+        if (format == null) {
+            return "";
+        }
 
         EconomyProvider eco = QSMarketPlus.getInstance()
                 .getEconomyManager()
@@ -125,7 +318,10 @@ public class MessageUtil {
 
             currencyName = QSMarketPlus.getInstance()
                     .getConfig()
-                    .getString("economies." + id + ".display-name", id);
+                    .getString(
+                            "economies." + id + ".display-name",
+                            id
+                    );
         }
 
         double price = key.equals("buy") ? buy : sell;
@@ -139,22 +335,42 @@ public class MessageUtil {
     }
 
 
+    // -------------------------
+    //   Títulos
+    // -------------------------
 
-    // -------------------------
-    //   TÍTULOS
-    // -------------------------
-    public static void title(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+    public static void title(
+            Player player,
+            String title,
+            String subtitle,
+            int fadeIn,
+            int stay,
+            int fadeOut
+    ) {
+
         adventure.player(player).showTitle(
                 net.kyori.adventure.title.Title.title(
-                        mm.deserialize(title),
-                        mm.deserialize(subtitle)
+                        safeDeserialize(title),
+                        safeDeserialize(subtitle)
                 )
         );
     }
 
-    public static void title(Player player, String title, String subtitle) {
-        title(player, title, subtitle, 10, 40, 10);
+
+    public static void title(
+            Player player,
+            String title,
+            String subtitle
+    ) {
+
+        title(
+                player,
+                title,
+                subtitle,
+                10,
+                40,
+                10
+        );
     }
-
-
 }
+

@@ -1,175 +1,148 @@
 items:
-
-  # --- Polvo y señales básicas ---
   redstone:
-    name: "<red>Polvo de redstone</red>"
+    name: <white>Polvo de redstone</white>
     material: REDSTONE
-    buy: 1.5
-    sell: 0.75
+    buy: 337.5
+    sell: 18.75
     lore:
-      - "<gray>Conductor usado para crear circuitos y mecanismos.</gray>"
-
+    - <white>Conductor usado para crear circuitos y mecanismos.</white>
   redstone_torch:
-    name: "<red>Antorcha de redstone</red>"
+    name: <white>Antorcha de redstone</white>
     material: REDSTONE_TORCH
-    buy: 1
-    sell: 0.5
+    buy: 225.0
+    sell: 12.5
     lore:
-      - "<gray>Fuente de señal constante.</gray>"
-
+    - <white>Fuente de señal constante.</white>
   redstone_block:
-    name: "<red>Bloque de redstone</red>"
+    name: <white>Bloque de redstone</white>
     material: REDSTONE_BLOCK
-    buy: 18
-    sell: 9
+    buy: 5832.0
+    sell: 324.0
     lore:
-      - "<gray>Compacta 9 polvos de redstone.</gray>"
-
+    - <white>Compacta 9 polvos de redstone.</white>
   redstone_lamp:
-    name: "<yellow>Lámpara de redstone</yellow>"
+    name: <white>Lámpara de redstone</white>
     material: REDSTONE_LAMP
-    buy: 8
-    sell: 4
+    buy: 2592.0
+    sell: 144.0
     lore:
-      - "<gray>Emite luz con señal de redstone.</gray>"
-
+    - <white>Emite luz con señal de redstone.</white>
   daylight_detector:
-    name: "<gold>Detector de luz diurna</gold>"
+    name: <white>Detector de luz diurna</white>
     material: DAYLIGHT_DETECTOR
-    buy: 12
-    sell: 6
+    buy: 3888.0
+    sell: 216.0
     lore:
-      - "<gray>Genera señal según la luz solar.</gray>"
-
-  # --- Repetidores y comparadores ---
+    - <white>Genera señal según la luz solar.</white>
   repeater:
-    name: "<gold>Repetidor</gold>"
+    name: <white>Repetidor</white>
     material: repeater
-    buy: 1.5
-    sell: 0.75
+    buy: 337.5
+    sell: 18.75
     lore:
-      - "<gray>Retrasa y amplifica señales.</gray>"
-
+    - <white>Retrasa y amplifica señales.</white>
   comparator:
-    name: "<gold>Comparador</gold>"
+    name: <white>Comparador</white>
     material: comparator
-    buy: 2
-    sell: 1
+    buy: 450.0
+    sell: 25.0
     lore:
-      - "<gray>Compara y mide niveles de señal.</gray>"
-
-  # --- Sensores y detectores ---
+    - <white>Compara y mide niveles de señal.</white>
   observer:
-    name: "<gray>Observador</gray>"
+    name: <white>Observador</white>
     material: OBSERVER
-    buy: 4
-    sell: 2
+    buy: 1296.0
+    sell: 72.0
     lore:
-      - "<gray>Detecta cambios de bloque.</gray>"
-
+    - <white>Detecta cambios de bloque.</white>
   tripwire_hook:
-    name: "<gray>Anzuelo de tripwire</gray>"
+    name: <white>Anzuelo de tripwire</white>
     material: TRIPWIRE_HOOK
-    buy: 1
-    sell: 0.5
+    buy: 225.0
+    sell: 12.5
     lore:
-      - "<gray>Para trampas y detección de entidades.</gray>"
-
-  # --- Mecanismos móviles ---
+    - <white>Para trampas y detección de entidades.</white>
   piston:
-    name: "<gray>Pistón</gray>"
+    name: <white>Pistón</white>
     material: PISTON
-    buy: 4
-    sell: 2
+    buy: 1296.0
+    sell: 72.0
     lore:
-      - "<gray>Empuja bloques al activarse.</gray>"
-
+    - <white>Empuja bloques al activarse.</white>
   sticky_piston:
-    name: "<gray>Pistón pegajoso</gray>"
+    name: <white>Pistón pegajoso</white>
     material: STICKY_PISTON
-    buy: 5
-    sell: 2.5
+    buy: 1620.0
+    sell: 90.0
     lore:
-      - "<gray>Empuja y jala bloques.</gray>"
-
+    - <white>Empuja y jala bloques.</white>
   slime_block:
-    name: "<green>Bloque de slime</green>"
+    name: <white>Bloque de slime</white>
     material: SLIME_BLOCK
-    buy: 20
-    sell: 10
+    buy: 4500.0
+    sell: 250.0
     lore:
-      - "<gray>Usado para máquinas móviles.</gray>"
-
+    - <white>Usado para máquinas móviles.</white>
   honey_block:
-    name: "<gold>Bloque de miel</gold>"
+    name: <white>Bloque de miel</white>
     material: HONEY_BLOCK
-    buy: 18
-    sell: 9
+    buy: 4050.0
+    sell: 225.0
     lore:
-      - "<gray>No rebota; útil con pistones.</gray>"
-
-  # --- Contenedores automáticos ---
+    - <white>No rebota; útil con pistones.</white>
   dispenser:
-    name: "<gray>Dispensador</gray>"
+    name: <white>Dispensador</white>
     material: DISPENSER
-    buy: 3
-    sell: 1.5
+    buy: 972.0
+    sell: 54.0
     lore:
-      - "<gray>Lanza o usa ítems automáticamente.</gray>"
-
+    - <white>Lanza o usa ítems automáticamente.</white>
   dropper:
-    name: "<gray>Lanzadera</gray>"
+    name: <white>Lanzadera</white>
     material: DROPPER
-    buy: 2.5
-    sell: 1.25
+    buy: 810.0
+    sell: 45.0
     lore:
-      - "<gray>Solo expulsa ítems.</gray>"
-
+    - <white>Solo expulsa ítems.</white>
   hopper:
-    name: "<gray>Tolva</gray>"
+    name: <white>Tolva</white>
     material: HOPPER
-    buy: 8
-    sell: 4
+    buy: 2592.0
+    sell: 144.0
     lore:
-      - "<gray>Mueve ítems entre contenedores.</gray>"
-
-  # --- Señales e inputs ---
+    - <white>Mueve ítems entre contenedores.</white>
   lever:
-    name: "<gray>Palanca</gray>"
+    name: <white>Palanca</white>
     material: LEVER
-    buy: 0.5
-    sell: 0.2
+    buy: 112.5
+    sell: 5.0
     lore:
-      - "<gray>Activa señales de redstone.</gray>"
-
+    - <white>Activa señales de redstone.</white>
   stone_button:
-    name: "<gray>Botón (piedra)</gray>"
+    name: <white>Botón (piedra)</white>
     material: STONE_BUTTON
-    buy: 0.4
-    sell: 0.15
+    buy: 90.0
+    sell: 3.75
     lore:
-      - "<gray>Señal corta.</gray>"
-
+    - <white>Señal corta.</white>
   wooden_button:
-    name: "<gray>Botón (madera)</gray>"
+    name: <white>Botón (madera)</white>
     material: OAK_BUTTON
-    buy: 0.4
-    sell: 0.15
+    buy: 90.0
+    sell: 3.75
     lore:
-      - "<gray>Activable por flechas o mobs.</gray>"
-
+    - <white>Activable por flechas o mobs.</white>
   pressure_plate_stone:
-    name: "<gray>Placa de presión (piedra)</gray>"
+    name: <white>Placa de presión (piedra)</white>
     material: STONE_PRESSURE_PLATE
-    buy: 0.6
-    sell: 0.25
+    buy: 135.0
+    sell: 6.25
     lore:
-      - "<gray>Detecta jugadores y mobs.</gray>"
-
+    - <white>Detecta jugadores y mobs.</white>
   pressure_plate_wood:
-    name: "<gray>Placa de presión (madera)</gray>"
+    name: <white>Placa de presión (madera)</white>
     material: OAK_PRESSURE_PLATE
-    buy: 0.6
-    sell: 0.25
+    buy: 135.0
+    sell: 6.25
     lore:
-      - "<gray>Detecta ítems y entidades.</gray>"
+    - <white>Detecta ítems y entidades.</white>

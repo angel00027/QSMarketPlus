@@ -6,6 +6,11 @@ pro-menu:
   title: "<dark_gray>Shop » <yellow>%category% <gray>(%page%/%max_page%)"
   size: 54
 
+bedrock:
+  # Si los jugadores Bedrock (Geyser/Floodgate) usarán la gui de Formularios.
+  # Ponlo en false para que usen el mismo menú que los jugadores Java.
+  shop-gui: true
+
 economies:
   # variables para el price-format , <symbol> <price> <currency>  es para el menu donde seleccionamos la cantidad de compra o venta.
   price-format: "<symbol> <price>"
@@ -63,6 +68,10 @@ trade:
 
   # Tiempo (en segundos) que espera la cantidad escrita en el chat antes de descartarse.
   input-timeout: 45
+
+  # Cuenta atrás (en segundos) cuando ambos jugadores están listos,
+  # dando tiempo a cancelar para añadir algo más antes de completar.
+  countdown-seconds: 5
 
 
 database:

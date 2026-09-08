@@ -30,7 +30,11 @@ public class ShopCommand implements CommandExecutor {
         // ========================================================
         // 🔥 FILTRO INTERCEPTOR PARA JUGADORES DE BEDROCK (Geyser)
         // ========================================================
-        if (PlatformUtil.isBedrock(player)) {
+        boolean bedrockGui = QSMarketPlus.getInstance()
+                .getConfig()
+                .getBoolean("bedrock.shop-gui", true);
+
+        if (PlatformUtil.isBedrock(player) && bedrockGui) {
             // Se ejecuta de manera asíncrona o directa según la API de Floodgate
             BedrockFormMenu.openCategories(player, manager);
             return true;

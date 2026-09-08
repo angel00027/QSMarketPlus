@@ -220,8 +220,8 @@ trade:
   no-xp: "<red>No puedes ofrecer más niveles de los que tienes.</red>"
   no-funds: "<red>No hay suficientes fondos para completar el tradeo. Revisa tu oferta.</red>"
   no-permission: "<red>No tienes permiso para usar este comando.</red>"
-  input-prompt-money: "<yellow>Escribe en el chat cuánto dinero quieres ofrecer.</yellow> <gray>(máx <green>$<max></green>, o escribe <red>cancelar</red>)</gray>"
-  input-prompt-xp: "<aqua>Escribe en el chat cuántos niveles de XP quieres ofrecer.</aqua> <gray>(máx <white><max></white>, o escribe <red>cancelar</red>)</gray>"
+  input-prompt-money: "<yellow>Menú cerrado. Escribe en el chat cuánto dinero quieres ofrecer.</yellow> <gray>(máx <green>$<max></green>, o escribe <red>cancelar</red>)</gray>"
+  input-prompt-xp: "<aqua>Menú cerrado. Escribe en el chat cuántos niveles de XP quieres ofrecer.</aqua> <gray>(máx <white><max></white>, o escribe <red>cancelar</red>)</gray>"
   input-invalid: "<red>Cantidad inválida. Escribe un número o <yellow>cancelar</yellow>.</red>"
   input-cancelled: "<gray>Has cancelado la entrada de cantidad.</gray>"
 

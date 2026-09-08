@@ -1,5 +1,5 @@
 name: QSMarketPlus
-version: '4.2.7'
+version: '4.2.8'
 main: mp.quesito.qSMarketPlus.QSMarketPlus
 api-version: '1.20'
 depend:

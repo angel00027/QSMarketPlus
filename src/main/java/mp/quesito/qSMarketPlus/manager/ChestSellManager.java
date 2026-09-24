@@ -24,10 +24,10 @@ public class ChestSellManager {
             ItemStack item = chestInv.getItem(i);
             if (item == null || item.getType().isAir()) continue;
 
-            ShopItem shopItem = itemManager.getItemById(item.getType().name().toLowerCase());
+            ShopItem shopItem = itemManager.findSellable(item);
 
-            // Si no está en la config, ignorar
-            if (shopItem == null) continue;
+            // Si no está en la config o no tiene precio de venta, ignorar
+            if (shopItem == null || shopItem.getSell() <= 0) continue;
 
             // Sumar dinero
             totalMoney += shopItem.getSell() * item.getAmount();

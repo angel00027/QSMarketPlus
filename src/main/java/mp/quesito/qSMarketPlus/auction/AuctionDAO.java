@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import mp.quesito.qSMarketPlus.database.SQLManager;
+import mp.quesito.qSMarketPlus.utils.ItemSerializer;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
 
-import java.io.*;
 import java.sql.*;
 import java.util.*;
-import java.util.Base64;
 
 public class AuctionDAO {
 
@@ -23,53 +20,61 @@ public class AuctionDAO {
     }
 
     // ==============================
+    //   PARSEAR FILA (tolerante)
+    // ==============================
+    private AuctionItem readRow(ResultSet rs) {
+        try {
+            int id = rs.getInt("id");
+            UUID seller = UUID.fromString(rs.getString("seller"));
+            String buyerStr = rs.getString("buyer");
+            UUID buyer = buyerStr == null || buyerStr.isEmpty() ? null : UUID.fromString(buyerStr);
+
+            double price = rs.getDouble("price");
+            long created = rs.getLong("created");
+            long expires = rs.getLong("expires");
+            String statusStr = rs.getString("status");
+
+            String itemStr = rs.getString("item");
+            String contStr = rs.getString("container");
+
+            AuctionItem auction;
+
+if (itemStr != null && !itemStr.isEmpty()) {
+                ItemStack item = ItemSerializer.fromBase64(itemStr, true);
+                auction = new AuctionItem(seller, item, price, created, expires);
+            } else {
+                ItemStack[] contents = containerFromJson(contStr);
+                auction = new AuctionItem(seller, contents, price, created, expires);
+            }
+
+            auction.id = id;
+            auction.buyer = buyer;
+            auction.status = AuctionItem.Status.valueOf(statusStr.toUpperCase(Locale.ROOT));
+
+            return auction;
+        } catch (Exception e) {
+            try {
+                System.err.println("[AuctionDAO] Fila de subasta corrupta, omitida (id=" + rs.getInt("id") + "): " + e.getMessage());
+            } catch (Exception ignored) { }
+            return null;
+        }
+    }
+
+    // ==============================
     //   CARGAR ACTIVAS
     // ==============================
     public List<AuctionItem> loadActiveAuctions() {
-
         List<AuctionItem> list = new ArrayList<>();
-
         sql.query("SELECT * FROM auctions WHERE status = 'ACTIVE'", rs -> {
             try {
                 while (rs.next()) {
-
-                    int id = rs.getInt("id");
-                    UUID seller = UUID.fromString(rs.getString("seller"));
-                    String buyerStr = rs.getString("buyer");
-                    UUID buyer = buyerStr == null ? null : UUID.fromString(buyerStr);
-
-                    double price = rs.getDouble("price");
-                    long created = rs.getLong("created");
-                    long expires = rs.getLong("expires");
-                    String statusStr = rs.getString("status");
-
-                    String itemStr = rs.getString("item");
-                    String contStr = rs.getString("container");
-
-                    AuctionItem auction;
-
-                    if (itemStr != null && !itemStr.isEmpty()) {
-
-                        ItemStack item = itemFromBase64(itemStr);
-                        auction = new AuctionItem(seller, item, price, created, expires);
-
-                    } else {
-
-                        ItemStack[] contents = containerFromJson(contStr);
-                        auction = new AuctionItem(seller, contents, price, created, expires);
-                    }
-
-                    auction.id = id;
-                    auction.buyer = buyer;
-                    auction.status = AuctionItem.Status.valueOf(statusStr.toUpperCase(Locale.ROOT));
-
-                    list.add(auction);
+                    AuctionItem auction = readRow(rs);
+                    if (auction != null) list.add(auction);
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
-
         return list;
     }
 
@@ -77,9 +82,7 @@ public class AuctionDAO {
     //   HISTORIAL POR JUGADOR
     // ==============================
     public List<AuctionItem> loadHistory(UUID sellerUuid, int limit, int offset) {
-
         List<AuctionItem> list = new ArrayList<>();
-
         sql.query("""
                     SELECT * FROM auctions
                     WHERE seller = ? AND status <> 'ACTIVE'
@@ -89,50 +92,20 @@ public class AuctionDAO {
                 rs -> {
                     try {
                         while (rs.next()) {
-
-                            int id = rs.getInt("id");
-                            UUID seller = UUID.fromString(rs.getString("seller"));
-                            String buyerStr = rs.getString("buyer");
-                            UUID buyer = buyerStr == null ? null : UUID.fromString(buyerStr);
-
-                            double price = rs.getDouble("price");
-                            long created = rs.getLong("created");
-                            long expires = rs.getLong("expires");
-                            String statusStr = rs.getString("status");
-
-                            String itemStr = rs.getString("item");
-                            String contStr = rs.getString("container");
-
-                            AuctionItem auction;
-
-                            if (itemStr != null && !itemStr.isEmpty()) {
-                                ItemStack item = itemFromBase64(itemStr);
-                                auction = new AuctionItem(seller, item, price, created, expires);
-                            } else {
-                                ItemStack[] contents = containerFromJson(contStr);
-                                auction = new AuctionItem(seller, contents, price, created, expires);
-                            }
-
-                            auction.id = id;
-                            auction.buyer = buyer;
-                            auction.status = AuctionItem.Status.valueOf(statusStr.toUpperCase(Locale.ROOT));
-
-                            list.add(auction);
+                            AuctionItem auction = readRow(rs);
+                            if (auction != null) list.add(auction);
                         }
-                    } catch (Exception e) {
+                    } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 },
                 sellerUuid.toString(), limit, offset
         );
-
         return list;
     }
 
     public List<AuctionItem> loadExpired(UUID seller) {
-
         List<AuctionItem> list = new ArrayList<>();
-
         sql.query("""
             SELECT * FROM auctions
             WHERE seller = ? AND status = 'EXPIRED'
@@ -141,45 +114,18 @@ public class AuctionDAO {
                 rs -> {
                     try {
                         while (rs.next()) {
-
-                            int id = rs.getInt("id");
-                            UUID sellerId = UUID.fromString(rs.getString("seller"));
-
-                            String buyerStr = rs.getString("buyer");
-                            UUID buyer = buyerStr == null ? null : UUID.fromString(buyerStr);
-
-                            double price = rs.getDouble("price");
-                            long created = rs.getLong("created");
-                            long expires = rs.getLong("expires");
-                            String statusStr = rs.getString("status");
-
-                            String itemStr = rs.getString("item");
-                            String contStr = rs.getString("container");
-
-                            AuctionItem auc;
-
-                            if (itemStr != null && !itemStr.isEmpty()) {
-                                auc = new AuctionItem(sellerId, itemFromBase64(itemStr), price, created, expires);
-                            } else {
-                                auc = new AuctionItem(sellerId, containerFromJson(contStr), price, created, expires);
-                            }
-
-                            auc.id = id;
-                            auc.buyer = buyer;
-                            auc.status = AuctionItem.Status.valueOf(statusStr);
-
-                            list.add(auc);
-
+                            AuctionItem auction = readRow(rs);
+                            if (auction != null) list.add(auction);
                         }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
                 },
                 seller.toString()
         );
-
         return list;
     }
+
     public void markAsTaken(AuctionItem auction) {
         sql.update("""
             UPDATE auctions
@@ -188,12 +134,15 @@ public class AuctionDAO {
         """, auction.id);
     }
 
+    // Eliminación administrativa (retirada definitiva de la fila)
+    public boolean delete(int id) {
+        return sql.update("DELETE FROM auctions WHERE id = ?", id) > 0;
+    }
 
     // ==============================
-    //   INSERTAR SUBASTA
+    //   INSERTAR SUBASTA (devuelve éxito)
     // ==============================
-    public void insertAuction(AuctionItem auction) {
-
+    public boolean insertAuction(AuctionItem auction) {
         String sqlInsert = """
             INSERT INTO auctions
             (seller, buyer, price, created, expires, status, item, container)
@@ -211,7 +160,12 @@ public class AuctionDAO {
             st.setString(6, auction.status.name());
 
             if (!auction.isBulk()) {
-                st.setString(7, itemToBase64(auction.item));
+                String b64 = ItemSerializer.toBase64(auction.item);
+                if (b64 == null) {
+                    System.err.println("[AuctionDAO] No se pudo serializar el item de " + auction.seller + "; subasta abortada.");
+                    return false;
+                }
+                st.setString(7, b64);
                 st.setNull(8, Types.LONGVARCHAR);
             } else {
                 st.setNull(7, Types.LONGVARCHAR);
@@ -226,18 +180,21 @@ public class AuctionDAO {
                 }
             }
 
+            return auction.id > 0;
+
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
     // ==============================
     //   ACTUALIZAR ESTADO + BUYER
     // ==============================
-    public void updateStatusAndBuyer(AuctionItem auction) {
-        if (auction.id <= 0) return;
+    public boolean updateStatusAndBuyer(AuctionItem auction) {
+        if (auction.id <= 0) return false;
 
-        this.sql.update("""
+        return this.sql.update("""
                 UPDATE auctions
                 SET status = ?, buyer = ?
                 WHERE id = ?
@@ -245,73 +202,92 @@ public class AuctionDAO {
                 auction.status.name(),
                 auction.buyer == null ? null : auction.buyer.toString(),
                 auction.id
-        );
+        ) > 0;
     }
 
     // SOLO estado (ej: cancelado/expirado sin buyer)
-    public void updateStatus(AuctionItem auction) {
-        if (auction.id <= 0) return;
+    public boolean updateStatus(AuctionItem auction) {
+        if (auction.id <= 0) return false;
 
-        this.sql.update("""
+        return this.sql.update("""
                 UPDATE auctions
                 SET status = ?
                 WHERE id = ?
                 """,
                 auction.status.name(),
                 auction.id
+        ) > 0;
+    }
+
+    // ==============================
+    //   AUCTION LOG (historial global)
+    // ==============================
+    public void log(AuctionItem auc, String type, String sellerName, String buyerName, String itemName) {
+        String snapshot = null;
+        try {
+            if (!auc.isBulk()) {
+                snapshot = ItemSerializer.toBase64(auc.item);
+            } else {
+                snapshot = containerToJson(auc.container);
+            }
+        } catch (Exception ignored) { }
+
+        this.sql.update("""
+                INSERT INTO auction_log
+                (auction_id, type, seller_uuid, seller_name, buyer_uuid, buyer_name, item_name, price, created, item_base64)
+                VALUES (?,?,?,?,?,?,?,?,?,?)
+                """,
+                auc.id,
+                type,
+                auc.seller == null ? null : auc.seller.toString(),
+                sellerName,
+                auc.buyer == null ? null : auc.buyer.toString(),
+                buyerName,
+                itemName != null && !itemName.isEmpty() ? itemName : "Desconocido",
+                auc.price,
+                auc.created,
+                snapshot
         );
     }
 
     // ==============================
-    //   SERIALIZACIÓN
+    //   SERIALIZACIÓN (base64 robusto)
     // ==============================
-    private String itemToBase64(ItemStack item) throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
-
-        dataOutput.writeObject(item);
-        dataOutput.close();
-
-        return Base64.getEncoder().encodeToString(outputStream.toByteArray());
-    }
-
-    private ItemStack itemFromBase64(String base64) throws IOException, ClassNotFoundException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64.getDecoder().decode(base64));
-        BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
-        return (ItemStack) dataInput.readObject();
-    }
-
-    private String containerToJson(ItemStack[] contents) throws IOException {
-
+    // Solo guarda items reales (nada de JsonNull), evita filas que rompen el lote
+    private String containerToJson(ItemStack[] contents) throws Exception {
         JsonArray arr = new JsonArray();
 
         for (ItemStack it : contents) {
-            if (it == null) {
-                // En lugar de meter el texto "null", metemos un valor nulo real de JSON
-                arr.add(com.google.gson.JsonNull.INSTANCE);
-            } else {
-                // Envolvemos el Base64 en una primitiva de Gson para que sea un JsonElement válido
-                arr.add(new com.google.gson.JsonPrimitive(itemToBase64(it)));
-            }
+            if (it == null || it.getType().isAir()) continue;
+            String b64 = ItemSerializer.toBase64(it);
+            if (b64 != null) arr.add(new com.google.gson.JsonPrimitive(b64));
         }
 
         return gson.toJson(arr);
     }
 
-    private ItemStack[] containerFromJson(String json) throws IOException, ClassNotFoundException {
+    // Lectura tolerante: cualquier base64 corroído se omite sin romper el resto
+    private ItemStack[] containerFromJson(String json) {
         if (json == null || json.isEmpty()) return new ItemStack[0];
 
-        JsonArray arr = new JsonParser().parse(json).getAsJsonArray();
+        try {
+            JsonArray arr = new JsonParser().parse(json).getAsJsonArray();
+            List<ItemStack> out = new ArrayList<>();
 
-        ItemStack[] out = new ItemStack[arr.size()];
+            for (int i = 0; i < arr.size(); i++) {
+                try {
+                    if (arr.get(i).isJsonNull()) continue;
+                    String s = arr.get(i).getAsString();
+                    if (s == null || s.isEmpty() || s.equals("null")) continue;
 
-        for (int i = 0; i < arr.size(); i++) {
-            String s = arr.get(i).getAsString();
-            out[i] = s.equals("null") ? null : itemFromBase64(s);
+                    ItemStack item = ItemSerializer.fromBase64(s, true);
+                    if (item != null && !item.getType().isAir()) out.add(item);
+                } catch (Exception ignored) { }
+            }
+
+            return out.toArray(new ItemStack[0]);
+        } catch (Exception e) {
+            return new ItemStack[0];
         }
-
-        return out;
     }
-
-
 }

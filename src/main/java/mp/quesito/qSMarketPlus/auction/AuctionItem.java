@@ -69,6 +69,7 @@ public class AuctionItem {
 
         // Subasta individual
         if (!isBulk()) {
+            if (item == null) return "Item desconocido";
             return item.getAmount() + "x " + item.getType().name();
         }
 

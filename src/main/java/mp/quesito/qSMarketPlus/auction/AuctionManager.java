@@ -30,9 +30,9 @@ public class AuctionManager {
 
         loadActiveFromSQL();
 
-        // Tarea de expiración automática
+        // Tarea de expiración automática (hilo principal: el motor usa Bukkit API)
         long interval = plugin.getConfig().getLong("auction.expiration_check_interval", 300);
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(
+        plugin.getServer().getScheduler().runTaskTimer(
                 plugin,
                 new AuctionExpirationTask(this),
                 20L * interval,
@@ -42,8 +42,25 @@ public class AuctionManager {
 
     private void loadActiveFromSQL() {
         activeAuctions.clear();
-        activeAuctions.addAll(dao.loadActiveAuctions());
-        plugin.getLogger().info("Cargadas " + activeAuctions.size() + " subastas activas desde SQL.");
+        long now = System.currentTimeMillis();
+
+        List<AuctionItem> loaded = dao.loadActiveAuctions();
+        int expiredNow = 0;
+
+        for (AuctionItem auc : loaded) {
+            // Subastas que vencieron mientras el servidor estaba apagado
+            if (auc.expiresAt <= now) {
+                auc.status = AuctionItem.Status.EXPIRED;
+                dao.updateStatus(auc);
+                dao.log(auc, "EXPIRED", offlineName(auc.seller), null, null);
+                expiredNow++;
+                continue; // no se añaden a activas: ya aparecen en /ah expired
+            }
+            activeAuctions.add(auc);
+        }
+
+        plugin.getLogger().info("Cargadas " + activeAuctions.size() + " subastas activas desde SQL."
+                + (expiredNow > 0 ? " (" + expiredNow + " expiradas mientras el servidor estaba apagado)" : ""));
     }
 
     // Solo lectura de activas
@@ -62,7 +79,7 @@ public class AuctionManager {
 // ==========================================
     // CREAR SUBASTA NORMAL (Mano / Individual)
     // ==========================================
-    public void createAuction(Player seller, ItemStack item, double price) {
+    public boolean createAuction(Player seller, ItemStack item, double price) {
         long now = System.currentTimeMillis();
         long seconds = plugin.getConfig().getLong("auction.expiration_seconds", 86400);
         long durationMs = seconds * 1000L;
@@ -78,12 +95,19 @@ public class AuctionManager {
 
         auction.status = AuctionItem.Status.ACTIVE;
 
-        dao.insertAuction(auction);
+        if (!dao.insertAuction(auction)) {
+            plugin.getLogger().warning("No se pudo guardar la subasta de " + seller.getName() + ". Operación cancelada.");
+            Lang.msg(seller, "ah_error");
+            return false;
+        }
+
         activeAuctions.add(auction);
 
         String itemName = item.getItemMeta().hasDisplayName()
                 ? MessageUtil.toLegacy(item.getItemMeta().getDisplayName())
                 : item.getType().name().replace("_", " ").toLowerCase();
+
+        dao.log(auction, "CREATE", seller.getName(), null, itemName);
 
         // Enviar anuncio formal estructurado pasando parámetros en formato Clave -> Valor tradicional
         for (Player online : Bukkit.getOnlinePlayers()) {
@@ -99,6 +123,7 @@ public class AuctionManager {
         }
 
         refreshAllActiveMenus();
+        return true;
     }
 
     // ==========================================
@@ -114,7 +139,25 @@ public class AuctionManager {
                 .map(i -> i == null ? null : i.clone())
                 .toArray(ItemStack[]::new);
 
-        for (ItemStack req : items) {
+        AuctionItem auction = new AuctionItem(
+                seller.getUniqueId(),
+                clean,
+                price,
+                now,
+                expires
+        );
+
+        auction.status = AuctionItem.Status.ACTIVE;
+
+        // 1º GUARDAR en SQL (si falla, el jugador conserva sus items)
+        if (!dao.insertAuction(auction)) {
+            plugin.getLogger().warning("No se pudo guardar la subasta masiva de " + seller.getName() + ". Operación cancelada.");
+            Lang.msg(seller, "ah_error");
+            return;
+        }
+
+        // 2º Retirar del inventario SOLO si la subasta quedó guardada
+        for (ItemStack req : clean) {
             if (req == null || req.getType().isAir()) continue;
 
             int needed = req.getAmount();
@@ -135,23 +178,14 @@ public class AuctionManager {
             seller.getInventory().setContents(contents);
         }
 
-        AuctionItem auction = new AuctionItem(
-                seller.getUniqueId(),
-                clean,
-                price,
-                now,
-                expires
-        );
-
-        auction.status = AuctionItem.Status.ACTIVE;
-
-        dao.insertAuction(auction);
         activeAuctions.add(auction);
 
         long totalCount = Arrays.stream(clean)
                 .filter(Objects::nonNull)
                 .mapToLong(ItemStack::getAmount)
                 .sum();
+
+        dao.log(auction, "CREATE", seller.getName(), null, "Lote x" + totalCount);
 
         // Enviar anuncio formal estructurado pasando parámetros en formato Clave -> Valor tradicional
         for (Player online : Bukkit.getOnlinePlayers()) {
@@ -175,11 +209,21 @@ public class AuctionManager {
     public boolean buyAuction(Player buyer, AuctionItem auction) {
         if (!activeAuctions.contains(auction)) return false;
 
+        AuctionItem.Status prevStatus = auction.status;
+        java.util.UUID prevBuyer = auction.buyer;
+
         auction.status = AuctionItem.Status.SOLD;
         auction.buyer = buyer.getUniqueId();
 
+        if (!dao.updateStatusAndBuyer(auction)) {
+            // Si el UPDATE falla, revertimos en memoria para que la subasta no desaparezca
+            auction.status = prevStatus;
+            auction.buyer = prevBuyer;
+            return false;
+        }
+
         activeAuctions.remove(auction);
-        dao.updateStatusAndBuyer(auction);
+        dao.log(auction, "SOLD", offlineName(auction.seller), buyer.getName(), null);
 
         // Notificar y limpiar pantallas de inmediato
         refreshAllActiveMenus();
@@ -195,6 +239,8 @@ public class AuctionManager {
 
         auction.status = AuctionItem.Status.EXPIRED;
         dao.updateStatus(auction);
+
+        dao.log(auction, "CANCEL", player.getName(), null, null);
 
         activeAuctions.remove(auction);
 
@@ -231,6 +277,31 @@ public class AuctionManager {
 
     public void markAsTaken(AuctionItem auc) {
         dao.markAsTaken(auc);
+        dao.log(auc, "TAKEN", offlineName(auc.seller), null, null);
+    }
+
+    // Eliminación administrativa: borra la fila y la retira de memoria
+    public boolean deleteAuction(Player admin, AuctionItem auc) {
+        if (auc == null || auc.id <= 0) return false;
+
+        boolean deleted = dao.delete(auc.id);
+        if (!deleted) return false;
+
+        activeAuctions.remove(auc);
+        dao.log(auc, "DELETE", offlineName(auc.seller),
+                admin.getName(),
+                auc.isBulk() ? "Lote" : (auc.item != null ? auc.getReadableName() : null));
+
+        refreshAllActiveMenus();
+        return true;
+    }
+
+    private String offlineName(UUID uuid) {
+        if (uuid == null) return "Desconocido";
+        Player online = Bukkit.getPlayer(uuid);
+        if (online != null) return online.getName();
+        OfflinePlayer off = Bukkit.getOfflinePlayer(uuid);
+        return off.getName() != null ? off.getName() : uuid.toString().substring(0, 8);
     }
 
     public AuctionDAO getDao() {

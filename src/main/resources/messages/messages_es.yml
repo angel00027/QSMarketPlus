@@ -18,11 +18,17 @@ sell:
     <yellow>• <white>/sell hand</white> <dark_gray>-</dark_gray> <gray>Vende el ítem que tienes en la mano actual.</gray>
     <yellow>• <white>/sell similar</white> <dark_gray>-</dark_gray> <gray>Vende todos los ítems de tu inventario que sean iguales al de tu mano.</gray>
     <yellow>• <white>/sell all</white> <dark_gray>-</dark_gray> <gray>Vende absolutamente todos los objetos comerciables de tu inventario.</gray>
+    <yellow>• <white>/sell inv</white> <dark_gray>-</dark_gray> <gray>Abre un menú: pon los ítems y se venden al cerrar (los no vendibles se devuelven).</gray>
+    <yellow>• <white>/sell check [material]</white> <dark_gray>-</dark_gray> <gray>Verifica con el ítem en mano (o por material) si tiene precios configurados y si hay duplicados en otras categorías.</gray>
   invalid_arg: "<red>Argumento inválido.</red> <gray>Usa <white>/sell</white> para ver la lista de comandos disponibles.</gray>"
   hand_empty: "<red>No tienes ningún artículo válido en tu mano.</red>"
   no_sell_price: "<red>Este objeto no posee precio de venta configurado.</red>"
   no_items_similar: "<yellow>No posees artículos equivalentes o similares en tu inventario.</yellow>"
   no_items_all: "<yellow>No tienes ningún artículo comerciable en tu inventario actual.</yellow>"
+  inv_info: "<yellow>Pon los ítems que quieras vender en el menú. Al cerrar se venderán; los que no tengan precio de venta volverán a tu inventario.</yellow>"
+  inv_empty: "<yellow>No pusiste ningún ítem en el menú.</yellow>"
+  returned_item: "<yellow><amount>x <item></yellow> <gray>fue devuelto a tu inventario (no tiene precio de venta).</gray>"
+  success_inv: "<green>Vendiste <yellow><amount> ítems</yellow> por <gold><earnings> <currency></gold></green>"
 
   success_hand: "<green>Vendiste <yellow><amount>x <item></yellow> por <gold><earnings> <currency></gold></green>"
   success_similar: "<green>Vendiste un total de <yellow><amount>x <item></yellow> por <gold><earnings> <currency></gold></green>"
@@ -189,6 +195,17 @@ admin:
 
 
 # ======================================================
+# 📊 Estadísticas de compras/ventas (/stats)
+# ======================================================
+stats_no_data: "<red>No hay movimientos disponibles para ese jugador.</red>"
+stats_usage: |-
+  <yellow>« Estadísticas de la tienda »</yellow>
+  <gray>Uso:</gray>
+  <yellow>• <white>/stats</white> <dark_gray>-</dark_gray> <gray>Ver tus estadísticas de compras y ventas.</gray>
+  <yellow>• <white>/stats <jugador></white> <dark_gray>-</dark_gray> <gray>(Staff) Ver las estadísticas de otro jugador.</gray>
+
+
+# ======================================================
 # 🤝 Sistema de Tradeo entre jugadores
 # ======================================================
 trade:
@@ -229,4 +246,39 @@ trade:
 price-format:
   buy: "<green>Comprar: %symbol%%price% %currency%"
   sell: "<red>Vender: %symbol%%price% %currency%"
+
+
+# ======================================================
+# 📍 Sistema de PWarps (Tiendas de Jugadores)
+# ======================================================
+pwarp:
+  usage: |-
+    <yellow>« Sistema de PWarps »</yellow>
+    <gray>Usa uno de los siguientes comandos:</gray>
+    <yellow>• <white>/pwarp</white> <dark_gray>-</dark_gray> <gray>Abre el menú de warps.</gray>
+    <yellow>• <white>/pwarp create <nombre></white> <dark_gray>-</dark_gray> <gray>Crea un warp en tu posición.</gray>
+    <yellow>• <white>/pwarp delete <nombre></white> <dark_gray>-</dark_gray> <gray>Elimina uno de tus warps.</gray>
+    <yellow>• <white>/pwarp desc <nombre> <texto></white> <dark_gray>-</dark_gray> <gray>Pone la descripción del warp.</gray>
+    <yellow>• <white>/pwarp move <nombre></white> <dark_gray>-</dark_gray> <gray>Mueve el warp a tu posición.</gray>
+    <yellow>• <white>/pwarp fav <nombre></white> <dark_gray>-</dark_gray> <gray>Añade/retira un favorito.</gray>
+  usage-create: "<gray>Uso:</gray> <white>/pwarp create <nombre></white>"
+  usage-delete: "<gray>Uso:</gray> <white>/pwarp delete <nombre></white>"
+  usage-desc: "<gray>Uso:</gray> <white>/pwarp desc <nombre> <descripción></white>"
+  usage-move: "<gray>Uso:</gray> <white>/pwarp move <nombre></white>"
+  usage-fav: "<gray>Uso:</gray> <white>/pwarp fav <nombre></white>"
+  no-permission: "<red>No tienes permiso para usar esto.</red>"
+  invalid-name: "<red>Nombre inválido.</red> <gray>Usa de 3 a 20 caracteres (letras, números y guion bajo).</gray>"
+  name-taken: "<red>Ya existe un pwarp llamado <white><warp></white>.</red>"
+  limit-reached: "<red>❌ Has alcanzado el límite de <yellow><limit></yellow> pwarps.</red>"
+  created: "<green>✔ Pwarp <yellow><warp></yellow> creado en tu posición.</green>"
+  not-found: "<red>No existe un pwarp llamado <white><warp></white>.</red>"
+  not-owner: "<red>Este pwarp no te pertenece.</red>"
+  deleted: "<red>Pwarp <yellow><warp></yellow> eliminado.</red>"
+  desc-set: "<green>✔ Descripción de <yellow><warp></yellow> actualizada.</green>"
+  desc-too-long: "<red>La descripción es muy larga. Máximo <yellow>40</yellow> caracteres.</red>"
+  moved: "<green>✔ Pwarp <yellow><warp></yellow> movido a tu posición.</green>"
+  fav-added: "<red>❤</red> <green>Añadiste <white><warp></white> a favoritos.</green>"
+  fav-removed: "<gray>Retiraste <white><warp></white> de favoritos.</gray>"
+  teleported: "<green>» Teleportado a la tienda de <yellow><owner></yellow>.</green>"
+  not-safe: "<red>⚠ Este pwarp está mal configurado (está bloqueado o es peligroso).</red> <gray>No puedes ir hasta que su dueño lo arregle.</gray>"
 

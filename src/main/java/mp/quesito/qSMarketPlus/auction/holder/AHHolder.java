@@ -19,12 +19,31 @@ public class AHHolder implements InventoryHolder {
 
     private static final Map<UUID, FilterMode> playerFilters = new HashMap<>();
 
+    private static final Map<UUID, Boolean> adminMode = new HashMap<>();
+    private static final String ADMIN_PERM = "qsmarket.ah.admin";
+
     public static FilterMode getFilter(Player player) {
         return playerFilters.getOrDefault(player.getUniqueId(), FilterMode.NONE);
     }
 
     public static void setFilter(Player player, FilterMode mode) {
         playerFilters.put(player.getUniqueId(), mode);
+    }
+
+    // Modo administrador: si está OFF, el admin ve/compra como jugador normal
+    public static boolean isAdminMode(Player player) {
+        if (!player.hasPermission(ADMIN_PERM)) return false;
+        return adminMode.getOrDefault(player.getUniqueId(), true);
+    }
+
+    public static void setAdminMode(Player player, boolean mode) {
+        adminMode.put(player.getUniqueId(), mode);
+    }
+
+    public static boolean toggleAdminMode(Player player) {
+        boolean next = !isAdminMode(player);
+        adminMode.put(player.getUniqueId(), next);
+        return next;
     }
 
     private Inventory inventory;              // <-- YA NO es final

@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class Lang {
 
     private static QSMarketPlus plugin;
     private static YamlConfiguration langConfig;
+    private static YamlConfiguration defaultConfig;
 
     public static void init(QSMarketPlus pl) {
         plugin = pl;
@@ -32,11 +34,31 @@ public class Lang {
         }
 
         langConfig = YamlConfiguration.loadConfiguration(file);
+
+        // Copia de respaldo desde el jar: si una clave falta en el archivo
+        // (p. ej. clave nueva de una versión más reciente del plugin),
+        // se toma de aquí para nunca mostrar "Missing message".
+        try (InputStream in = plugin.getResource("messages/messages_" + selected + ".yml")) {
+            if (in != null) {
+                defaultConfig = YamlConfiguration.loadConfiguration(
+                        new java.io.InputStreamReader(in, java.nio.charset.StandardCharsets.UTF_8));
+            }
+        } catch (Exception e) {
+            defaultConfig = null;
+        }
+
         plugin.getLogger().info("[QSMarketPlus] Archivo de idioma cargado: " + file.getName());
     }
 
     public static String get(String key) {
-        return langConfig.getString(key, "<red>Missing message: " + key + "</red>");
+        String value = langConfig.getString(key);
+        if (value == null && defaultConfig != null) {
+            value = defaultConfig.getString(key);
+        }
+        if (value == null) {
+            return "<red>Missing message: " + key + "</red>";
+        }
+        return value;
     }
 
     public static void msg(Player p, String key, Object... placeholders) {

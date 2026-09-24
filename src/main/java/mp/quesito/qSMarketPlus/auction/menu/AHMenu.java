@@ -29,10 +29,8 @@ public class AHMenu {
         AuctionManager manager = QSMarketPlus.getInstance().getAuctionManager();
         List<AuctionItem> auctions = new ArrayList<>(manager.getAuctions());
 
-        auctions.removeIf(a ->
-                (!a.isBulk() && (a.item == null || a.item.getType().isAir()))
-        );
-
+        // No se ocultan subastas con ítem corrupto: se muestran con marcador para
+        // que no parezcan "desaparecidas" y el admin pueda gestionarlas.
         applyFilters(player, auctions);
         loadGridSlots();
 
@@ -208,10 +206,27 @@ public class AHMenu {
                 display = Arrays.stream(auc.container)
                         .filter(it -> it != null && it.getType() != Material.AIR)
                         .findFirst()
-                        .orElse(new ItemStack(Material.AIR))
-                        .clone();
-            } else {
+                        .orElse(null);
+                if (display != null) display = display.clone();
+            } else if (auc.item != null && !auc.item.getType().isAir()) {
                 display = auc.item.clone();
+            } else {
+                display = null;
+            }
+
+            // Subasta corrupta/ilegible: se muestra como marcador, nunca se oculta
+            boolean corrupt = display == null || display.getType() == Material.AIR;
+            if (corrupt) {
+                display = new ItemStack(Material.BARRIER);
+                meta = display.getItemMeta();
+                meta.setDisplayName(MenuItems.miniToLegacy("<red>Subasta corrupta</red>"));
+                meta.setLore(List.of(
+                        MenuItems.miniToLegacy("<gray>Base64 inválido o pack vacío."),
+                        MenuItems.miniToLegacy("<yellow>Click: Opciones (Admin)")
+                ));
+                MetaUtil.setTag(meta, "auction_index", String.valueOf(index));
+                display.setItemMeta(meta);
+                return display;
             }
 
             meta = display.getItemMeta();

@@ -284,6 +284,151 @@ public class SQLManager {
         } else {
             update(sqliteTradeHistory);
         }
+
+        // ======================= Shop Transactions (estadísticas) =======================
+        String sqliteStats = """
+            CREATE TABLE IF NOT EXISTS shop_transactions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                player_uuid TEXT NOT NULL,
+                player_name TEXT,
+                type TEXT NOT NULL,
+                category_id TEXT,
+                item_id TEXT,
+                item_name TEXT,
+                amount INTEGER NOT NULL DEFAULT 0,
+                total DOUBLE NOT NULL DEFAULT 0,
+                economy TEXT DEFAULT 'vault',
+                timestamp BIGINT NOT NULL
+            );
+        """;
+
+        String mysqlStats = """
+            CREATE TABLE IF NOT EXISTS shop_transactions (
+                id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                player_uuid VARCHAR(36) NOT NULL,
+                player_name VARCHAR(16),
+                type VARCHAR(10) NOT NULL,
+                category_id VARCHAR(64),
+                item_id VARCHAR(64),
+                item_name VARCHAR(64),
+                amount INT NOT NULL DEFAULT 0,
+                total DECIMAL(15,2) NOT NULL DEFAULT 0,
+                economy VARCHAR(32) DEFAULT 'vault',
+                timestamp BIGINT NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        """;
+
+        if (db instanceof MySQLDatabase) {
+            update(mysqlStats);
+        } else {
+            update(sqliteStats);
+        }
+
+        // ======================= Auction Log (historial de subastas) =======================
+        String sqliteAuctionLog = """
+            CREATE TABLE IF NOT EXISTS auction_log (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                auction_id INTEGER NOT NULL DEFAULT 0,
+                type TEXT NOT NULL,
+                seller_uuid TEXT,
+                seller_name TEXT,
+                buyer_uuid TEXT,
+                buyer_name TEXT,
+                item_name TEXT,
+                price DOUBLE NOT NULL DEFAULT 0,
+                created BIGINT NOT NULL,
+                item_base64 TEXT
+            );
+        """;
+
+        String mysqlAuctionLog = """
+            CREATE TABLE IF NOT EXISTS auction_log (
+                id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                auction_id INT NOT NULL DEFAULT 0,
+                type VARCHAR(16) NOT NULL,
+                seller_uuid VARCHAR(36),
+                seller_name VARCHAR(32),
+                buyer_uuid VARCHAR(36),
+                buyer_name VARCHAR(32),
+                item_name VARCHAR(64),
+                price DECIMAL(15,2) NOT NULL DEFAULT 0,
+                created BIGINT NOT NULL,
+                item_base64 LONGTEXT
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        """;
+
+        if (db instanceof MySQLDatabase) {
+            update(mysqlAuctionLog);
+        } else {
+            update(sqliteAuctionLog);
+        }
+
+        // ======================= PWarps (tiendas de jugadores) =======================
+        String sqliteWarps = """
+            CREATE TABLE IF NOT EXISTS pwarp_warps (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE,
+                display_name TEXT NOT NULL,
+                owner_uuid TEXT NOT NULL,
+                owner_name TEXT,
+                world TEXT NOT NULL,
+                x DOUBLE NOT NULL,
+                y DOUBLE NOT NULL,
+                z DOUBLE NOT NULL,
+                yaw REAL NOT NULL DEFAULT 0,
+                pitch REAL NOT NULL DEFAULT 0,
+                description TEXT DEFAULT '',
+                created BIGINT NOT NULL,
+                updated BIGINT NOT NULL
+            );
+        """;
+
+        String mysqlWarps = """
+            CREATE TABLE IF NOT EXISTS pwarp_warps (
+                id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(32) NOT NULL UNIQUE,
+                display_name VARCHAR(64) NOT NULL,
+                owner_uuid VARCHAR(36) NOT NULL,
+                owner_name VARCHAR(32),
+                world VARCHAR(50) NOT NULL,
+                x DOUBLE NOT NULL,
+                y DOUBLE NOT NULL,
+                z DOUBLE NOT NULL,
+                yaw FLOAT NOT NULL DEFAULT 0,
+                pitch FLOAT NOT NULL DEFAULT 0,
+                description VARCHAR(255) DEFAULT '',
+                created BIGINT NOT NULL,
+                updated BIGINT NOT NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        """;
+
+        String sqliteFavorites = """
+            CREATE TABLE IF NOT EXISTS pwarp_favorites (
+                player_uuid TEXT NOT NULL,
+                warp_name TEXT NOT NULL,
+                PRIMARY KEY (player_uuid, warp_name)
+            );
+        """;
+
+        String mysqlFavorites = """
+            CREATE TABLE IF NOT EXISTS pwarp_favorites (
+                player_uuid VARCHAR(36) NOT NULL,
+                warp_name VARCHAR(32) NOT NULL,
+                PRIMARY KEY (player_uuid, warp_name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        """;
+
+        if (db instanceof MySQLDatabase) {
+            update(mysqlWarps);
+        } else {
+            update(sqliteWarps);
+        }
+
+        if (db instanceof MySQLDatabase) {
+            update(mysqlFavorites);
+        } else {
+            update(sqliteFavorites);
+        }
     }
 
     // Dentro de SQLManager

@@ -24,7 +24,8 @@ public class AmountHolder implements InventoryHolder {
     public boolean isBuying() { return buying; }
 
     public int getAmount() { return amount; }
-    public void setAmount(int amt) { this.amount = Math.max(1, Math.min(64, amt)); }
+    // Sin tope de 64: el límite real lo aplica cada handler (hardCap por maxStack)
+    public void setAmount(int amt) { this.amount = Math.max(1, amt); }
 
     @Override public Inventory getInventory() { return null; }
 }

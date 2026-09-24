@@ -1,11 +1,11 @@
 package mp.quesito.qSMarketPlus.commands;
 
 import mp.quesito.qSMarketPlus.QSMarketPlus;
-import mp.quesito.qSMarketPlus.bedrock.BedrockFormMenu; // 🔥 Importamos tu nuevo paquete Bedrock
+import mp.quesito.qSMarketPlus.bedrock.BedrockFormMenu;
 import mp.quesito.qSMarketPlus.manager.CategoryManager;
 import mp.quesito.qSMarketPlus.shop.CategoryMenu;
 import mp.quesito.qSMarketPlus.shop.ProShopMenu;
-import mp.quesito.qSMarketPlus.utils.PlatformUtil; // 🔥 Importamos el utilitario de plataforma
+import mp.quesito.qSMarketPlus.utils.PlatformUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,20 +28,27 @@ public class ShopCommand implements CommandExecutor {
         }
 
         // ========================================================
-        // 🔥 FILTRO INTERCEPTOR PARA JUGADORES DE BEDROCK (Geyser)
+        // 🔒 PERMISO PARA USAR /SHOP
+        // ========================================================
+        if (!player.hasPermission("qsmarketplus.shop")) {
+            player.sendMessage("§cNo tienes permiso para usar este comando.");
+            return true;
+        }
+
+        // ========================================================
+        // 🔥 FILTRO PARA JUGADORES DE BEDROCK
         // ========================================================
         boolean bedrockGui = QSMarketPlus.getInstance()
                 .getConfig()
                 .getBoolean("bedrock.shop-gui", true);
 
         if (PlatformUtil.isBedrock(player) && bedrockGui) {
-            // Se ejecuta de manera asíncrona o directa según la API de Floodgate
             BedrockFormMenu.openCategories(player, manager);
             return true;
         }
 
         // ========================================================
-        // FLUJO NORMAL PARA JUGADORES DE JAVA
+        // 🖥️ FLUJO NORMAL PARA JAVA
         // ========================================================
         String type = QSMarketPlus.getInstance()
                 .getConfig()

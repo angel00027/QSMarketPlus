@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -107,6 +108,8 @@ public class MenuItems {
 
         String priceFormatted = formatPrice(eco, price);
 
+        String stacksText = stacksText(amount, stack.getMaxStackSize());
+
         List<String> rawLore = QSMarketPlus.getInstance()
                 .getAmountMenuConfig()
                 .getConfig()
@@ -118,6 +121,7 @@ public class MenuItems {
 
             line = line
                     .replace("<amount>", String.valueOf(amount))
+                    .replace("<stacks>", stacksText)
                     .replace("<price>", priceFormatted)
                     .replace("<item>", item.getName());
 
@@ -133,6 +137,62 @@ public class MenuItems {
     public static String miniToLegacy(String text) {
         if (text == null) return "";
         return MessageUtil.toLegacy(text);
+    }
+
+    // Botón Confirmar del menú de cantidad: muestra cantidad, pilas y total en su lore
+    public static ItemStack amountConfirmItem(ShopItem item, int amount, boolean buying) {
+
+        FileConfiguration cfg = QSMarketPlus.getInstance()
+                .getAmountMenuConfig()
+                .getConfig();
+
+        ConfigurationSection sec = cfg.getConfigurationSection("buttons.confirm");
+        ItemStack btn = sec != null ? buttonFromConfig(sec) : null;
+        if (btn == null) {
+            btn = new ItemStack(Material.LIME_DYE);
+        }
+
+        ItemMeta meta = btn.getItemMeta();
+        if (meta == null) {
+            meta = Bukkit.getItemFactory().getItemMeta(btn.getType());
+        }
+
+        MetaUtil.setTag(meta, "btn", "confirm");
+
+        double price = buying ? item.getBuy() * amount : item.getSell() * amount;
+
+        EconomyProvider eco = QSMarketPlus.getInstance()
+                .getEconomyManager()
+                .get(item.getEconomy());
+
+        String priceFormatted = formatPrice(eco, price);
+        String stacksText = stacksText(amount, item.getMaterial().getMaxStackSize());
+
+        List<String> lore = new ArrayList<>();
+        for (String line : cfg.getStringList(buying ? "info-slot.lore-buy" : "info-slot.lore-sell")) {
+            line = line
+                    .replace("<amount>", String.valueOf(amount))
+                    .replace("<stacks>", stacksText)
+                    .replace("<price>", priceFormatted)
+                    .replace("<item>", item.getName());
+            lore.add(MessageUtil.toLegacy(line));
+        }
+        meta.setLore(lore);
+
+        btn.setItemMeta(meta);
+        return btn;
+    }
+
+    public static String stacksText(int amount, int maxStack) {
+        if (maxStack <= 1) return String.valueOf(amount);
+        int stacks = amount / maxStack;
+        int rest = amount % maxStack;
+        String stacksPart = stacks > 0
+                ? stacks + (stacks == 1 ? " Pila" : " Pilas")
+                : "";
+        String restPart = rest > 0 ? String.valueOf(rest) : "";
+        if (stacks > 0 && rest > 0) return stacksPart + " + " + rest;
+        return stacks > 0 ? stacksPart : restPart;
     }
 
 
@@ -300,6 +360,7 @@ public class MenuItems {
 
             line = line
                     .replace("<amount>", String.valueOf(amount))
+                    .replace("<stacks>", stacksText(amount, stack.getMaxStackSize()))
                     .replace("<price>", priceFormatted)
                     .replace("<item>", item.getName());
 

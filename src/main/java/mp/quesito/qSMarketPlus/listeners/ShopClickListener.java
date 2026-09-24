@@ -39,6 +39,7 @@ public class ShopClickListener implements Listener {
             ItemsHolder.class,
             ActionHolder.class,
             AmountHolder.class,
+            StacksHolder.class,
             ConfirmHolder.class,
             ProShopHolder.class,
             AHHolder.class,
@@ -46,7 +47,8 @@ public class ShopClickListener implements Listener {
             AHPreviewHolder.class,
             AHHistoryHolder.class,
             AHActionHolder.class,
-            AHExpiredHolder.class
+            AHExpiredHolder.class,
+            mp.quesito.qSMarketPlus.auction.holder.AHAdminHolder.class
     );
 
     // Map de handlers centralizados
@@ -76,6 +78,11 @@ public class ShopClickListener implements Listener {
         handlers.put(AmountHolder.class, (e, player) -> {
             AmountHolder holder = (AmountHolder) e.getView().getTopInventory().getHolder();
             handleAmountClick(e, player, holder);
+        });
+
+        handlers.put(StacksHolder.class, (e, player) -> {
+            StacksHolder holder = (StacksHolder) e.getView().getTopInventory().getHolder();
+            handleStacksClick(e, player, holder);
         });
 
         handlers.put(ConfirmHolder.class, (e, player) -> {
@@ -111,6 +118,12 @@ public class ShopClickListener implements Listener {
         handlers.put(AHExpiredHolder.class, (e, player) -> {
             AHExpiredHolder holder = (AHExpiredHolder) e.getView().getTopInventory().getHolder();
             handleAHExpiredClick(e, player, holder);
+        });
+
+        handlers.put(mp.quesito.qSMarketPlus.auction.holder.AHAdminHolder.class, (e, player) -> {
+            mp.quesito.qSMarketPlus.auction.holder.AHAdminHolder holder =
+                    (mp.quesito.qSMarketPlus.auction.holder.AHAdminHolder) e.getView().getTopInventory().getHolder();
+            handleAHAdminClick(e, player, holder);
         });
 
         handlers.put(ProShopHolder.class, (e, player) -> {
@@ -226,6 +239,42 @@ public class ShopClickListener implements Listener {
         return free >= amount;
     }
 
+    // Compra compartida (menú de cantidad y submenú de pilas)
+    private void executeBuy(Player player, ShopItem item, ShopCategory category, int amount) {
+
+        EconomyProvider eco = eco(item);
+        double price = amount * item.getBuy();
+
+        if (eco.getBalance(player) < price) {
+            Lang.msg(player, "no_money", "currency", currency(eco));
+            return;
+        }
+
+        if (!hasInventorySpace(player, item.getRealItem(), amount)) {
+            Lang.msg(player, "not_enough_space");
+            return;
+        }
+
+        eco.withdraw(player, price);
+        giveExactItems(player, item.getRealItem(), amount);
+        plugin.getStatsManager().recordBuy(player, category, item, amount, price);
+        Lang.msg(player, "buy_success",
+                "amount", amount,
+                "item", MessageUtil.toLegacy(item.getName()),
+                "price", price,
+                "currency", currency(eco),
+                "symbol", eco.getSymbol());
+
+        player.playSound(
+                player.getLocation(),
+                Sound.ENTITY_PLAYER_LEVELUP,
+                1f,
+                1.2f
+        );
+
+        player.closeInventory();
+    }
+
     private void handleProShopClick(InventoryClickEvent e, Player player, ProShopHolder holder) {
 
         ItemStack clicked = e.getCurrentItem();
@@ -314,6 +363,8 @@ public class ShopClickListener implements Listener {
                 EconomyProvider eco = eco(item);
                 eco.deposit(player, money);
 
+                plugin.getStatsManager().recordSell(player, category, item, total, money);
+
                 Lang.msg(player, "sell_success",
                         "amount", total,
                         "item", MessageUtil.toLegacy(item.getName()),
@@ -353,6 +404,8 @@ public class ShopClickListener implements Listener {
                 }
 
                 if (item.isOnlyOnce()) upManager.markPurchased(player, item);
+
+                plugin.getStatsManager().recordBuy(player, category, item, amount, cost);
 
                 Lang.msg(player, "buy_success",
                         "amount", amount,
@@ -396,6 +449,7 @@ public class ShopClickListener implements Listener {
                 item.executeBuyCommands(player);
 
                 if (item.isOnlyOnce()) upManager.markPurchased(player, item);
+                plugin.getStatsManager().recordBuy(player, category, item, 1, cost);
 
                 player.closeInventory();
                 return;
@@ -436,6 +490,7 @@ public class ShopClickListener implements Listener {
 
                 // 2. Buscamos si este ítem del inventario existe en la tienda usando tu lógica exacta
                 ShopItem shopItem = null;
+                ShopCategory matchedCat = null;
 
                 // Iteramos por las categorías e ítems cargados
                 for (ShopCategory cat : categoryManager.getCategories().values()) {
@@ -447,6 +502,7 @@ public class ShopClickListener implements Listener {
                         // Comparación exacta por Material (igual que en tu findShopItem)
                         if (invItem.getType() == si.getRealItem().getType()) {
                             shopItem = si;
+                            matchedCat = cat;
                             break;
                         }
                     }
@@ -467,6 +523,8 @@ public class ShopClickListener implements Listener {
                     // Depositamos el dinero y ejecutamos comandos de venta si los hay
                     ecoProvider.deposit(player, earnings);
                     shopItem.executeSellCommands(player);
+
+                    plugin.getStatsManager().recordSell(player, matchedCat, shopItem, amount, earnings);
 
                     totalEarnings += earnings;
                     activeEco = ecoProvider; // Guardamos una referencia del proveedor para el éxito
@@ -579,6 +637,8 @@ public class ShopClickListener implements Listener {
             double money = clickedItem.getSell() * total;
             eco.deposit(player, money);
 
+            plugin.getStatsManager().recordSell(player, category, clickedItem, total, money);
+
             Lang.msg(player, "sell_success",
                     "amount", total,
                     "item", MessageUtil.toLegacy(clickedItem.getName()),
@@ -621,6 +681,8 @@ public class ShopClickListener implements Listener {
                 upManager.markPurchased(player, clickedItem);
             }
 
+            plugin.getStatsManager().recordBuy(player, category, clickedItem, amount, cost);
+
             Lang.msg(player, "buy_success",
                     "amount", amount,
                     "item", MessageUtil.toLegacy(clickedItem.getName()),
@@ -660,6 +722,8 @@ public class ShopClickListener implements Listener {
             if (clickedItem.isOnlyOnce()) {
                 upManager.markPurchased(player, clickedItem);
             }
+
+            plugin.getStatsManager().recordBuy(player, category, clickedItem, 1, cost);
 
             player.closeInventory();
             return;
@@ -731,6 +795,44 @@ public class ShopClickListener implements Listener {
     }
 
     // -----------------------------
+    // -------- STACKS MENU (Comprar por pilas) --------
+    // -----------------------------
+    private void handleStacksClick(InventoryClickEvent e, Player player, StacksHolder holder) {
+
+        e.setCancelled(true);
+        ItemStack clicked = e.getCurrentItem();
+        if (clicked == null || !clicked.hasItemMeta()) return;
+
+        String btn = MetaUtil.getTag(clicked.getItemMeta(), "btn");
+
+        if ("back".equals(btn)) {
+            AmountHolder amountHolder = new AmountHolder(
+                    holder.getItem(),
+                    holder.getCategory(),
+                    holder.isBuying()
+            );
+            AmountMenu.open(player, amountHolder);
+            return;
+        }
+
+        if (!"stack_buy".equals(btn)) return;
+
+        String value = MetaUtil.getTag(clicked.getItemMeta(), "value");
+        if (value == null) return;
+
+        int pilas;
+        try {
+            pilas = Integer.parseInt(value);
+        } catch (NumberFormatException ex) {
+            return;
+        }
+
+        int maxStack = holder.getItem().getMaterial().getMaxStackSize();
+        executeBuy(player, holder.getItem(), holder.getCategory(), pilas * maxStack);
+    }
+
+
+    // -----------------------------
     // -------- AMOUNT MENU --------
     // -----------------------------
     private void handleAmountClick(InventoryClickEvent e, Player player, AmountHolder holder) {
@@ -748,6 +850,7 @@ public class ShopClickListener implements Listener {
         boolean buying = holder.isBuying();
         int amount = holder.getAmount();
         int maxStack = item.getMaterial().getMaxStackSize();
+        int hardCap = Math.max(maxStack, maxStack * 36); // hasta 36 pilas (regleta: 1 slot = 1 pila)
 
         // Obtenemos el material base registrado para la tienda para comparar directamente
         Material shopMaterial = item.getRealItem().getType();
@@ -766,6 +869,11 @@ public class ShopClickListener implements Listener {
             return;
         }
 
+        if ("buy_more".equals(btn)) {
+            StacksMenu.open(player, item, category);
+            return;
+        }
+
         if (maxStack == 1) {
             holder.setAmount(1);
             if ("confirm".equals(btn)) {
@@ -776,30 +884,17 @@ public class ShopClickListener implements Listener {
             return;
         }
 
-        if ("amount_mod".equals(btn) && value != null) {
+        if ("STACK".equals(special)) {
+            // +1 Pila: añade una pila completa por click (64 → 128 → 192...)
+            holder.setAmount(Math.max(1, Math.min(hardCap, amount + maxStack)));
+            AmountMenu.open(player, holder);
+            return;
+        }
+
+        if (("amount_mod".equals(btn) || "stack_mod".equals(btn)) && value != null) {
             int mod = Integer.parseInt(value);
-            int newAmount = Math.max(1, Math.min(maxStack, amount + mod));
-
-            if (buying && eco.getBalance(player) < newAmount * item.getBuy()) {
-                Lang.msg(player, "no_money",
-                        "currency", currency(eco));
-                return;
-
-            } else if (!buying) {
-                // CORRECCIÓN: Conteo directo en inventario por tipo de Material
-                int playerHas = 0;
-                for (ItemStack invItem : player.getInventory().getContents()) {
-                    if (invItem != null && invItem.getType() == shopMaterial) {
-                        playerHas += invItem.getAmount();
-                    }
-                }
-                if (playerHas < newAmount) {
-                    Lang.msg(player, "no_items");
-                    return;
-                }
-            }
-
-            holder.setAmount(newAmount);
+            int increment = "stack_mod".equals(btn) ? mod * maxStack : mod;
+            holder.setAmount(Math.max(1, Math.min(hardCap, amount + increment)));
             AmountMenu.open(player, holder);
             return;
         }
@@ -817,7 +912,7 @@ public class ShopClickListener implements Listener {
                 }
             }
 
-            holder.setAmount(Math.max(1, Math.min(maxStack, maxAmount)));
+            holder.setAmount(Math.max(1, Math.min(hardCap, maxAmount)));
             AmountMenu.open(player, holder);
             return;
         }
@@ -830,32 +925,13 @@ public class ShopClickListener implements Listener {
 
         if ("confirm".equals(btn)) {
 
-            double price = amount * (buying ? item.getBuy() : item.getSell());
-
             if (buying) {
 
-                if (eco.getBalance(player) < price) {
+                executeBuy(player, item, category, amount);
 
-                    Lang.msg(player, "no_money",
-                            "currency", currency(eco));
-
-                    return;
-                }
-
-                if (!hasInventorySpace(player, item.getRealItem(), amount)) {
-                    Lang.msg(player, "not_enough_space");
-                    return;
-                }
-
-                eco.withdraw(player, price);
-                giveExactItems(player, item.getRealItem(), amount);
-                Lang.msg(player, "buy_success",
-                        "amount", amount,
-                        "item", MessageUtil.toLegacy(item.getName()),
-                        "price", price,
-                        "currency", currency(eco),
-                        "symbol", eco.getSymbol());
             } else {
+
+                double price = amount * item.getSell();
 
                 // CORRECCIÓN: Conteo y remoción manual por tipo de Material en la confirmación
                 int playerHas = 0;
@@ -889,22 +965,23 @@ public class ShopClickListener implements Listener {
                 }
 
                 eco.deposit(player, price);
+                plugin.getStatsManager().recordSell(player, category, item, amount, price);
                 Lang.msg(player, "sell_success",
                         "amount", amount,
                         "item", MessageUtil.toLegacy(item.getName()),
                         "price", price,
                         "currency", currency(eco),
                         "symbol", eco.getSymbol());
+
+                player.playSound(
+                        player.getLocation(),
+                        Sound.ENTITY_VILLAGER_YES,
+                        1f,
+                        1.2f
+                );
+
+                player.closeInventory();
             }
-
-            player.playSound(
-                    player.getLocation(),
-                    buying ? Sound.ENTITY_PLAYER_LEVELUP : Sound.ENTITY_VILLAGER_YES,
-                    1f,
-                    1.2f
-            );
-
-            player.closeInventory();
         }
     }
 
@@ -975,6 +1052,8 @@ public class ShopClickListener implements Listener {
                 upManager.markPurchased(player, item);
             }
 
+            plugin.getStatsManager().recordBuy(player, category, item, amount, price);
+
             Lang.msg(player, "buy_success",
                     "amount", amount,
                     "item", MessageUtil.toLegacy(item.getName()),
@@ -1024,6 +1103,8 @@ public class ShopClickListener implements Listener {
 
             eco.deposit(player, price);
 
+            plugin.getStatsManager().recordSell(player, category, item, amount, price);
+
             Lang.msg(player, "sell_success",
                     "amount", amount,
                     "item", MessageUtil.toLegacy(item.getName()),
@@ -1068,6 +1149,13 @@ public class ShopClickListener implements Listener {
             if (index < 0 || index >= auctions.size()) return;
 
             AuctionItem auction = auctions.get(index);
+
+            // El admin gestiona la subasta desde el panel administrativo (si el modo admin está activo)
+            if (AHHolder.isAdminMode(player)) {
+                mp.quesito.qSMarketPlus.auction.menu.AHAdminMenu.open(player, auction, "ah", null, holder.getPage());
+                return;
+            }
+
             AHActionMenu.open(player, auction, holder.getPage());
         }
     }
@@ -1121,7 +1209,11 @@ public class ShopClickListener implements Listener {
             Lang.msg(player, "ah_created_bulk", "count", itemsList.size(), "price", price);
         } else {
             // Subasta de un solo ítem (mano)
-            manager.createAuction(player, itemsList.get(0), price);
+            if (!manager.createAuction(player, itemsList.get(0), price)) {
+                Lang.msg(player, "ah_error");
+                player.closeInventory();
+                return;
+            }
             player.getInventory().setItemInMainHand(null);
 
             String itemName = itemsList.get(0).getItemMeta().hasDisplayName()
@@ -1158,11 +1250,26 @@ public class ShopClickListener implements Listener {
 
         String btn = MetaUtil.getTag(clicked.getItemMeta(), "btn");
         if ("prev".equals(btn)) {
-            AHHistoryMenu.open(player, holder.getPage() - 1);
+            AHHistoryMenu.open(player, holder.getSubject(), holder.getPage() - 1);
+            return;
         } else if ("next".equals(btn)) {
-            AHHistoryMenu.open(player, holder.getPage() + 1);
+            AHHistoryMenu.open(player, holder.getSubject(), holder.getPage() + 1);
+            return;
         } else if ("close".equals(btn)) {
             player.closeInventory();
+            return;
+        }
+
+        // Admin: gestionar la subasta del historial
+        String historyIndex = MetaUtil.getTag(clicked.getItemMeta(), "history_index");
+        if (historyIndex != null && AHHolder.isAdminMode(player)) {
+            try {
+                int index = Integer.parseInt(historyIndex);
+                if (index >= 0 && index < holder.getItems().size()) {
+                    mp.quesito.qSMarketPlus.auction.menu.AHAdminMenu.open(
+                            player, holder.getItems().get(index), "history", holder.getSubject(), holder.getPage());
+                }
+            } catch (NumberFormatException ignored) { }
         }
     }
 
@@ -1245,12 +1352,30 @@ public class ShopClickListener implements Listener {
                         Lang.msg(player, "not_enough_space_chest");
                         return;
                     }
-
-                    if (!manager.buyAuction(player, auc)) {
-                        Lang.msg(player, "ah_error");
+                } else {
+                    ItemStack singleItem = items.get(0);
+                    if (!hasInventorySpace(player, singleItem, singleItem.getAmount())) {
+                        Lang.msg(player, "not_enough_space");
                         return;
                     }
+                }
 
+                // Cobrar ANTES de marcar la subasta como vendida (evita pérdidas si algo falla)
+                net.milkbowl.vault.economy.EconomyResponse charge =
+                        QSMarketPlus.economy.withdrawPlayer(player, price);
+                if (!charge.transactionSuccess()) {
+                    Lang.msg(player, "ah_error");
+                    return;
+                }
+
+                if (!manager.buyAuction(player, auc)) {
+                    // Devolver el dinero si la compra no se pudo completar
+                    QSMarketPlus.economy.depositPlayer(player, price);
+                    Lang.msg(player, "ah_error");
+                    return;
+                }
+
+                if (useChest) {
                     Inventory tempChest = Bukkit.createInventory(null, 54, "Items de Subasta");
                     for (ItemStack it : items) givePartialToInventory(tempChest, it, it.getAmount());
 
@@ -1262,25 +1387,11 @@ public class ShopClickListener implements Listener {
                     chestItem.setItemMeta(meta);
 
                     player.getInventory().addItem(chestItem);
-                    QSMarketPlus.economy.withdrawPlayer(player, price);
 
                     Lang.msg(player, "ah_bought_chest", "money", price, "item_count", items.size());
 
                 } else {
-                    ItemStack singleItem = items.get(0);
-                    if (!hasInventorySpace(player, singleItem, singleItem.getAmount())) {
-                        Lang.msg(player, "not_enough_space");
-                        return;
-                    }
-
-                    if (!manager.buyAuction(player, auc)) {
-                        Lang.msg(player, "ah_error");
-                        return;
-                    }
-
                     forceGiveAuctionItem(player, auc);
-                    QSMarketPlus.economy.withdrawPlayer(player, price);
-
                     Lang.msg(player, "ah_bought", "money", price, "item", itemName);
                 }
 
@@ -1318,20 +1429,25 @@ public class ShopClickListener implements Listener {
     private void forceGiveAuctionItem(Player p, AuctionItem auc) {
         if (auc == null) return;
 
+        // Entrega al inventario; los excedentes se tiran al suelo (nunca desaparecen)
         if (!auc.isBulk() && auc.item != null) {
             ItemStack clone = auc.item.clone();
-            p.getInventory().addItem(clone);
+            java.util.HashMap<Integer, ItemStack> leftOver = p.getInventory().addItem(clone);
+            for (ItemStack drop : leftOver.values()) {
+                p.getWorld().dropItemNaturally(p.getLocation(), drop);
+            }
             auc.item = null;
-            QSMarketPlus.getInstance().getAuctionManager().markAsTaken(auc);
         } else if (auc.isBulk() && auc.container != null) {
             for (int i = 0; i < auc.container.length; i++) {
                 ItemStack it = auc.container[i];
                 if (it != null && it.getType() != Material.AIR) {
-                    p.getInventory().addItem(it.clone());
+                    java.util.HashMap<Integer, ItemStack> leftOver = p.getInventory().addItem(it.clone());
+                    for (ItemStack drop : leftOver.values()) {
+                        p.getWorld().dropItemNaturally(p.getLocation(), drop);
+                    }
                     auc.container[i] = null;
                 }
             }
-            QSMarketPlus.getInstance().getAuctionManager().markAsTaken(auc);
         }
     }
 
@@ -1347,68 +1463,149 @@ public class ShopClickListener implements Listener {
         String btn = MetaUtil.getTag(clicked.getItemMeta(), "btn");
 
         if ("prev".equals(btn)) {
-            AHExpiredMenu.open(player, holder.getPage() - 1);
+            AHExpiredMenu.open(player, holder.getSubject(), holder.getPage() - 1);
         } else if ("next".equals(btn)) {
-            AHExpiredMenu.open(player, holder.getPage() + 1);
+            AHExpiredMenu.open(player, holder.getSubject(), holder.getPage() + 1);
         } else if ("close".equals(btn)) {
             player.closeInventory();
         } else {
-            // Reclamación de la subasta expirada (Individual o Bulk)
             Integer index = MetaUtil.getInt(clicked.getItemMeta(), "expired_index");
-            if (index != null) {
-                AuctionItem auc = holder.getItems().get(index);
-                if (!auc.seller.equals(player.getUniqueId())) {
-                    player.sendMessage("§cEste item no te pertenece.");
-                    return;
-                }
+            if (index == null) return;
 
-                int itemsClaimed = 0;
+            AuctionItem auc = holder.getItems().get(index);
 
-                // CASO 1: Es una subasta en lote (Bulk / Paquete de ítems)
-                if (auc.isBulk() && auc.container != null) {
-                    for (ItemStack item : auc.container) {
-                        if (item == null || item.getType().isAir()) continue;
+            // Admin: gestionar la subasta expirada
+            if (AHHolder.isAdminMode(player)) {
+                mp.quesito.qSMarketPlus.auction.menu.AHAdminMenu.open(
+                        player, auc, "expired", holder.getSubject(), holder.getPage());
+                return;
+            }
 
-                        ItemStack toGive = item.clone();
-                        // Entrega al inventario del jugador
-                        java.util.HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(toGive);
+            if (!auc.seller.equals(player.getUniqueId())) {
+                player.sendMessage("§cEste item no te pertenece.");
+                return;
+            }
 
-                        // Si el inventario se llena, lo tira al suelo de forma natural
-                        for (ItemStack drop : leftOver.values()) {
-                            player.getWorld().dropItemNaturally(player.getLocation(), drop);
-                        }
-                        itemsClaimed += toGive.getAmount(); // Contamos la cantidad total de ítems devueltos
-                    }
-                }
-                // CASO 2: Es una subasta normal (Un solo tipo de ítem)
-                else if (auc.item != null && !auc.item.getType().isAir()) {
-                    ItemStack toGive = auc.item.clone();
+            int itemsClaimed = 0;
+
+            // CASO 1: Es una subasta en lote (Bulk / Paquete de ítems)
+            if (auc.isBulk() && auc.container != null) {
+                for (ItemStack item : auc.container) {
+                    if (item == null || item.getType().isAir()) continue;
+
+                    ItemStack toGive = item.clone();
+                    // Entrega al inventario del jugador
                     java.util.HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(toGive);
 
+                    // Si el inventario se llena, lo tira al suelo de forma natural
                     for (ItemStack drop : leftOver.values()) {
                         player.getWorld().dropItemNaturally(player.getLocation(), drop);
                     }
-                    itemsClaimed += toGive.getAmount();
+                    itemsClaimed += toGive.getAmount(); // Contamos la cantidad total de ítems devueltos
                 }
+            }
+            // CASO 2: Es una subasta normal (Un solo tipo de ítem)
+            else if (auc.item != null && !auc.item.getType().isAir()) {
+                ItemStack toGive = auc.item.clone();
+                java.util.HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(toGive);
 
-                // Validación de seguridad por si acaso la subasta estaba corrupta o vacía
-                if (itemsClaimed == 0) {
-                    player.sendMessage("§cError: No se encontraron ítems válidos para reclamar en esta subasta.");
-                    return;
+                for (ItemStack drop : leftOver.values()) {
+                    player.getWorld().dropItemNaturally(player.getLocation(), drop);
                 }
+                itemsClaimed += toGive.getAmount();
+            }
 
-                // Envia el mensaje usando tu sistema de placeholders (pasa el total de ítems reclamados)
-                Lang.msg(player, "ah_claimed_chest", "count", itemsClaimed);
+            // Validación de seguridad por si acaso la subasta estaba corrupta o vacía
+            if (itemsClaimed == 0) {
+                player.sendMessage("§cError: No se encontraron ítems válidos para reclamar en esta subasta.");
+                return;
+            }
 
-                // Guardar el cambio de estado en SQL llamando a tu Manager
-                QSMarketPlus.getInstance().getAuctionManager().markAsTaken(auc);
+            // Envia el mensaje usando tu sistema de placeholders (pasa el total de ítems reclamados)
+            Lang.msg(player, "ah_claimed_chest", "count", itemsClaimed);
 
-                // Remover de la vista actual del holder de la GUI y actualizar el menú
-                holder.getItems().remove(auc);
-                AHExpiredMenu.open(player, holder.getPage());
+            // Guardar el cambio de estado en SQL llamando a tu Manager
+            QSMarketPlus.getInstance().getAuctionManager().markAsTaken(auc);
+
+            // Remover de la vista actual del holder de la GUI y actualizar el menú
+            holder.getItems().remove(auc);
+            AHExpiredMenu.open(player, holder.getPage());
+        }
+    }
+// -------------------------
+    // ADMIN: GESTIÓN DE SUBASTAS
+    // -------------------------
+    private void handleAHAdminClick(InventoryClickEvent e, Player player, mp.quesito.qSMarketPlus.auction.holder.AHAdminHolder holder) {
+        e.setCancelled(true);
+
+        ItemStack clicked = e.getCurrentItem();
+        if (clicked == null || !clicked.hasItemMeta()) return;
+
+        String action = MetaUtil.getTag(clicked.getItemMeta(), "action");
+        if (action == null) return;
+
+        AuctionItem auc = holder.getAuction();
+        AuctionManager manager = QSMarketPlus.getInstance().getAuctionManager();
+
+        switch (action) {
+            case "back" -> backToAHSource(player, holder);
+            case "view" -> {
+                if (auc.isBulk()) AHPreviewMenu.open(player, auc);
+            }
+            case "copy" -> giveAuctionCopy(player, auc);
+            case "delete" -> {
+                if (manager.deleteAuction(player, auc)) {
+                    player.sendMessage("§c✔ Subasta #" + auc.id + " eliminada administrativamente.");
+                } else {
+                    player.sendMessage("§cNo se pudo eliminar la subasta #" + auc.id + ".");
+                }
+                backToAHSource(player, holder);
             }
         }
     }
+
+    private void backToAHSource(Player player, mp.quesito.qSMarketPlus.auction.holder.AHAdminHolder holder) {
+        switch (holder.getSource()) {
+            case "history" -> AHHistoryMenu.open(player, holder.getSubject(), holder.getPage());
+            case "expired" -> AHExpiredMenu.open(player, holder.getSubject(), holder.getPage());
+            default -> AHMenu.open(player, holder.getPage());
+        }
+    }
+
+    private void giveAuctionCopy(Player player, AuctionItem auc) {
+        if (auc == null) return;
+
+        if (auc.isBulk() && auc.container != null) {
+            Inventory temp = Bukkit.createInventory(null, 54, "Copia de Subasta");
+            for (ItemStack it : auc.container) {
+                if (it != null && it.getType() != Material.AIR) {
+                    givePartialToInventory(temp, it.clone(), it.getAmount());
+                }
+            }
+
+            ItemStack chestItem = new ItemStack(Material.CHEST);
+            BlockStateMeta bMeta = (BlockStateMeta) chestItem.getItemMeta();
+            Chest chest = (Chest) bMeta.getBlockState();
+            chest.getInventory().setContents(temp.getContents());
+            bMeta.setBlockState(chest);
+            chestItem.setItemMeta(bMeta);
+
+            java.util.HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(chestItem);
+            for (ItemStack drop : leftOver.values()) {
+                player.getWorld().dropItemNaturally(player.getLocation(), drop);
+            }
+            player.sendMessage("§a✔ Copia del pack entregada (cofre).");
+        } else if (auc.item != null && !auc.item.getType().isAir()) {
+            java.util.HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(auc.item.clone());
+            for (ItemStack drop : leftOver.values()) {
+                player.getWorld().dropItemNaturally(player.getLocation(), drop);
+            }
+            player.sendMessage("§a✔ Copia del item entregada.");
+        } else {
+            player.sendMessage("§cEsta subasta no contiene items válidos.");
+        }
+    }
+
     // -------------------------
     // FILTROS
     // -------------------------

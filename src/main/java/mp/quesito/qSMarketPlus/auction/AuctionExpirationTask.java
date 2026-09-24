@@ -32,13 +32,6 @@ public class AuctionExpirationTask implements Runnable {
             //  NOTIFICAR AL VENDEDOR
             // ============================
             Player seller = Bukkit.getPlayer(auc.seller);
-            if (seller != null && seller.isOnline()) {
-
-                Lang.msg(seller, "ah_expired",
-                        "item", auc.getReadableName()
-                );
-            }
-            // Avisar al vendedor
             String readable = auc.getReadableName();
 
             if (seller != null && seller.isOnline()) {
@@ -54,6 +47,8 @@ public class AuctionExpirationTask implements Runnable {
             // ============================
             auc.status = AuctionItem.Status.EXPIRED;
             manager.getDao().updateStatus(auc);
+            manager.getDao().log(auc, "EXPIRED",
+                    seller != null ? seller.getName() : "Desconocido", null, null);
 
             it.remove();
         }

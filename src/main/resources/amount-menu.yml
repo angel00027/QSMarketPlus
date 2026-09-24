@@ -7,6 +7,7 @@ info-slot:
   lore-buy:
     - ""
     - "<color:#5aa0e6>Cantidad: </color><color:#cedb56><amount></color>"
+    - "<color:#5aa0e6>Pilas: </color><color:#cedb56><stacks></color>"
     - "<gray>Total: <gold><price>"
     - ""
     - "<green>Comprando..."
@@ -14,9 +15,17 @@ info-slot:
   lore-sell:
     - ""
     - "<color:#5aa0e6>Cantidad: </color><color:#cedb56><amount></color>"
+    - "<color:#5aa0e6>Pilas: </color><color:#cedb56><stacks></color>"
     - "<gray>Total: <gold><price>"
     - ""
     - "<red>Vendiendo..."
+
+# Menú "Comprar por pilas" que abre el botón "Comprar más"
+stacks-menu:
+  title: "<green>Comprar por pilas"
+  size: 27
+  back-slot: 22
+  options: [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 24, 32, 36]
 
 buttons:
   info-slot: 22
@@ -34,7 +43,7 @@ buttons:
     
   minus-8:
     enabled: true
-    slot: 18
+    slot: 10
     tag: "amount_mod"     # ← Para KEY_AMOUNT_MOD (-10)
     value: -8
     material: RED_STAINED_GLASS_PANE
@@ -44,7 +53,7 @@ buttons:
 
   minus-1:
     enabled: true
-    slot: 27
+    slot: 11
     tag: "amount_mod"
     value: -1
     material: RED_STAINED_GLASS_PANE
@@ -53,7 +62,7 @@ buttons:
 
   plus-1:
     enabled: true
-    slot: 35
+    slot: 15
     tag: "amount_mod"
     value: 1
     
@@ -62,7 +71,7 @@ buttons:
 
   plus-8:
     enabled: true
-    slot: 26
+    slot: 16
     tag: "amount_mod"
     value: 8
     amount: 8
@@ -77,6 +86,16 @@ buttons:
     amount: 16
     material: LIME_STAINED_GLASS_PANE
     name: "<yellow>+16"
+
+  buy-more:
+    enabled: true
+    slot: 24
+    tag: "buy_more"       # ← Abre el menú "Comprar por pilas"
+    material: EMERALD
+    name: "<green>Comprar más"
+    lore:
+      - "<gray>Abre el menú para comprar"
+      - "<gray>por pilas completas."
 
   min:
     enabled: true
@@ -109,4 +128,3 @@ buttons:
     material: ARROW
     head: "http://textures.minecraft.net/texture/beb588b21a6f98ad1ff4e085c552dcb050efc9cab427f46048f18fc803475f7"
     name: "<yellow>Volver"
-

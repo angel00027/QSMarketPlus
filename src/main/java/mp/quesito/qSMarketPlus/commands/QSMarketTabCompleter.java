@@ -33,8 +33,12 @@ public class QSMarketTabCompleter implements TabCompleter {
                 addIfPerm(completions, sender, "setitem", "qsmarket.signshop.setitem");
                 addIfPerm(completions, sender, "additem", "qsmarket.admin.additem");
                 addIfPerm(completions, sender, "reload", "qsmarket.admin.reload");
+                addIfPerm(completions, sender, "edit", "qsmarket.admin.shop");
                 addIfPerm(completions, sender, "sellstick", "qsmarket.admin.sellstick");
                 addIfPerm(completions, sender, "resetunique", "qsmarket.admin.resetunique"); // NUEVO
+                addIfPerm(completions, sender, "stats", "qsmarket.admin.stats");
+                addIfPerm(completions, sender, "tradehistory", "qsmarket.admin.stats");
+                addIfPerm(completions, sender, "global", "qsmarket.admin.stats");
                 return filter(completions, args[0]);
             }
             case 2 -> { // /qsmarket <subcomando> <jugador/categoria/valor>
@@ -44,6 +48,8 @@ public class QSMarketTabCompleter implements TabCompleter {
                     case "sellstick", "resetunique" -> { // NUEVO: autocompletar jugadores online
                         Bukkit.getOnlinePlayers().forEach(p -> completions.add(p.getName()));
                     }
+                    case "stats" -> completions.addAll(List.of("count", "clear"));
+                    case "tradehistory" -> completions.addAll(List.of("count", "clear"));
                 }
                 return filter(completions, args[1]);
             }
@@ -70,6 +76,16 @@ public class QSMarketTabCompleter implements TabCompleter {
                                     },
                                     target.getUniqueId().toString()
                             );
+                        }
+                    }
+                    case "stats" -> { // jugador para /qsmarket stats clear <jugador>
+                        if ("clear".equalsIgnoreCase(args[1])) {
+                            Bukkit.getOnlinePlayers().forEach(p -> completions.add(p.getName()));
+                        }
+                    }
+                    case "tradehistory" -> { // jugador para /qsmarket tradehistory clear <jugador>
+                        if ("clear".equalsIgnoreCase(args[1])) {
+                            Bukkit.getOnlinePlayers().forEach(p -> completions.add(p.getName()));
                         }
                     }
                 }

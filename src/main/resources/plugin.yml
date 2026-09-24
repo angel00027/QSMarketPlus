@@ -1,5 +1,5 @@
 name: QSMarketPlus
-version: '4.2.8'
+version: '4.2.9'
 main: mp.quesito.qSMarketPlus.QSMarketPlus
 api-version: '1.20'
 depend:
@@ -33,10 +33,21 @@ commands:
     aliases: [t]
     permission: qsmarket.trade
 
+  pwarp:
+    description: PWarps para tiendas de jugadores
+    usage: /pwarp
+    aliases: [pw]
+
+  stats:
+    description: Estadísticas de compras y ventas
+    usage: /stats [jugador]
+
 permissions:
   qsmarket.use:
     default: true
-
+  qsmarketplus.shop:
+    description: Permite usar el comando /shop
+    default: false
   qsmarket.trade:
     description: Permite usar el sistema de tradeo (comando maestro)
     default: true
@@ -59,7 +70,57 @@ permissions:
   qsmarket.shop.set:
     default: true
 
+  qsmarket.pwarp:
+    description: Permite usar el sistema de pwarps
+    default: true
+    children:
+      qsmarket.pwarp.create: true
+      qsmarket.pwarp.delete: true
+      qsmarket.pwarp.setdesc: true
+      qsmarket.pwarp.setloc: true
+      qsmarket.pwarp.favorite: true
+
+  qsmarket.pwarp.create:
+    description: Permite crear pwarps
+    default: true
+
+  qsmarket.pwarp.delete:
+    description: Permite eliminar pwarps
+    default: true
+
+  qsmarket.pwarp.setdesc:
+    description: Permite poner descripcion a un pwarp
+    default: true
+
+  qsmarket.pwarp.setloc:
+    description: Permite mover un pwarp de posicion
+    default: true
+
+  qsmarket.pwarp.favorite:
+    description: Permite anadir pwarps a favoritos
+    default: true
+
+  qsmarket.pwarp.limit.3:
+    description: Limite de 3 pwarps (por defecto)
+    default: true
+
+  qsmarket.pwarp.unlimited:
+    description: Pwarps ilimitados
+    default: op
+
   qsmarket.signshop.setitem:
+    default: op
+
+  qsmarket.stats:
+    description: Permite ver tus estadísticas de compras y ventas
+    default: op
+
+  qsmarket.stats.others:
+    description: Permite ver las estadísticas de otros jugadores
+    default: op
+
+  qsmarket.admin.stats:
+    description: Permite limpiar el historial de compras/ventas (/qsmarket stats clear)
     default: op
 
   qsmarket.admin.reload:
@@ -68,5 +129,21 @@ permissions:
   qsmarket.admin.additem:
     default: op
 
+  qsmarket.admin.shop:
+    description: Permite abrir el editor gráfico de la tienda (/qsmarket edit)
+    default: op
+
   qsmarket.admin.sellstick:
      default: op
+
+  qsmarket.history:
+    description: Permite ver tu historial de subastas (/ah history)
+    default: true
+
+  qsmarket.expired:
+    description: Permite ver tus subastas expiradas (/ah expired)
+    default: true
+
+  qsmarket.ah.admin:
+    description: Permite ver historial/expiradas de otros jugadores y eliminar/copiar items de subasta
+    default: op

@@ -73,6 +73,11 @@ trade:
   # dando tiempo a cancelar para añadir algo más antes de completar.
   countdown-seconds: 5
 
+# Estadísticas de compras y ventas (se registran en la base de datos).
+# Se ven con /stats y en el menú "Estadísticas de la tienda".
+stats:
+  enabled: true
+
 
 database:
   type: sqlite # opciones: sqlite / mysql
@@ -172,5 +177,16 @@ player-shops:
     display-name: ""
     # true = se consume 1 item al crear la tienda correctamente
     consume: true
+
+
+# ======================================================
+# 📍 Sistema de PWarps (Tiendas de Jugadores)
+# ======================================================
+pwarp:
+  # Máximo de pwarps que puede crear cada jugador.
+  # Se puede dar un límite mayor o ilimitado con los permisos:
+  #   qsmarket.pwarp.limit.<n>  (ej: qsmarket.pwarp.limit.10)
+  #   qsmarket.pwarp.unlimited
+  max-warps: 3
 
 

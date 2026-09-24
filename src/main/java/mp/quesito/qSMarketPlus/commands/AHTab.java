@@ -32,6 +32,11 @@ public class AHTab implements TabCompleter {
             list.add("sell");
             list.add("sellinv");
 
+            if (p.hasPermission("qsmarket.ah.admin")) {
+                list.add("toggle");
+                list.add("audit");
+            }
+
             return filter(list, args[0]);
         }
 
@@ -50,6 +55,17 @@ public class AHTab implements TabCompleter {
         if (args.length == 2 && args[0].equalsIgnoreCase("sellinv")) {
 
             list.add("<precio>");
+            return filter(list, args[1]);
+        }
+
+        // =======================================================
+        // /ah history|expired [jugador]  (solo admin)
+        // =======================================================
+        if (args.length == 2
+                && (args[0].equalsIgnoreCase("history") || args[0].equalsIgnoreCase("expired"))
+                && p.hasPermission("qsmarket.ah.admin")) {
+
+            org.bukkit.Bukkit.getOnlinePlayers().forEach(online -> list.add(online.getName()));
             return filter(list, args[1]);
         }
 

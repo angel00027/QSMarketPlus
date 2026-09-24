@@ -25,8 +25,15 @@ public class SellTabCompleter implements TabCompleter {
             list.add("hand");
             list.add("similar");
             list.add("all");
+            list.add("inv");
+            list.add("check");
 
             return filter(list, args[0]);
+        }
+
+        if (args.length == 2 && args[0].equalsIgnoreCase("check")) {
+            list.add("<material>");
+            return filter(list, args[1]);
         }
 
         return list;

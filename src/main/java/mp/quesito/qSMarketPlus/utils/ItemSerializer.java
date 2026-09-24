@@ -28,6 +28,10 @@ public class ItemSerializer {
 
     // ===================== DESERIALIZAR UN ITEM =====================
     public static ItemStack fromBase64(String base64) {
+        return fromBase64(base64, false);
+    }
+
+    public static ItemStack fromBase64(String base64, boolean quiet) {
         try {
             byte[] bytes = Base64.getDecoder().decode(base64);
             ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
@@ -37,7 +41,7 @@ public class ItemSerializer {
             dataInput.close();
             return item;
         } catch (Exception e) {
-            e.printStackTrace();
+            if (!quiet) e.printStackTrace();
             return null;
         }
     }

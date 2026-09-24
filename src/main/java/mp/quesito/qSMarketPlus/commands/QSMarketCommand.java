@@ -51,6 +51,167 @@ public class QSMarketCommand implements CommandExecutor {
         }
 
         /* ======================================================
+         * /qsmarket edit (Editor de la tienda)
+         * ====================================================== */
+        if (args[0].equalsIgnoreCase("edit")) {
+
+            if (!hasPerm(sender, "qsmarket.admin.shop")) return true;
+
+            if (!(sender instanceof Player p)) {
+                sender.sendMessage("§cSolo jugadores.");
+                return true;
+            }
+
+            plugin.getShopEditorManager().openEditor(p);
+            return true;
+        }
+
+        /* ======================================================
+         * /qsmarket stats [clear [jugador] | count]
+         * Mantenimiento del historial de compras/ventas
+         * ====================================================== */
+        if (args[0].equalsIgnoreCase("stats")) {
+
+            if (!hasPerm(sender, "qsmarket.admin.stats")) return true;
+
+            if (args.length < 2) {
+                sender.sendMessage("§eQSMarketPlus · Estadísticas:");
+                sender.sendMessage("§f/qsmarket stats count");
+                sender.sendMessage("§f/qsmarket stats clear");
+                sender.sendMessage("§f/qsmarket stats clear <jugador>");
+                return true;
+            }
+
+            switch (args[1].toLowerCase()) {
+                case "count" -> {
+                    final int[] total = {0};
+                    plugin.getSqlManager().query(
+                            "SELECT COUNT(*) c FROM shop_transactions",
+                            rs -> {
+                                try {
+                                    if (rs.next()) total[0] = rs.getInt("c");
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                    );
+                    sender.sendMessage("§a✔ Hay " + total[0] + " movimientos registrados en la tienda.");
+                }
+                case "clear" -> {
+                    if (args.length >= 3) {
+                        // Limpiar solo el historial de un jugador
+                        Player target = Bukkit.getPlayerExact(args[2]);
+                        java.util.UUID targetUuid;
+                        if (target != null) {
+                            targetUuid = target.getUniqueId();
+                        } else {
+                            final String[] found = {null};
+                            plugin.getSqlManager().query("""
+                                    SELECT player_uuid FROM shop_transactions
+                                    WHERE LOWER(player_name) = LOWER(?)
+                                    ORDER BY id DESC LIMIT 1
+                                    """, rs -> {
+                                try {
+                                    if (rs.next()) found[0] = rs.getString("player_uuid");
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }, args[2]);
+                            if (found[0] == null) {
+                                sender.sendMessage("§cNo hay movimientos de " + args[2] + ".");
+                                return true;
+                            }
+                            targetUuid = java.util.UUID.fromString(found[0]);
+                        }
+                        int removed = plugin.getStatsManager().purgePlayer(targetUuid);
+                        sender.sendMessage("§a✔ Se han eliminado " + removed + " movimientos de " + args[2] + ".");
+                    } else {
+                        int removed = plugin.getStatsManager().purgeAll();
+                        sender.sendMessage("§c✔ Historial de compras/ventas limpiado por completo (§f" + removed + "§c movimientos eliminados).");
+                    }
+                }
+                default -> {
+                    sender.sendMessage("§f/qsmarket stats count");
+                    sender.sendMessage("§f/qsmarket stats clear");
+                    sender.sendMessage("§f/qsmarket stats clear <jugador>");
+                }
+            }
+            return true;
+        }
+
+        /* ======================================================
+         * /qsmarket tradehistory [count | clear [jugador]]
+         * Mantenimiento del historial de tradeos (/trade history)
+         * ====================================================== */
+        if (args[0].equalsIgnoreCase("tradehistory")) {
+
+            if (!hasPerm(sender, "qsmarket.admin.stats")) return true;
+
+            if (args.length < 2) {
+                sender.sendMessage("§eQSMarketPlus · Historial de Tradeos:");
+                sender.sendMessage("§f/qsmarket tradehistory count");
+                sender.sendMessage("§f/qsmarket tradehistory clear");
+                sender.sendMessage("§f/qsmarket tradehistory clear <jugador>");
+                return true;
+            }
+
+            var dao = plugin.getTradeManager().getDao();
+
+            switch (args[1].toLowerCase()) {
+                case "count" ->
+                        sender.sendMessage("§a✔ Hay " + dao.count() + " tradeos registrados.");
+                case "clear" -> {
+                    if (args.length >= 3) {
+                        Player target = Bukkit.getPlayerExact(args[2]);
+                        java.util.UUID targetUuid = null;
+                        if (target != null) {
+                            targetUuid = target.getUniqueId();
+                        } else {
+                            try {
+                                targetUuid = java.util.UUID.fromString(args[2]);
+                            } catch (IllegalArgumentException ignored) {
+                                // no es un UUID
+                            }
+                        }
+                        if (targetUuid == null) {
+                            sender.sendMessage("§cEl historial de tradeos guarda UUIDs, no nombres.");
+                            sender.sendMessage("§cUsa el UUID del jugador o un jugador online: /qsmarket tradehistory clear <uuid|jugador>");
+                            return true;
+                        }
+                        int removed = dao.purgePlayer(targetUuid);
+                        sender.sendMessage("§a✔ Se han eliminado " + removed + " tradeos de " + args[2] + ".");
+                    } else {
+                        int removed = dao.purgeAll();
+                        sender.sendMessage("§c✔ Historial de tradeos limpiado por completo (§f" + removed + "§c movimientos eliminados).");
+                    }
+                }
+                default -> {
+                    sender.sendMessage("§f/qsmarket tradehistory count");
+                    sender.sendMessage("§f/qsmarket tradehistory clear");
+                    sender.sendMessage("§f/qsmarket tradehistory clear <jugador>");
+                }
+            }
+            return true;
+        }
+
+        /* ======================================================
+         * /qsmarket global
+         * Menú global de historiales (Tienda / Tradeos / Subastas)
+         * ====================================================== */
+        if (args[0].equalsIgnoreCase("global")) {
+
+            if (!hasPerm(sender, "qsmarket.admin.stats")) return true;
+
+            if (!(sender instanceof Player p)) {
+                sender.sendMessage("§cSolo jugadores.");
+                return true;
+            }
+
+            mp.quesito.qSMarketPlus.global.GlobalMenu.open(p, 0, null, null, 0, 1);
+            return true;
+        }
+
+        /* ======================================================
          * /qsmarket reload
          * ====================================================== */
         if (args[0].equalsIgnoreCase("reload")) {
@@ -67,6 +228,7 @@ public class QSMarketCommand implements CommandExecutor {
 
             AHConfig.reload(plugin);
             Lang.init(plugin);
+            plugin.getPwarpManager().loadAll();
 
             sender.sendMessage(ChatColor.GREEN + "✔ Configuraciones recargadas.");
             return true;
@@ -363,7 +525,10 @@ public class QSMarketCommand implements CommandExecutor {
     private void sendHelp(CommandSender sender) {
         sender.sendMessage("§eQSMarketPlus:");
         sender.sendMessage("§f/qsmarket reload");
-        sender.sendMessage("§f/qsmarket set <precio> <cantidad>");
+        sender.sendMessage("§f/qsmarket edit");
+        sender.sendMessage("§f/qsmarket stats clear");
+        sender.sendMessage("§f/qsmarket tradehistory clear");
+        sender.sendMessage("§f/qsmarket global");
         sender.sendMessage("§f/qsmarket setitem <categoria> <itemId>");
         sender.sendMessage("§f/qsmarket additem <categoria> <precio_compra> <precio_venta>");
         sender.sendMessage("§cUso: /qsmarket resetunique <jugador> [itemId]");

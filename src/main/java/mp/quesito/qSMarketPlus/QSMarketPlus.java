@@ -3,13 +3,18 @@ package mp.quesito.qSMarketPlus;
 import mp.quesito.qSMarketPlus.auction.AuctionManager;
 import mp.quesito.qSMarketPlus.commands.*;
 import mp.quesito.qSMarketPlus.database.SQLManager;
+import mp.quesito.qSMarketPlus.editor.ShopEditorListener;
+import mp.quesito.qSMarketPlus.editor.ShopEditorManager;
 import mp.quesito.qSMarketPlus.economia.*;
 import mp.quesito.qSMarketPlus.hooks.HookManager;
 import mp.quesito.qSMarketPlus.hooks.impl.QsProteccionHook;
 import mp.quesito.qSMarketPlus.listeners.*;
 import mp.quesito.qSMarketPlus.manager.*;
+import mp.quesito.qSMarketPlus.pwarp.PwarpManager;
 import mp.quesito.qSMarketPlus.shop.PlayerShop;
 import mp.quesito.qSMarketPlus.shop.ShopCategory;
+import mp.quesito.qSMarketPlus.stats.StatsManager;
+import mp.quesito.qSMarketPlus.stats.StatsListener;
 import mp.quesito.qSMarketPlus.trade.TradeManager;
 import mp.quesito.qSMarketPlus.utils.Lang;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
@@ -40,11 +45,14 @@ public final class QSMarketPlus extends JavaPlugin {
     private AuctionManager auctionManager;
     private SQLManager sqlManager;
     private SignShopManager signShopManager;
+    private ShopEditorManager shopEditorManager;
+    private StatsManager statsManager;
     public static Economy economy;
     private boolean qstextursHook;
     private HookManager hookManager;
     private EconomyManager economyManager;
     private TradeManager tradeManager;
+    private PwarpManager pwarpManager;
 
 
     @Override
@@ -186,6 +194,22 @@ public final class QSMarketPlus extends JavaPlugin {
         tradeManager = new TradeManager(this);
 
         // ============================
+        // 5.2) PwarpManager (PWarps de tiendas)
+        // ============================
+        pwarpManager = new PwarpManager(this);
+        pwarpManager.loadAll();
+
+        // ============================
+        // 5.3) Editor de la tienda (admin GUI)
+        // ============================
+        shopEditorManager = new ShopEditorManager(this);
+
+        // ============================
+        // 5.4) Estadísticas de compras/ventas
+        // ============================
+        statsManager = new StatsManager(this);
+
+        // ============================
         // 6) Inicializar SignShopManager
         // ============================
         signShopManager = new SignShopManager();
@@ -198,7 +222,12 @@ public final class QSMarketPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerShopListener(), this);
         getServer().getPluginManager().registerEvents(new SignShopListener(), this);
         getServer().getPluginManager().registerEvents(new SellStickListener(this), this);
+        getServer().getPluginManager().registerEvents(new SellInvListener(this), this);
         getServer().getPluginManager().registerEvents(new TradeListener(), this);
+        getServer().getPluginManager().registerEvents(new PwarpListener(), this);
+        getServer().getPluginManager().registerEvents(new ShopEditorListener(shopEditorManager), this);
+        getServer().getPluginManager().registerEvents(new StatsListener(), this);
+        getServer().getPluginManager().registerEvents(new mp.quesito.qSMarketPlus.global.GlobalListener(this), this);
         // ============================
         // 8) Registrar comandos
         // ============================
@@ -223,6 +252,22 @@ public final class QSMarketPlus extends JavaPlugin {
         if (getCommand("trade") != null) {
             getCommand("trade").setExecutor(new TradeCommand(this));
             getCommand("trade").setTabCompleter(new TradeTabCompleter());
+        }
+
+        // ============================
+        // PWarps (Tiendas de jugadores)
+        // ============================
+        if (getCommand("pwarp") != null) {
+            getCommand("pwarp").setExecutor(new PwarpCommand(this));
+            getCommand("pwarp").setTabCompleter(new PwarpTabCompleter(this));
+        }
+
+        // ============================
+        // Estadísticas (/stats)
+        // ============================
+        if (getCommand("stats") != null) {
+            getCommand("stats").setExecutor(new StatsCommand());
+            getCommand("stats").setTabCompleter(new StatsTabCompleter());
         }
 
         // ============================
@@ -307,6 +352,15 @@ public final class QSMarketPlus extends JavaPlugin {
     public AuctionManager getAuctionManager() { return auctionManager; }
     public SQLManager getSqlManager() { return sqlManager; }
     public TradeManager getTradeManager() { return tradeManager; }
+public PwarpManager getPwarpManager() {
+        return pwarpManager;
+    }
+    public ShopEditorManager getShopEditorManager() {
+        return shopEditorManager;
+    }
+    public StatsManager getStatsManager() {
+        return statsManager;
+    }
     public HookManager getHookManager() {
         return hookManager;
     }

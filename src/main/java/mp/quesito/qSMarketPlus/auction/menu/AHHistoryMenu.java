@@ -34,9 +34,13 @@ public class AHHistoryMenu {
             new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
     public static void open(Player player, int page) {
+        open(player, player.getUniqueId(), page);
+    }
+
+    public static void open(Player player, UUID subject, int page) {
 
         AuctionManager manager = QSMarketPlus.getInstance().getAuctionManager();
-        List<AuctionItem> all = manager.getHistory(player.getUniqueId());
+        List<AuctionItem> all = manager.getHistory(subject);
 
         int perPage = GRID.length;
         int maxPage = Math.max(1, (int) Math.ceil((double) all.size() / perPage));
@@ -49,7 +53,7 @@ public class AHHistoryMenu {
         List<AuctionItem> pageItems = new ArrayList<>(all.subList(start, end));
 
         // holder real
-        AHHistoryHolder holder = new AHHistoryHolder(player, pageItems, page);
+        AHHistoryHolder holder = new AHHistoryHolder(player, subject, pageItems, page);
         Inventory inv = Bukkit.createInventory(holder, SIZE, TITLE);
         holder.setInventory(inv);
 
@@ -108,16 +112,26 @@ public class AHHistoryMenu {
 
     private static ItemStack createHistoryDisplay(AuctionItem auc, int index) {
 
-        // ITEM O BULK
-        ItemStack item = auc.isBulk()
-                ? new ItemStack(Material.CHEST)
-                : auc.item.clone();
+        // ITEM O BULK (nunca rompe aunque el ítem esté corrupto)
+        boolean corrupt = !auc.isBulk() && (auc.item == null || auc.item.getType().isAir());
+        ItemStack item;
+        if (auc.isBulk()) {
+            item = new ItemStack(Material.CHEST);
+        } else if (!corrupt) {
+            item = auc.item.clone();
+        } else {
+            item = new ItemStack(Material.BARRIER);
+        }
 
         ItemMeta meta = item.getItemMeta();
         List<String> lore = new ArrayList<>();
 
         // ========== ESTADO ==========
         lore.add(MenuItems.miniToLegacy("<gray>Estado: " + formatStatus(auc.status)));
+
+        if (corrupt) {
+            lore.add(MenuItems.miniToLegacy("<red>Item ilegible (base64 inválido)"));
+        }
 
         // ========== PRECIO ==========
         lore.add(MenuItems.miniToLegacy("<gray>Precio: <green>$" + auc.price));

@@ -81,6 +81,28 @@ public class ItemManager {
         return null;
     }
 
+    // ================= BUSCAR ITEM VENDIBLE =================
+    // Coincide por tipo (o por id = nombre del material) y prioriza
+    // la entrada que tenga precio de venta (> 0).
+    public ShopItem findSellable(ItemStack item) {
+        if (item == null || item.getType().isAir()) return null;
+
+        ShopItem firstMatch = null;
+        ShopItem idMatch = getItemById(item.getType().name().toLowerCase());
+
+        for (Map<String, ShopItem> categoryMap : itemsRawByCategory.values()) {
+            for (ShopItem si : categoryMap.values()) {
+                if (si.getMaterial() != item.getType()) continue;
+                if (firstMatch == null) firstMatch = si;
+                if (si.getSell() > 0) return si;
+            }
+        }
+
+        if (firstMatch == null) return idMatch;
+        if (idMatch != null && idMatch.getSell() > 0) return idMatch;
+        return firstMatch;
+    }
+
     // ================= ITEMS =================
     public void loadCategoryItems(ShopCategory category) {
 

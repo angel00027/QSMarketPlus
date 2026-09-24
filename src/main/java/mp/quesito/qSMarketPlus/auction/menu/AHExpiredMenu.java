@@ -14,21 +14,26 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
+import java.util.UUID;
 
 public class AHExpiredMenu {
 
     public static void open(Player p, int page) {
+        open(p, p.getUniqueId(), page);
+    }
+
+    public static void open(Player p, UUID subject, int page) {
 
         List<AuctionItem> expired = QSMarketPlus.getInstance()
                 .getAuctionManager()
-                .getExpired(p.getUniqueId());
+                .getExpired(subject);
 
         // Max page calculated based on a 28-slot inner content grid
         int maxPage = Math.max(1, (int) Math.ceil(expired.size() / 28.0));
         page = Math.max(1, Math.min(page, maxPage));
 
         Inventory inv = Bukkit.createInventory(
-                new AHExpiredHolder(p, page, expired),
+                new AHExpiredHolder(p, subject, page, expired),
                 54,
                 "✦ Subastas Expiradas ✦"
         );
@@ -57,10 +62,16 @@ public class AHExpiredMenu {
                     m.setDisplayName("§ePack Expirado (" + totalItems + " items)");
                     icon.setItemMeta(m);
                 }
-            } else if (auc.item != null) {
+            } else if (auc.item != null && !auc.item.getType().isAir()) {
                 icon = auc.item.clone();
             } else {
-                continue; // Skip corrupted database entries
+                // Entrada corrupta: se muestra marcador para no "desaparecer"
+                icon = new ItemStack(Material.BARRIER);
+                ItemMeta bm = icon.getItemMeta();
+                if (bm != null) {
+                    bm.setDisplayName("§cSubasta corrupta");
+                    icon.setItemMeta(bm);
+                }
             }
 
             ItemMeta m = icon.getItemMeta();

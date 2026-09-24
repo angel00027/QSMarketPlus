@@ -35,13 +35,13 @@ public class AmountMenu {
         // ===================================================
         //          TAMAÑO DEL INVENTARIO DESDE CONFIG
         // ===================================================
-        int size = cfg.getInt("menu.size", 27); // <--- AHORA CONFIGURABLE
+        int size = cfg.getInt("menu.size", 45); // <--- AHORA CONFIGURABLE
         Inventory inv = Bukkit.createInventory(holder, size, title);
 
         // ===================================================
         //                     INFO SLOT
         // ===================================================
-        int infoSlot = cfg.getInt("buttons.info-slot", 13);
+        int infoSlot = cfg.getInt("buttons.info-slot", 22);
         inv.setItem(infoSlot, MenuItems.infoAmountItem(holder.getItem(), amount, buying));
 
         // ===================================================
@@ -54,6 +54,21 @@ public class AmountMenu {
             for (String key : buttons.getKeys(false)) {
                 loadConfiguredButton(cfg, inv, "buttons." + key);
             }
+        }
+
+        // ===================================================
+        //    BOTÓN CONFIRMAR: se re-renderiza al final con
+        //    cantidad / pilas / total en su lore
+        // ===================================================
+        int confirmSlot = cfg.getInt("buttons.confirm.slot", 30);
+        inv.setItem(confirmSlot, MenuItems.amountConfirmItem(holder.getItem(), amount, buying));
+
+        // ===================================================
+        //    "COMPRAR MÁS": solo en modo compra (vende no aplica)
+        // ===================================================
+        int buyMoreSlot = cfg.getInt("buttons.buy-more.slot", -1);
+        if (!buying && buyMoreSlot >= 0) {
+            inv.setItem(buyMoreSlot, null);
         }
 
         player.openInventory(inv);
@@ -85,8 +100,8 @@ public class AmountMenu {
             String v = sec.getString("value");
             MetaUtil.setTag(meta, "value", v);
 
-            // Si es MIN/MAX, marcarlo como especial también
-            if ("MIN".equalsIgnoreCase(v) || "MAX".equalsIgnoreCase(v)) {
+            // Si es MIN/MAX/STACK, marcarlo como especial también
+            if ("MIN".equalsIgnoreCase(v) || "MAX".equalsIgnoreCase(v) || "STACK".equalsIgnoreCase(v)) {
                 MetaUtil.setTag(meta, "special", v.toUpperCase());
             }
         }

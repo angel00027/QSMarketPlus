@@ -23,9 +23,11 @@ public class AHPreviewMenu {
 
         // Mostrar todos los ítems del container
         int slot = 0;
-        for (ItemStack i : auction.container) {
-            if (i != null && !i.getType().isAir()) {
-                inv.setItem(slot++, i.clone());
+        if (auction.container != null) {
+            for (ItemStack i : auction.container) {
+                if (i != null && !i.getType().isAir()) {
+                    inv.setItem(slot++, i.clone());
+                }
             }
         }
 

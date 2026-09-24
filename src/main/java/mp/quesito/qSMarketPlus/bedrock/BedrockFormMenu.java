@@ -280,6 +280,9 @@ public class BedrockFormMenu {
                         return;
                     }
 
+                    QSMarketPlus.getInstance().getStatsManager()
+                            .recordSell(targetPlayer, category, item, cantidad, totalEarnings);
+
                     MessageUtil.lang(targetPlayer, "sell_success",
                             Placeholder.parsed("amount", String.valueOf(cantidad)),
                             Placeholder.parsed("item", cleanedItemName),
@@ -341,6 +344,9 @@ public class BedrockFormMenu {
                     if (item.isOnlyOnce()) {
                         upManager.markPurchased(targetPlayer, item);
                     }
+
+                    QSMarketPlus.getInstance().getStatsManager()
+                            .recordBuy(targetPlayer, category, item, cantidad, totalCost);
 
                     MessageUtil.lang(targetPlayer, "buy_success",
                             Placeholder.parsed("amount", String.valueOf(cantidad)),

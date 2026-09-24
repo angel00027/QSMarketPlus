@@ -8,11 +8,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class CategoryManager {
 
     private final QSMarketPlus plugin;
+    private File categoriesFile;
     private FileConfiguration categoriesConfig;
     private final Map<String, ShopCategory> categories = new LinkedHashMap<>();
 
@@ -33,13 +35,13 @@ public class CategoryManager {
 
     public void loadCategories() {
 
-        File file = new File(plugin.getDataFolder(), "categories.yml");
+        categoriesFile = new File(plugin.getDataFolder(), "categories.yml");
 
-        if (!file.exists()) {
+        if (!categoriesFile.exists()) {
             plugin.saveResource("categories.yml", false);
         }
 
-        categoriesConfig = YamlConfiguration.loadConfiguration(file);
+        categoriesConfig = YamlConfiguration.loadConfiguration(categoriesFile);
         categories.clear();
 
         // ====================================================
@@ -125,6 +127,16 @@ public class CategoryManager {
 
     public FileConfiguration getConfig() {
         return categoriesConfig;
+    }
+
+    // Guarda el YAML de categorías en disco (usado por el editor)
+    public void saveCategories() {
+        if (categoriesConfig == null || categoriesFile == null) return;
+        try {
+            categoriesConfig.save(categoriesFile);
+        } catch (IOException e) {
+            plugin.getLogger().warning("No se pudo guardar categories.yml: " + e.getMessage());
+        }
     }
 
     public ShopCategory getCategory(String id) {

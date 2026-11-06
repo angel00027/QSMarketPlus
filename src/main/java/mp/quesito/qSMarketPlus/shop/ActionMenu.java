@@ -3,9 +3,12 @@ package mp.quesito.qSMarketPlus.shop;
 import mp.quesito.qSMarketPlus.QSMarketPlus;
 import mp.quesito.qSMarketPlus.holder.ActionHolder;
 import mp.quesito.qSMarketPlus.utils.MenuItems;
+import mp.quesito.qSMarketPlus.utils.NexoGui;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
 import mp.quesito.qSMarketPlus.utils.MetaUtil;
 import org.bukkit.Bukkit;
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -23,9 +26,9 @@ public class ActionMenu {
         // ==============================
         //        TÍTULO / FILAS
         // ==============================
-        String title = MessageUtil.toLegacy(
+        String title = MessageUtil.toLegacy(NexoGui.title(
                 cfg.getString("menu.title", "<yellow>Selecciona una acción")
-        );
+        ));
 
         int rows = cfg.getInt("menu.rows", 3);
         int size = rows * 9;
@@ -52,6 +55,24 @@ public class ActionMenu {
         loadButton(cfg, inv, "buttons.buy",  MenuItems.buyButton(player,item),  item);
         loadButton(cfg, inv, "buttons.sell", MenuItems.sellButton(item), item);
         loadButton(cfg, inv, "buttons.back", MenuItems.backButton(),    item);
+
+        int itemSlot = cfg.getInt("menu.item-slot", 13);
+        if (itemSlot >= 0 && itemSlot < size) {
+            ItemStack shown = item.getRealItem().clone();
+            shown.setAmount(1);
+            ItemMeta shownMeta = shown.getItemMeta();
+            if (shownMeta != null) {
+                shownMeta.setDisplayName(MessageUtil.toLegacy(item.getName()));
+                List<String> lore = new ArrayList<>();
+                String buy = MessageUtil.priceFormat("buy", item);
+                String sell = MessageUtil.priceFormat("sell", item);
+                if (!buy.isEmpty()) lore.add(buy);
+                if (!sell.isEmpty()) lore.add(sell);
+                shownMeta.setLore(lore);
+                shown.setItemMeta(shownMeta);
+            }
+            inv.setItem(itemSlot, shown);
+        }
 
         player.openInventory(inv);
     }

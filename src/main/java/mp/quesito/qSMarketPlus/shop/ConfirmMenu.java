@@ -3,6 +3,7 @@ package mp.quesito.qSMarketPlus.shop;
 import mp.quesito.qSMarketPlus.QSMarketPlus;
 import mp.quesito.qSMarketPlus.holder.ConfirmHolder;
 import mp.quesito.qSMarketPlus.utils.MenuItems;
+import mp.quesito.qSMarketPlus.utils.NexoGui;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
 import mp.quesito.qSMarketPlus.utils.MetaUtil;
 import org.bukkit.Bukkit;
@@ -26,7 +27,7 @@ public class ConfirmMenu {
                 ? cfg.getString("menu.title-buy", "<green>Confirmar compra")
                 : cfg.getString("menu.title-sell", "<red>Confirmar venta");
 
-        String title = MessageUtil.toLegacy(baseTitle);
+        String title = MessageUtil.toLegacy(NexoGui.title(baseTitle));
 
         // =============================
         //       CREAR INVENTARIO

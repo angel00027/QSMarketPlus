@@ -190,3 +190,50 @@ pwarp:
   max-warps: 3
 
 
+
+
+# Buscador de tiendas de jugadores (/tiendas): mejor precio y viaje seguro
+player-shops-browser:
+  warmup-seconds: 3        # quieto antes de viajar (se cancela al moverse o recibir daño)
+  cooldown-seconds: 10     # espera entre viajes
+  filler: GRAY_STAINED_GLASS_PANE
+  titles:
+    main: "<dark_green>Tiendas de jugadores <gray>{page}/{max}"
+    product: "<dark_green><item> <gray>{page}/{max}"
+  offer-name: "<yellow>Tienda de <white><owner>"
+  lore:
+    info-lore:
+      - "<gray>Cada objeto muestra su mejor precio."
+      - "<gray>Elige uno para ver quién lo vende."
+    product-lore:
+      - "<gray>Tiendas: <white><shops>"
+      - "<gray>Desde: <green>$<best> <gray>c/u"
+      - "<gray>Stock total: <white><stock>"
+      - ""
+      - "<yellow>Clic para ver las tiendas"
+    best-line:
+      - "<gold>★ Mejor precio"
+    offer-lore:
+      - "<gray>Vende <white><amount></white> por <green>$<price>"
+      - "<gray>Precio c/u: <green>$<unit>"
+      - "<gray>Stock: <white><stock>"
+      - "<gray>Lugar: <white><world> <x>, <y>, <z>"
+      - "<gray>Distancia: <white><distance>"
+      - ""
+      - "<yellow>Clic para ir a la tienda"
+  buttons:
+    info: {material: BOOK, name: "<yellow>Tiendas de jugadores"}
+    prev: {material: ARROW, name: "<yellow>Anterior"}
+    next: {material: ARROW, name: "<yellow>Siguiente"}
+    back: {material: ARROW, name: "<yellow>Volver"}
+    close: {material: BARRIER, name: "<red>Cerrar"}
+    empty: {material: BARRIER, name: "<red>Aún no hay tiendas con stock"}
+  messages:
+    warmup: "<yellow>Viajando a la tienda en <white><seconds>s</white>... no te muevas"
+    moved: "<red>Viaje cancelado: te moviste."
+    damaged: "<red>Viaje cancelado: recibiste daño."
+    cooldown: "<red>Espera <white><seconds>s</white> para volver a viajar."
+    unsafe: "<red>No hay un sitio seguro junto a esa tienda. Avisa a su dueño."
+    gone: "<red>Esa tienda ya no existe."
+    arrived: "<green>Llegaste a la tienda de <white><owner></white>."
+    no-permission: "<red>No puedes viajar a las tiendas."

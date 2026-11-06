@@ -52,6 +52,7 @@ public final class QSMarketPlus extends JavaPlugin {
     private HookManager hookManager;
     private EconomyManager economyManager;
     private TradeManager tradeManager;
+    private mp.quesito.qSMarketPlus.coupons.CouponManager couponManager;
     private PwarpManager pwarpManager;
 
 
@@ -192,6 +193,7 @@ public final class QSMarketPlus extends JavaPlugin {
         // 5.1) TradeManager
         // ============================
         tradeManager = new TradeManager(this);
+        couponManager = new mp.quesito.qSMarketPlus.coupons.CouponManager(this);
 
         // ============================
         // 5.2) PwarpManager (PWarps de tiendas)
@@ -224,6 +226,9 @@ public final class QSMarketPlus extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SellStickListener(this), this);
         getServer().getPluginManager().registerEvents(new SellInvListener(this), this);
         getServer().getPluginManager().registerEvents(new TradeListener(), this);
+        getServer().getPluginManager().registerEvents(new mp.quesito.qSMarketPlus.coupons.CouponListener(), this);
+        getServer().getPluginManager().registerEvents(new mp.quesito.qSMarketPlus.shop.browser.ShopBrowserListener(), this);
+        getServer().getPluginManager().registerEvents(new mp.quesito.qSMarketPlus.shop.AmountInput(), this);
         getServer().getPluginManager().registerEvents(new PwarpListener(), this);
         getServer().getPluginManager().registerEvents(new ShopEditorListener(shopEditorManager), this);
         getServer().getPluginManager().registerEvents(new StatsListener(), this);
@@ -260,6 +265,22 @@ public final class QSMarketPlus extends JavaPlugin {
         if (getCommand("pwarp") != null) {
             getCommand("pwarp").setExecutor(new PwarpCommand(this));
             getCommand("pwarp").setTabCompleter(new PwarpTabCompleter(this));
+        }
+
+        // ============================
+        // Cupones de descuento (/cupon)
+        // ============================
+        if (getCommand("cupon") != null) {
+            mp.quesito.qSMarketPlus.coupons.CouponCommand couponCommand = new mp.quesito.qSMarketPlus.coupons.CouponCommand();
+            getCommand("cupon").setExecutor(couponCommand);
+            getCommand("cupon").setTabCompleter(couponCommand);
+        }
+
+        // ============================
+        // Buscador de tiendas de jugadores (/tiendas)
+        // ============================
+        if (getCommand("tiendas") != null) {
+            getCommand("tiendas").setExecutor(new mp.quesito.qSMarketPlus.commands.TiendasCommand());
         }
 
         // ============================
@@ -351,6 +372,8 @@ public final class QSMarketPlus extends JavaPlugin {
     public ItemManager getItemManager() { return itemManager; }
     public AuctionManager getAuctionManager() { return auctionManager; }
     public SQLManager getSqlManager() { return sqlManager; }
+
+    public mp.quesito.qSMarketPlus.coupons.CouponManager getCouponManager() { return couponManager; }
     public TradeManager getTradeManager() { return tradeManager; }
 public PwarpManager getPwarpManager() {
         return pwarpManager;

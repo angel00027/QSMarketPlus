@@ -1,0 +1,471 @@
+[CENTER][SIZE=7][B]⭐ QSMarketPlus ⭐[/B][/SIZE]
+[SIZE=5][B]Tienda, subastas, tradeos, tiendas de jugadores y cupones en un solo plugin[/B][/SIZE][/CENTER]
+
+[SIZE=4]
+QSMarketPlus es un plugin de comercio [B]completo, moderno y totalmente configurable[/B] para servidores Survival, SMP y de economía.
+Todo se maneja con menús, todo se configura en archivos YML y todos los textos usan [B]MiniMessage[/B] (colores hex, degradados, etc.).
+[/SIZE]
+
+[SIZE=5][B]✨ Características[/B][/SIZE]
+[LIST]
+[*][B]Tienda GUI[/B] por categorías ([B]/shop[/B]), con orden por nombre o precio y soporte para ítems personalizados (NBT/Base64).
+[*][B]Menú de cantidad inteligente[/B]: muestra dónde entra lo que compras, calcula solo el máximo según tu espacio y tu dinero, compra más de 64 de golpe y permite escribir la cantidad en el chat.
+[*][B]Venta rápida[/B] ([B]/sell[/B]): mano, similares, todo o por menú.
+[*][B]Casa de subastas[/B] ([B]/ah[/B]): ítems sueltos o inventarios completos, filtros, tiempo restante, expiradas e historial.
+[*][B]Tradeo seguro entre jugadores[/B] ([B]/trade[/B]): dinero, niveles e ítems, con cuenta atrás y protecciones contra estafas.
+[*][B]Tiendas de jugadores[/B] con cofre y cartel, holograma del ítem y [B]buscador[/B] ([B]/tiendas[/B]) que muestra quién vende más barato y te lleva a la tienda de forma segura.
+[*][B]SignShops[/B]: carteles que compran y venden ítems de la tienda global.
+[*][B]PWarps[/B] para que los jugadores anuncien sus tiendas.
+[*][B]Cupones de descuento[/B] ([B]/cupon[/B]): por categoría, con usos, caducidad, mínimo, tope y cupones ilimitados para VIP o recompensas.
+[*][B]Estadísticas[/B] de compras y ventas ([B]/stats[/B]) e historial global.
+[*]Economías: [B]Vault[/B], experiencia, niveles y PlayerPoints (cada ítem elige la suya).
+[*]Menús para [B]Bedrock[/B] (Geyser/Floodgate) con formularios.
+[*][B]Texturas opcionales con Nexo[/B]: fondos de menú y botones personalizados sin tocar el código.
+[*]Base de datos [B]SQLite[/B] o [B]MySQL[/B].
+[/LIST]
+
+[SIZE=5][B]⚙ Requisitos[/B][/SIZE]
+[LIST]
+[*]Paper / Purpur 1.20.6 o superior (probado en 1.21)
+[*]Java 21
+[*][B]Vault[/B] y un plugin de economía (EssentialsX, CMI…) — [B]obligatorio[/B]
+[*][B]WorldGuard[/B] — [B]obligatorio[/B]
+[*]Opcional: Nexo (texturas), PlayerPoints, QsProteccion, ProtectionStones, Geyser/Floodgate
+[/LIST]
+
+[SIZE=5][B]📦 Instalación[/B][/SIZE]
+[LIST=1]
+[*]Coloca el .jar en la carpeta [B]plugins/[/B].
+[*]Instala Vault, una economía y WorldGuard.
+[*]Reinicia el servidor: se crea la carpeta [B]plugins/QSMarketPlus/[/B] con todos los archivos.
+[*]Ajusta precios y menús, y usa [B]/qsmarket reload[/B] para aplicar los cambios sin reiniciar.
+[/LIST]
+
+[SIZE=6][B]📜 Comandos[/B][/SIZE]
+
+[SIZE=5][B]👤 Jugadores[/B][/SIZE]
+[LIST]
+[*][B]/shop[/B] — Abre la tienda. [I](/shop pro abre el menú "pro" si está activo)[/I]
+[*][B]/sell hand[/B] — Vende el ítem de la mano.
+[*][B]/sell similar[/B] — Vende todo lo igual al ítem de la mano.
+[*][B]/sell all[/B] — Vende todo lo vendible del inventario.
+[*][B]/sell inv[/B] — Abre un menú: pones los ítems y al cerrar se venden.
+[*][B]/sell check <material>[/B] — Muestra cuánto pagan por un material.
+[*][B]/ah[/B] — Abre la casa de subastas.
+[*][B]/ah sell <precio>[/B] — Subasta el ítem de la mano.
+[*][B]/ah sellinv <precio>[/B] — Subasta todo tu inventario como un pack (nunca la armadura puesta ni la segunda mano).
+[*][B]/ah history[/B] — Tu historial de subastas.
+[*][B]/ah expired[/B] — Recoge tus subastas que no se vendieron.
+[*][B]/trade <jugador>[/B] · [B]/trade accept <jugador>[/B] · [B]/trade deny <jugador>[/B] · [B]/trade history[/B]
+[*][B]/myshop <precio> <cantidad>[/B] — Cambia rápido el precio y la cantidad de tu tienda de cofre. [I](alias /pshop, /pmarket)[/I]
+[*][B]/tiendas[/B] — Buscador de tiendas de jugadores. [I](alias /playershops, /buscartienda)[/I]
+[*][B]/pwarp[/B] — Menú de PWarps. [B]/pwarp create <nombre>[/B], [B]delete[/B], [B]desc[/B], [B]move[/B], [B]fav[/B]. [I](alias /pw)[/I]
+[*][B]/cupon[/B] — Tus cupones. [B]/cupon canjear <código>[/B] para canjear uno. [I](alias /cupones, /coupon)[/I]
+[*][B]/stats[/B] — Tus estadísticas de compras y ventas.
+[/LIST]
+
+[SIZE=5][B]🛡 Administración[/B][/SIZE]
+[LIST]
+[*][B]/qsmarket reload[/B] — Recarga config, categorías, ítems, menús, mensajes, subastas, pwarps y cupones. [I](alias /qsm)[/I]
+[*][B]/qsmarket additem <categoría> <compra> <venta>[/B] — Añade a la tienda el ítem de tu mano con su NBT completo.
+[*][B]/qsmarket edit[/B] — Editor gráfico de la tienda.
+[*][B]/qsmarket setitem <categoría> <itemId>[/B] — Convierte el cartel que miras en una SignShop.
+[*][B]/qsmarket sellstick [jugador][/B] — Da un palo de venta (vende cofres al golpearlos).
+[*][B]/qsmarket resetunique <jugador> [itemId][/B] — Permite volver a comprar ítems de compra única.
+[*][B]/qsmarket stats count|clear[/B] — Estadísticas guardadas.
+[*][B]/qsmarket tradehistory count|clear[/B] — Historial de tradeos.
+[*][B]/qsmarket global[/B] — Historial global de tienda, tradeos y subastas.
+[*][B]/ah toggle[/B] — Modo admin en la subasta (clic en un lote para eliminarlo o copiarlo).
+[*][B]/ah audit[/B] — Diagnóstico de subastas (fantasmas, vencidas, corruptas).
+[*][B]/ah history <jugador>[/B] · [B]/ah expired <jugador>[/B] — Ver las de otro jugador.
+[*][B]/cupon generar <plantilla> <jugador> [cantidad][/B] — Le da cupones a un jugador (también desde consola).
+[*][B]/cupon generar <plantilla> - [cantidad][/B] — Crea códigos sueltos para repartir (clic para copiar).
+[*][B]/cupon borrar <código>[/B] · [B]/cupon plantillas[/B]
+[*][B]/stats <jugador>[/B] — Estadísticas de otro jugador.
+[/LIST]
+
+[SIZE=6][B]🔑 Permisos[/B][/SIZE]
+[SPOILER="Lista completa de permisos"]
+[B]Jugadores (activos por defecto)[/B]
+[LIST]
+[*]qsmarket.use — Uso general
+[*]qsmarket.shop.set — Crear y configurar tiendas de cofre (/myshop)
+[*]qsmarket.trade — Tradeo (incluye .request y .history)
+[*]qsmarket.history — /ah history
+[*]qsmarket.expired — /ah expired
+[*]qsmarket.pwarp — PWarps (incluye create, delete, setdesc, setloc, favorite)
+[*]qsmarket.pwarp.limit.3 — Límite de PWarps (cambia el número: qsmarket.pwarp.limit.10)
+[*]qsmarket.tiendas.tp — Viajar a tiendas desde /tiendas
+[/LIST]
+
+[B]Límites por rango[/B]
+[LIST]
+[*]qsmarket.shop.limit.<n> — Tiendas de cofre que puede tener
+[*]qsmarket.shop.limit.bypass — Tiendas ilimitadas
+[*]qsmarket.ah.limit.<n> — Subastas activas a la vez (por defecto [B]auction-limits.default[/B])
+[*]qsmarket.pwarp.unlimited — PWarps ilimitados
+[/LIST]
+
+[B]Administración (OP por defecto)[/B]
+[LIST]
+[*]qsmarketplus.shop — Usar /shop y /sell (dáselo al grupo default si lo quieres para todos)
+[*]qsmarket.admin — Quitar o inspeccionar tiendas ajenas
+[*]qsmarket.admin.reload — /qsmarket reload
+[*]qsmarket.admin.additem — /qsmarket additem
+[*]qsmarket.admin.shop — /qsmarket edit
+[*]qsmarket.admin.sellstick — /qsmarket sellstick
+[*]qsmarket.admin.resetunique — /qsmarket resetunique
+[*]qsmarket.admin.stats — Limpiar estadísticas
+[*]qsmarket.signshop.setitem — Crear SignShops
+[*]qsmarket.ah.admin — Modo admin de subastas y ver las de otros
+[*]qsmarket.trade.history.others — Ver tradeos de otros
+[*]qsmarket.stats / qsmarket.stats.others — Estadísticas
+[*]qsmarket.cupones.admin — Generar y borrar cupones
+[*]qsmarket.shop.bypass.protection — Crear tiendas ignorando QsProteccion / ProtectionStones
+[/LIST]
+[/SPOILER]
+
+[SIZE=6][B]📁 Archivos de configuración[/B][/SIZE]
+[LIST]
+[*][B]config.yml[/B] — Economías, base de datos, subastas, tradeo, hologramas, tiendas de jugadores, PWarps, buscador de tiendas y Bedrock.
+[*][B]categories.yml[/B] — Menú principal de la tienda y sus categorías.
+[*][B]items/*.yml[/B] — Un archivo por categoría con sus ítems y precios.
+[*][B]items-menu.yml[/B] — Menú de la lista de ítems.
+[*][B]action-menu.yml[/B] — Menú "Comprar / Vender".
+[*][B]amount-menu.yml[/B] — Menú de cantidad.
+[*][B]confirm-menu.yml[/B] — Confirmación de ítems que no se apilan o de compra única.
+[*][B]ah_menu.yml[/B] — Casa de subastas.
+[*][B]cupones.yml[/B] — Plantillas y códigos de cupones.
+[*][B]messages/messages_es.yml[/B] — Mensajes del plugin. Si falta un mensaje nuevo, se usa el del .jar automáticamente.
+[/LIST]
+
+[SIZE=5][B]🛒 Ítems de la tienda (items/*.yml)[/B][/SIZE]
+Cada archivo dentro de [B]items/[/B] es una categoría. Los precios son [B]por unidad[/B]. [B]sell: 0[/B] o sin [B]sell[/B] = no se puede vender.
+[SPOILER="Ejemplo de ítems"]
+[CODE]
+items:
+  diamond:
+    name: "<aqua>Diamante"
+    material: DIAMOND
+    buy: 150        # precio de compra por unidad
+    sell: 5         # precio de venta por unidad (0 = no se vende)
+    economy: vault  # vault, xp, levels o points
+    lore:
+      - "<gray>Brillante y escaso."
+
+  potion_regeneration:
+    name: "<light_purple>Poción de regeneración"
+    material: POTION
+    potion-effect: REGENERATION
+    potion-level: 1
+    potion-duration: 45   # segundos
+    buy: 140
+
+  vip_kit:
+    name: "<gold>Kit VIP"
+    material: CHEST
+    buy: 500
+    only_once: true                     # cada jugador lo compra una sola vez
+    required_permission: "grupo.vip"    # opcional: quién puede comprarlo
+    commands:                           # en vez de dar el ítem, ejecuta comandos
+      - "give %player% diamond 5"
+    sell_commands: []                   # comandos al vender (opcional)
+
+  cabeza_astronauta:
+    name: "<white>Astronauta"
+    material: PLAYER_HEAD
+    texture: "http://textures.minecraft.net/texture/..."   # cabeza personalizada
+    buy: 300
+[/CODE]
+[/SPOILER]
+[B]Consejo:[/B] para ítems con NBT (ItemsAdder, MMOItems, Nexo…) usa [B]/qsmarket additem[/B] con el ítem en la mano; se guarda en Base64 ([B]itemstack[/B]) y se entrega exacto.
+[B]Venta segura:[/B] si la tienda vende el objeto normal, los objetos con nombre, lore, encantamientos, modelo o datos de otros plugins [B]no[/B] se venden como si fueran el normal. La armadura puesta y la segunda mano nunca se venden.
+
+[SIZE=5][B]🗂 Categorías (categories.yml)[/B][/SIZE]
+[SPOILER="Ejemplo de categories.yml"]
+[CODE]
+menu:
+  title: "<green>QSMarketPlus</green>"
+  rows: 6
+  fill-borders: true   # cristal en el borde; false si usas un fondo de Nexo
+
+buttons:
+  close:
+    slot: 49
+    material: BARRIER
+    name: "<red>Cerrar"
+  player-shops:        # abre el buscador de tiendas de jugadores
+    slot: 47
+    material: CHEST
+    name: "<yellow>Tiendas de jugadores"
+  sell-all:
+    slot: 51
+    material: GOLD_BLOCK
+    name: "<yellow>Vender todo"
+
+categories:
+  blocks:                       # debe coincidir con items/blocks.yml
+    name: "<green>Bloques"
+    material: PLAYER_HEAD
+    head: "http://textures.minecraft.net/texture/..."
+    slot: 10
+    required_permission: ""     # opcional
+    required_group: ""          # opcional
+    lore:
+      - "<gray>Piedra, tierra y más"
+[/CODE]
+[/SPOILER]
+
+[SIZE=5][B]🔢 Menú de cantidad (amount-menu.yml)[/B][/SIZE]
+[LIST]
+[*]Las 4 filas de arriba muestran, en orden y sin huecos, [B]dónde entra lo que compras[/B]: las pilas que añades, los espacios libres y en rojo lo que ya no puedes pagar. Al vender, muestra de qué pilas sale.
+[*]El [B]máximo[/B] se calcula solo: en compra, lo que cabe y lo que puedes pagar; en venta, lo que tienes. No se puede comprar más de lo que cabe.
+[*]Botones ±1, ±16 y ±64, Mínimo, Máximo, [B]Escribir cantidad[/B] (por chat, acepta [B]max[/B] y [B]cancelar[/B]) y clic en una casilla para llenar hasta ahí.
+[*]Botón de [B]cupón[/B]: clic para elegir uno de tus cupones válidos; clic derecho abre "Mis cupones".
+[/LIST]
+[SPOILER="Variables y opciones de amount-menu.yml"]
+[CODE]
+# Variables del panel: <amount> <stacks> <price> <unit> <max> <max_stacks> <item>
+panel:
+  lore-buy:
+    - "<gray>Cantidad: <white><amount> <dark_gray>(<stacks>)"
+    - "<gray>Total: <gold><price>"
+    - "<gray>Máximo posible: <white><max>"
+  # Con cupón activo: <coupon> <percent> <saved> <original>
+  coupon-lore:
+    - "<green>Cupón: <white><coupon></white> (-<percent>%)"
+    - "<gray>Antes: <strikethrough><original></strikethrough> <green>ahorras $<saved>"
+
+layout:
+  empty-slots: [36, 44, 45, 53]   # huecos que quedan vacíos
+
+buttons:
+  info-slot: 40
+  poner-64:
+    slot: 43
+    tag: "amount_mod"
+    value: 64
+    material: LIME_STAINED_GLASS_PANE
+    name: "<green>+64"
+  coupon:
+    slot: 50
+    tag: "coupon"
+    material: NAME_TAG
+    name: "<gold>Cupón de descuento"
+[/CODE]
+[/SPOILER]
+Al actualizar el plugin, las claves nuevas y la posición de los botones de este archivo se añaden solas; tus textos se conservan.
+
+[SIZE=5][B]🔨 Casa de subastas (ah_menu.yml)[/B][/SIZE]
+[LIST]
+[*]Filtros: más baratas, más caras, solo ítems sueltos, solo packs, quitar filtros.
+[*]Cada lote muestra vendedor, precio y [B]cuánto falta para que termine[/B]; los ítems conservan su lore original.
+[*]Botones [B]Mis expiradas[/B] y [B]Mi historial[/B] en la barra inferior, con botón [B]Volver[/B] para regresar a la subasta.
+[*]La sección [B]ui[/B] controla títulos, relleno, botones y textos de todos los menús de subasta.
+[/LIST]
+[SPOILER="Ejemplo de ah_menu.yml"]
+[CODE]
+ah:
+  title: "<gold>Casa de Subasta"      # acepta {page} y {max}
+  size: 54
+  background:
+    material: GRAY_STAINED_GLASS_PANE  # AIR = sin relleno
+  grid_slots: [10, 11, 12, 13, 14, 15, 16, 19, ...]
+  navigation:
+    prev:    {material: ARROW, name: "<yellow>Página Anterior", slot: 45}
+    expired: {material: CLOCK, name: "<yellow>Mis expiradas", slot: 47}
+    close:   {material: BARRIER, name: "<red>Cerrar", slot: 49}
+    history: {material: BOOK, name: "<yellow>Mi historial", slot: 51}
+    next:    {material: ARROW, name: "<yellow>Página Siguiente", slot: 53}
+  filters:
+    price_asc: {material: LIGHT_BLUE_DYE, name: "<aqua>Precio Ascendente", slot: 0, tag: "PRICE_ASC"}
+
+ui:
+  filler: GRAY_STAINED_GLASS_PANE
+  titles:
+    options: "<gold>Opciones de Subasta"
+    confirm: "<gold>Confirmar Subasta"
+    expired: "<gold>Subastas Expiradas"
+    history: "<gold>Historial de Subastas"
+  lore:            # variables: <seller> <price> <time> <count>
+    auction:
+      - "<gray>Vendedor: <yellow><seller>"
+      - "<gray>Precio: <green>$<price>"
+      - "<gray>Termina en: <white><time>"
+  buttons:         # cada botón acepta nexo / head / material / name / lore
+    buy: {material: EMERALD, name: "<green>Comprar"}
+    back: {material: ARROW, name: "<yellow>Volver"}
+[/CODE]
+[/SPOILER]
+En [B]config.yml[/B]: [B]auction.expiration_seconds[/B] (duración de las subastas) y [B]auction-limits.default[/B] (subastas activas por jugador).
+
+[SIZE=5][B]🤝 Tradeo seguro[/B][/SIZE]
+[LIST]
+[*]Cada jugador pone ítems en su mitad, más dinero y niveles escritos en el chat.
+[*]Con los dos listos empieza una [B]cuenta atrás[/B]; cualquier cambio en la oferta quita el "Listo" a [B]los dos[/B] y avisa al otro (evita cambiar diamantes por tierra en el último segundo).
+[*]No se puede recoger con doble clic la oferta del otro jugador.
+[*]Si alguien no tiene espacio, el tradeo no se completa (nada cae al suelo). Si el cobro falla, no se entrega nada.
+[*]Cada uno ve solo lo ofrecido, no el saldo del otro.
+[/LIST]
+[CODE]
+trade:
+  max-distance: 10        # bloques entre los jugadores
+  request-timeout: 60     # segundos que dura una solicitud
+  input-timeout: 45       # segundos para escribir dinero o niveles
+  countdown-seconds: 5    # cuenta atrás con ambos listos
+[/CODE]
+
+[SIZE=5][B]🏪 Tiendas de jugadores y buscador (/tiendas)[/B][/SIZE]
+[LIST]
+[*][B]Crear una tienda:[/B] pon el ítem en un cofre, coloca un cartel y vincúlalos con polvo de redstone (o el ítem configurado en [B]player-shops.require-item[/B]). Luego [B]/myshop <precio> <cantidad>[/B].
+[*]El [B]buscador[/B] agrupa todo lo que se vende en las tiendas: cuántas lo venden, el [B]mejor precio por unidad[/B] y el stock. Al elegir un ítem ves sus tiendas de la más barata a la más cara (★ Mejor precio), con dueño, stock, coordenadas y distancia.
+[*][B]Viaje seguro:[/B] busca un sitio con suelo firme y aire junto al cartel (sin lava, cactus, fuego ni magma), esperas quieto unos segundos (se cancela si te mueves o recibes daño), llegas sin daño de caída mirando al cofre y hay enfriamiento entre viajes.
+[/LIST]
+[SPOILER="Opciones del buscador (config.yml)"]
+[CODE]
+player-shops-browser:
+  warmup-seconds: 3
+  cooldown-seconds: 10
+  filler: GRAY_STAINED_GLASS_PANE
+  titles:
+    main: "<dark_green>Tiendas de jugadores <gray>{page}/{max}"
+    product: "<dark_green><item> <gray>{page}/{max}"
+  lore:
+    # product-lore: <shops> <best> <stock>
+    # offer-lore: <amount> <price> <unit> <stock> <world> <x> <y> <z> <distance>
+    best-line:
+      - "<gold>★ Mejor precio"
+  messages:
+    warmup: "<yellow>Viajando a la tienda en <white><seconds>s</white>... no te muevas"
+    unsafe: "<red>No hay un sitio seguro junto a esa tienda."
+
+player-shops:
+  max-sign-distance: 10
+  allow-own-protected-chest: true
+  require-region-permission: true
+  require-item:
+    enabled: false
+    material: EMERALD
+    consume: true
+[/CODE]
+[/SPOILER]
+
+[SIZE=5][B]🎟 Cupones de descuento (cupones.yml)[/B][/SIZE]
+[LIST]
+[*]Las [B]plantillas[/B] definen el cupón; desde ellas se generan códigos únicos (ej. [B]QSM-AB12-CD34[/B]).
+[*][B]/cupon generar vip Steve[/B] → le llega directo a Steve. [B]/cupon generar granjero - 10[/B] → 10 códigos sueltos; el primero que canjea cada uno se lo queda.
+[*][B]Códigos públicos[/B] (ej. BIENVENIDO) que cualquiera canjea, con límite por jugador y total.
+[*]El jugador activa un cupón en [B]/cupon[/B] o con el botón del menú de cantidad. Solo descuenta en [B]compras[/B] de sus categorías; el panel muestra el precio con descuento antes de confirmar.
+[*][B]Usos ilimitados[/B] ([B]usos: infinito[/B]) para VIP, constructores o recompensas: nunca se gasta.
+[*]Se puede usar en recompensas de otros plugins desde la consola: [B]/cupon generar vip %player%[/B].
+[/LIST]
+[SPOILER="Ejemplo de cupones.yml"]
+[CODE]
+prefijo: "QSM"
+
+plantillas:
+  bienvenida:
+    nombre: "<green>Cupón de bienvenida"
+    descuento: 15                 # %
+    categorias: ["*"]             # ids de categories.yml, o "*" para todas
+    usos: 1                       # compras; "infinito" = nunca se gasta
+    duracion: 7d                  # 30m, 12h, 7d, 1d12h... "0" = no caduca
+    minimo: 0                     # compra mínima en $ para que aplique
+    maximo: 200                   # ahorro máximo en $ por compra (0 = sin tope)
+    material: PAPER               # icono (nexo: "id" si usas Nexo)
+
+  granjero:
+    nombre: "<yellow>Cupón del granjero"
+    descuento: 20
+    categorias: [farming, food]
+    usos: 3
+    duracion: 3d
+    minimo: 50
+    maximo: 0
+    material: WHEAT
+
+  vip:
+    nombre: "<light_purple>Cupón VIP"
+    descuento: 5
+    categorias: ["*"]
+    usos: infinito
+    duracion: 0
+    material: NETHER_STAR
+
+codigos-publicos:
+  BIENVENIDO:
+    plantilla: bienvenida
+    usos-por-jugador: 1
+    usos-totales: 0               # 0 = sin límite
+
+menu:
+  title: "<dark_green>Mis cupones <gray>{page}/{max}"
+  coupon-lore:                    # <percent> <categories> <uses> <time> <minimum> <max> <code>
+    - "<gray>Descuento: <green><percent>%"
+    - "<gray>Usos: <white><uses>"
+    - "<gray>Caduca en: <white><time>"
+[/CODE]
+[/SPOILER]
+Hay una pausa de 2 segundos entre intentos de canje para que no se puedan probar códigos al azar.
+
+[SIZE=5][B]💰 Economías y precios (config.yml)[/B][/SIZE]
+[CODE]
+economies:
+  price-format: "<symbol> <price>"
+  vault:  {display-name: "dinero", symbol: "$"}
+  xp:     {display-name: "Experiencia", symbol: "XP"}
+  levels: {display-name: "Niveles", symbol: "Lv"}
+  points: {display-name: "PlayerPoints", symbol: "P"}
+
+database:
+  type: sqlite        # sqlite o mysql
+  mysql:
+    host: localhost
+    port: 3306
+    database: qsmarket
+    user: root
+    password: root
+[/CODE]
+Los precios en la lista de ítems se configuran en [B]messages_es.yml → price-format.buy / price-format.sell[/B] (variables [B]%symbol% %price% %currency%[/B]).
+
+[SIZE=6][B]🎨 Texturas con Nexo (opcional)[/B][/SIZE]
+Si tienes [B]Nexo[/B], puedes darle a los menús fondos y botones personalizados solo con la configuración:
+[LIST]
+[*][B]Botones:[/B] añade [B]nexo: "id_del_item"[/B] a cualquier botón. Si Nexo no está o el ítem no existe, se usa [B]head[/B] y si no [B]material[/B].
+[*][B]Fondos:[/B] crea un glyph de Nexo con la imagen del menú (176×222 para 6 filas, 176×168 para 3) y ponlo en el título:
+[CODE]title: "<white><shift:-8><glyph:mi_fondo><shift:-169><#fff1c9>Mi tienda"[/CODE]
+[*]Pon [B]fill-borders: false[/B], [B]filler: AIR[/B] o [B]material: AIR[/B] en el relleno para que se vea el fondo.
+[*]Las categorías aceptan [B]nexo:[/B] para su icono.
+[/LIST]
+Sin Nexo todo funciona igual con ítems vanilla.
+
+[SIZE=5][B]❓ Preguntas frecuentes[/B][/SIZE]
+[LIST]
+[*][B]¿Por qué un jugador no puede usar /shop?[/B] Dale el permiso [B]qsmarketplus.shop[/B] a su grupo.
+[*][B]Cambié un archivo y no se ve.[/B] Usa [B]/qsmarket reload[/B]. Los cambios de .jar necesitan reiniciar.
+[*][B]¿Se puede ganar dinero comprando y vendiendo?[/B] Pon el precio de venta siempre por debajo del de compra; el plugin nunca vende a un precio distinto del configurado.
+[*][B]Un cupón no descuenta.[/B] Revisa que esté activo en [B]/cupon[/B], que la categoría esté en la plantilla, que la compra supere el [B]minimo[/B] y que no haya caducado.
+[*][B]El buscador no muestra una tienda.[/B] Solo aparecen las que pueden vender: cofre con un solo tipo de ítem y stock suficiente para una venta.
+[/LIST]
+
+[SIZE=5][B]🔗 Enlaces útiles[/B][/SIZE]
+[LIST]
+[*][URL='https://mcutils.com/item-ids'][B][COLOR=#00aaff]Lista de IDs de ítems[/COLOR][/B][/URL]
+[*][URL='https://minecraft-heads.com/custom-heads'][B][COLOR=#00aaff]Cabezas personalizadas[/COLOR][/B][/URL]
+[*][URL='https://webui.advntr.dev'][B][COLOR=#00aaff]Editor de MiniMessage[/COLOR][/B][/URL]
+[/LIST]
+
+[SIZE=5][B]💬 Comunidad y soporte[/B][/SIZE]
+Únete al Discord oficial:
+[URL='https://discord.com/invite/KuyqQmgpx2'][B][COLOR=#7289DA]Discord — QSMarketPlus[/COLOR][/B][/URL]
+[LIST]
+[*]Soporte
+[*]Reportar errores
+[*]Sugerencias
+[*]Novedades del plugin
+[/LIST]
+
+[SIZE=5][B]Créditos[/B][/SIZE]
+Desarrollado con ❤️ por [B]Quesito_ecu[/B]
+
+[CENTER][SIZE=5][B]¡Gracias por usar QSMarketPlus![/B][/SIZE][/CENTER]

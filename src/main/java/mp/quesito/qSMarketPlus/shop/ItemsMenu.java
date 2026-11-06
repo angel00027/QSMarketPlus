@@ -8,6 +8,7 @@ import mp.quesito.qSMarketPlus.utils.Lang;
 import mp.quesito.qSMarketPlus.utils.MenuItems;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
 import mp.quesito.qSMarketPlus.utils.MetaUtil;
+import mp.quesito.qSMarketPlus.utils.NexoGui;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -85,16 +86,18 @@ public final class ItemsMenu {
         Inventory inv = Bukkit.createInventory(
                 new ItemsHolder(player, category, page, size),
                 size,
-                MessageUtil.toLegacy(title)
+                MessageUtil.toLegacy(NexoGui.title(title))
         );
 
         // =================================================
         // DECORACIÓN
         // =================================================
-        ItemStack glass = MenuItems.glass();
-        for (int i = 0; i < size; i++) {
-            if (i < 9 || i >= size - 9) {
-                inv.setItem(i, glass);
+        if (cfg.getBoolean("menu.fill-borders", true)) {
+            ItemStack glass = MenuItems.glass();
+            for (int i = 0; i < size; i++) {
+                if (i < 9 || i >= size - 9) {
+                    inv.setItem(i, glass);
+                }
             }
         }
 

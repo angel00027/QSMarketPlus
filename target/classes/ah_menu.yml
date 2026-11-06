@@ -43,11 +43,25 @@ ah:
       lore: []
       slot: 45
 
+    expired:
+      material: CLOCK
+      name: "<yellow>Mis expiradas"
+      lore:
+        - "<gray>Recoge lo que no se vendió"
+      slot: 47
+
     close:
       material: BARRIER
       name: "<red>Cerrar"
       lore: []
       slot: 49
+
+    history:
+      material: BOOK
+      name: "<yellow>Mi historial"
+      lore:
+        - "<gray>Tus ventas, compras y cancelaciones"
+      slot: 51
 
     next:
       material: ARROW
@@ -91,3 +105,78 @@ ah:
       lore: []
       slot: 4
       tag: "NONE"
+
+
+# Aspecto del resto de menús de subasta. Los títulos aceptan <glyph:id> y <shift:N>
+# para fondos de Nexo; con filler: AIR no se pone cristal y se ve el fondo.
+ui:
+  filler: GRAY_STAINED_GLASS_PANE
+  titles:
+    options: "<gold>Opciones de Subasta"
+    admin: "<dark_red>Admin</dark_red> » Subasta"
+    confirm: "<gold>Confirmar Subasta"
+    confirm-bulk: "<gold>Subastar inventario"
+    content: "<gold>Contenido de Subasta"
+    expired: "<gold>Subastas Expiradas"
+    history: "<gold>Historial de Subastas"
+  texts:
+    pack: "<gold>Pack de objetos"
+    own-pack: "<gold>Tu pack en subasta"
+  # Variables: <seller> <price> <time> <count>
+  lore:
+    auction:
+      - "<gray>Vendedor: <yellow><seller>"
+      - "<gray>Precio: <green>$<price>"
+      - "<gray>Termina en: <white><time>"
+      - ""
+      - "<yellow>Click: Opciones (Comprar)"
+    auction-own:
+      - "<gray>Precio: <green>$<price>"
+      - "<gray>Termina en: <white><time>"
+      - ""
+      - "<yellow>Click: Opciones (Cancelar)"
+    pack-count:
+      - "<gray>Objetos en el pack: <white><count>"
+    summary:
+      - "<gray>Vendedor: <yellow><seller>"
+      - "<gray>Precio: <green>$<price>"
+      - "<gray>Termina en: <white><time>"
+    price:
+      - "<gray>Lo que pagará el comprador"
+  # Cada botón acepta nexo / head / material / name / lore
+  buttons:
+    buy:
+      material: EMERALD
+      name: "<green>Comprar"
+    cancel-auction:
+      material: BARRIER
+      name: "<red>Cancelar Subasta"
+    view:
+      material: CHEST
+      name: "<yellow>Ver Contenido"
+    back:
+      material: ARROW
+      name: "<yellow>Volver"
+    copy:
+      material: BOOK
+      name: "<aqua>Obtener Copia"
+    delete:
+      material: BARRIER
+      name: "<red>Eliminar Subasta"
+    confirm:
+      material: LIME_STAINED_GLASS_PANE
+      name: "<green>✔ Confirmar Venta"
+    cancel:
+      material: RED_STAINED_GLASS_PANE
+      name: "<red>✘ Cancelar"
+    price:
+      material: PAPER
+    prev:
+      material: ARROW
+      name: "<yellow>Página Anterior"
+    next:
+      material: ARROW
+      name: "<yellow>Página Siguiente"
+    close:
+      material: BARRIER
+      name: "<red>Cerrar"

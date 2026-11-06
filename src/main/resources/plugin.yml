@@ -38,6 +38,16 @@ commands:
     usage: /pwarp
     aliases: [pw]
 
+  cupon:
+    description: Cupones de descuento de la tienda
+    usage: /cupon [canjear|generar|borrar|plantillas]
+    aliases: [cupones, coupon]
+
+  tiendas:
+    description: Busca tiendas de jugadores y viaja a ellas
+    usage: /tiendas
+    aliases: [playershops, buscartienda]
+
   stats:
     description: Estadísticas de compras y ventas
     usage: /stats [jugador]
@@ -110,6 +120,14 @@ permissions:
 
   qsmarket.signshop.setitem:
     default: op
+
+  qsmarket.cupones.admin:
+    description: Generar y borrar cupones (/cupon generar)
+    default: op
+
+  qsmarket.tiendas.tp:
+    description: Permite viajar a las tiendas desde /tiendas
+    default: true
 
   qsmarket.stats:
     description: Permite ver tus estadísticas de compras y ventas

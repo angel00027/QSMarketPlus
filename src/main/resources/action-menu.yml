@@ -2,6 +2,7 @@ menu:
   title: "<yellow>Selecciona una acción"
   rows: 3
   fill-background: true  # Rellenar con cristal o no
+  item-slot: 13          # Donde se ve el objeto con sus precios (-1 = no mostrar)
 
 buttons:
   buy:

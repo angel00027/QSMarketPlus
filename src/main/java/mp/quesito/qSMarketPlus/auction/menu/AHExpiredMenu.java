@@ -35,7 +35,7 @@ public class AHExpiredMenu {
         Inventory inv = Bukkit.createInventory(
                 new AHExpiredHolder(p, subject, page, expired),
                 54,
-                "✦ Subastas Expiradas ✦"
+                AHUi.title("expired", "✦ Subastas Expiradas ✦")
         );
 
         int start = (page - 1) * 28;
@@ -94,46 +94,15 @@ public class AHExpiredMenu {
         // NAVIGATION BUTTONS (Con limpieza)
         // -------------------------------
         if (page > 1) {
-            ItemStack prev = MenuItems.customHead(
-                    "<yellow>Anterior",
-                    "http://textures.minecraft.net/texture/6e8c47367c3e94312bc7"
-            );
-            if (prev != null && prev.getItemMeta() != null) {
-                ItemMeta meta = prev.getItemMeta();
-                MetaUtil.setTag(meta, "btn", "prev");
-                prev.setItemMeta(meta);
-                inv.setItem(45, prev);
-            }
-        } else {
-            inv.setItem(45, null); // Forzar limpieza por cambios de página rápidos
+            inv.setItem(45, AHUi.button("prev", Material.ARROW, "<yellow>Anterior", "btn", "prev"));
         }
-
         if (page < maxPage) {
-            ItemStack next = MenuItems.customHead(
-                    "<yellow>Siguiente",
-                    "http://textures.minecraft.net/texture/555e1f985a0c4c3f98"
-            );
-            if (next != null && next.getItemMeta() != null) {
-                ItemMeta meta = next.getItemMeta();
-                MetaUtil.setTag(meta, "btn", "next");
-                next.setItemMeta(meta);
-                inv.setItem(53, next);
-            }
-        } else {
-            inv.setItem(53, null); // Forzar limpieza
+            inv.setItem(53, AHUi.button("next", Material.ARROW, "<yellow>Siguiente", "btn", "next"));
         }
+        inv.setItem(49, AHUi.button("close", Material.RED_WOOL, "§cCerrar", "btn", "close"));
+        inv.setItem(47, AHUi.button("back", Material.ARROW, "<yellow>Volver a la subasta", "btn", "back"));
 
-        // -------------------------------
-        // CLOSE BUTTON
-        // -------------------------------
-        ItemStack close = MenuItems.red("close", "§cCerrar");
-        if (close != null && close.getItemMeta() != null) {
-            ItemMeta meta = close.getItemMeta();
-            MetaUtil.setTag(meta, "btn", "close");
-            close.setItemMeta(meta);
-            inv.setItem(49, close);
-        }
-
+        AHUi.fill(inv);
         p.openInventory(inv);
     }
 }

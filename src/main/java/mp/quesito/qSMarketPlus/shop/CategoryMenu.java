@@ -5,6 +5,7 @@ import mp.quesito.qSMarketPlus.manager.CategoryManager;
 import mp.quesito.qSMarketPlus.utils.MenuItems;
 import mp.quesito.qSMarketPlus.utils.MessageUtil;
 import mp.quesito.qSMarketPlus.utils.MetaUtil;
+import mp.quesito.qSMarketPlus.utils.NexoGui;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,16 +29,19 @@ public class CategoryMenu {
         Inventory inv = Bukkit.createInventory(
                 new CategoryHolder(),
                 size,
-                MessageUtil.toLegacy(cfg.getString("menu.title", "<green>QSMarketPlus</green>"))
+                MessageUtil.toLegacy(NexoGui.title(cfg.getString("menu.title", "<green>QSMarketPlus</green>")))
         );
 
         // ====================================
         //        DECORACIÓN BORDES
         // ====================================
-        ItemStack decor = MenuItems.glass();
-        for (int i = 0; i < size; i++) {
-            if (i < 9 || i >= size - 9) {
-                inv.setItem(i, decor);
+        // Con fondo de Nexo se pone fill-borders: false para que se vea la textura
+        if (cfg.getBoolean("menu.fill-borders", true)) {
+            ItemStack decor = MenuItems.glass();
+            for (int i = 0; i < size; i++) {
+                if (i < 9 || i >= size - 9) {
+                    inv.setItem(i, decor);
+                }
             }
         }
 
@@ -64,9 +68,11 @@ public class CategoryMenu {
             // ================================
             //    ARMAR ITEM DE LA CATEGORÍA
             // ================================
-            ItemStack item;
+            ItemStack item = NexoGui.item(cfg.getString("categories." + cat.getId() + ".nexo", null));
 
-            if (cat.getHeadTexture() != null && !cat.getHeadTexture().isEmpty()) {
+            if (item != null) {
+                // icono de Nexo
+            } else if (cat.getHeadTexture() != null && !cat.getHeadTexture().isEmpty()) {
                 item = MenuItems.customHead(cat.getName(), cat.getHeadTexture());
             } else {
                 item = new ItemStack(cat.getMaterial());
@@ -108,6 +114,18 @@ public class CategoryMenu {
             MetaUtil.setTag(meta, "btn", "close");
             closeBtn.setItemMeta(meta);
             inv.setItem(closeSec.getInt("slot", size - 5), closeBtn);
+        }
+
+        // ====================================
+        //     BOTÓN TIENDAS DE JUGADORES
+        // ====================================
+        ConfigurationSection shopsSec = cfg.getConfigurationSection("buttons.player-shops");
+        if (shopsSec != null) {
+            ItemStack shopsBtn = MenuItems.buttonFromConfig(shopsSec);
+            ItemMeta meta = shopsBtn.getItemMeta();
+            MetaUtil.setTag(meta, "btn", "player_shops");
+            shopsBtn.setItemMeta(meta);
+            inv.setItem(shopsSec.getInt("slot", size - 7), shopsBtn);
         }
 
         // ====================================

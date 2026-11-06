@@ -1,6 +1,7 @@
 package mp.quesito.qSMarketPlus.auction.menu;
 
 import mp.quesito.qSMarketPlus.auction.holder.AHConfirmHolder;
+import mp.quesito.qSMarketPlus.utils.MessageUtil;
 import mp.quesito.qSMarketPlus.utils.MetaUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -8,93 +9,63 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.List;
+
 public class AHConfirmMenu {
 
-    private static final String TITLE = "Confirmar Subasta";
+    /** Huecos del pack: 5 filas completas. */
+    public static final int PACK_SLOTS = 45;
 
     // ============================================================
-    // 📌 CONFIRMAR ÍTEM ÚNICO – usando slot original
+    // CONFIRMAR ITEM UNICO
     // ============================================================
     public static void openSingle(Player p, ItemStack original, double price, int slot) {
 
-        // Backup exacto del ítem original (para devolverlo si cancela)
         ItemStack backup = original.clone();
-
-        // Creamos el holder con: item, precio, backup, slotOriginal
         AHConfirmHolder holder = new AHConfirmHolder(original.clone(), price, backup, slot);
 
-        Inventory inv = Bukkit.createInventory(holder, 27, TITLE);
-
-        fillBackground(inv);
+        Inventory inv = Bukkit.createInventory(holder, 27, AHUi.title("confirm", "Confirmar Subasta"));
 
         inv.setItem(11, previewItem(original.clone()));
-        inv.setItem(13, pricePaper(price));
-        inv.setItem(15, confirmButton());
-        inv.setItem(26, cancelButton());
+        inv.setItem(13, priceTag(price));
+        inv.setItem(15, AHUi.button("confirm", Material.LIME_STAINED_GLASS_PANE, "§a✔ Confirmar Venta", "btn", "confirm"));
+        inv.setItem(22, AHUi.button("cancel", Material.RED_STAINED_GLASS_PANE, "§c✘ Cancelar", "btn", "cancel"));
 
+        AHUi.fill(inv);
         p.openInventory(inv);
     }
 
-
     // ============================================================
-    // 📌 CONFIRMAR INVENTARIO COMPLETO (bulk)
+    // CONFIRMAR INVENTARIO COMPLETO (pack)
     // ============================================================
     public static void openBulk(Player p, ItemStack[] items, double price) {
 
         AHConfirmHolder holder = new AHConfirmHolder(items, price);
-        Inventory inv = Bukkit.createInventory(holder, 54, TITLE);
+        Inventory inv = Bukkit.createInventory(holder, 54, AHUi.title("confirm-bulk", "Confirmar Subasta"));
 
-        fillBackground(inv);
-
-        int slot = 10;
-
+        int slot = 0;
         for (ItemStack it : items) {
-            if (it != null && !it.getType().isAir()) {
-
-                if (slot == 17 || slot == 26 || slot == 35)
-                    slot += 2;
-
+            if (it != null && !it.getType().isAir() && slot < PACK_SLOTS) {
                 inv.setItem(slot++, previewItem(it.clone()));
             }
         }
 
-        inv.setItem(48, cancelButton());
-        inv.setItem(49, confirmButton());
-        inv.setItem(50, pricePaper(price));
+        inv.setItem(48, AHUi.button("cancel", Material.RED_STAINED_GLASS_PANE, "§c✘ Cancelar", "btn", "cancel"));
+        inv.setItem(49, AHUi.button("confirm", Material.LIME_STAINED_GLASS_PANE, "§a✔ Confirmar Venta", "btn", "confirm"));
+        inv.setItem(50, priceTag(price));
 
+        AHUi.fill(inv);
         p.openInventory(inv);
     }
 
-
-    // ============================================================
-    // 📌 BOTONES
-    // ============================================================
-
-    private static ItemStack confirmButton() {
-        ItemStack i = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
-        ItemMeta m = i.getItemMeta();
-        m.setDisplayName("§a✔ Confirmar Venta");
-        MetaUtil.setTag(m, "btn", "confirm");
-        i.setItemMeta(m);
-        return i;
-    }
-
-    private static ItemStack cancelButton() {
-        ItemStack i = new ItemStack(Material.RED_STAINED_GLASS_PANE);
-        ItemMeta m = i.getItemMeta();
-        m.setDisplayName("§c✘ Cancelar");
-        MetaUtil.setTag(m, "btn", "cancel");
-        i.setItemMeta(m);
-        return i;
-    }
-
-    private static ItemStack pricePaper(double price) {
-        ItemStack i = new ItemStack(Material.PAPER);
-        ItemMeta m = i.getItemMeta();
-        m.setDisplayName("§e💲 Precio: §a$" + price);
-        MetaUtil.setTag(m, "btn", "price");
-        i.setItemMeta(m);
-        return i;
+    private static ItemStack priceTag(double price) {
+        ItemStack tag = AHUi.button("price", Material.PAPER, "Precio", "btn", "price");
+        ItemMeta m = tag.getItemMeta();
+        m.setDisplayName(MessageUtil.toLegacy(
+                "<#e8c97a>Precio  <gradient:#ffe08a:#ffb347>$" + AHUi.money(price) + "</gradient>"));
+        m.setLore(AHUi.lore("price", List.of("<#8a7a6a>Lo que pagará el comprador")));
+        tag.setItemMeta(m);
+        return tag;
     }
 
     private static ItemStack previewItem(ItemStack base) {
@@ -103,21 +74,5 @@ public class AHConfirmMenu {
         MetaUtil.setTag(m, "preview", "1");
         i.setItemMeta(m);
         return i;
-    }
-
-
-    // ============================================================
-    // 📌 FONDO
-    // ============================================================
-    private static void fillBackground(Inventory inv) {
-        ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
-        ItemMeta m = glass.getItemMeta();
-        m.setDisplayName(" ");
-        glass.setItemMeta(m);
-
-        for (int i = 0; i < inv.getSize(); i++) {
-            if (inv.getItem(i) == null)
-                inv.setItem(i, glass);
-        }
     }
 }

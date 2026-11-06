@@ -36,7 +36,7 @@ public class MenuItems {
                 .getString("economies.price-format", "<symbol><price> <currency>");
 
         return format
-                .replace("<price>", String.valueOf(price))
+                .replace("<price>", String.valueOf(ShopInventory.money(price)))
                 .replace("<symbol>", symbol)
                 .replace("<currency>", currency);
     }
@@ -253,12 +253,15 @@ public class MenuItems {
         String head = sec.getString("head", null);
         String materialName = sec.getString("material", "STONE");
 
-        ItemStack item;
+        ItemStack item = NexoGui.item(sec.getString("nexo", null));
 
-        if (head != null && !head.isEmpty()) {
+        if (item != null) {
+            // icono de Nexo
+        } else if (head != null && !head.isEmpty()) {
             item = customHead(name, head);
         } else {
-            item = new ItemStack(Material.matchMaterial(materialName));
+            Material material = Material.matchMaterial(materialName);
+            item = new ItemStack(material != null ? material : Material.STONE);
         }
 
         ItemMeta meta = item.getItemMeta();

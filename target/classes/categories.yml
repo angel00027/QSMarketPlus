@@ -1,6 +1,7 @@
 menu:
   title: "<green>QSMarketPlus</green>"
   rows: 6
+  fill-borders: true   # false si usas un fondo de Nexo (titulo con <glyph:id>)
 
 buttons:
   close:
@@ -10,6 +11,15 @@ buttons:
     name: "<red>Cerrar</red>"
     lore:
       - "<gray>Cierra el menú"
+
+  # Buscador de tiendas de jugadores (/tiendas)
+  player-shops:
+    slot: 47
+    material: CHEST
+    name: "<yellow>Tiendas de jugadores"
+    lore:
+      - "<gray>Mira quién vende más barato"
+      - "<gray>y viaja a su tienda"
 
   sell-all:
     slot: 51

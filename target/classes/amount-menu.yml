@@ -1,13 +1,13 @@
 menu:
   title-buy: "<green>Selecciona cantidad a comprar"
   title-sell: "<red>Selecciona cantidad a vender"
-  size: 45 #slots permitidos (9, 18, 27, 36, 45, 54)
+  size: 54
 
+# Lore del panel de confirmacion de objetos unicos (ConfirmMenu)
 info-slot:
   lore-buy:
     - ""
     - "<color:#5aa0e6>Cantidad: </color><color:#cedb56><amount></color>"
-    - "<color:#5aa0e6>Pilas: </color><color:#cedb56><stacks></color>"
     - "<gray>Total: <gold><price>"
     - ""
     - "<green>Comprando..."
@@ -15,116 +15,179 @@ info-slot:
   lore-sell:
     - ""
     - "<color:#5aa0e6>Cantidad: </color><color:#cedb56><amount></color>"
-    - "<color:#5aa0e6>Pilas: </color><color:#cedb56><stacks></color>"
     - "<gray>Total: <gold><price>"
     - ""
     - "<red>Vendiendo..."
 
-# Menú "Comprar por pilas" que abre el botón "Comprar más"
-stacks-menu:
-  title: "<green>Comprar por pilas"
-  size: 27
-  back-slot: 22
-  options: [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 24, 32, 36]
+# Variables: <amount> <stacks> <price> <unit> <max> <max_stacks> <item>
+panel:
+  lore-buy:
+    - ""
+    - "<color:#5aa0e6>Cantidad: </color><color:#cedb56><amount></color> <dark_gray>(<stacks>)"
+    - "<gray>Precio por unidad: <white><unit>"
+    - "<gray>Total: <gold><price>"
+    - ""
+    - "<gray>Máximo posible: <white><max></white> <dark_gray>(<max_stacks>)"
+    - "<dark_gray>Según tu espacio y tu dinero"
+  lore-sell:
+    - ""
+    - "<color:#5aa0e6>Cantidad: </color><color:#cedb56><amount></color> <dark_gray>(<stacks>)"
+    - "<gray>Precio por unidad: <white><unit>"
+    - "<gray>Recibes: <gold><price>"
+    - ""
+    - "<gray>Tienes: <white><max></white> <dark_gray>(<max_stacks>)"
+  confirm-lore:
+    - "<gray><amount> <dark_gray>(<stacks>)"
+    - "<gray>Total: <gold><price>"
+  max-lore:
+    - "<gray>Pone <white><max></white> <dark_gray>(<max_stacks>)"
+  # Con un cupón activo se añaden estas líneas (variables <coupon> <percent> <saved> <original>)
+  coupon-lore:
+    - ""
+    - "<green>Cupón: <white><coupon></white> (-<percent>%)"
+    - "<gray>Antes: <strikethrough><original></strikethrough> <green>ahorras $<saved>"
+  coupon-button:
+    - "<gray>Tienes <white><count></white> cupón(es) para esta categoría"
+    - "<gray>Clic: usar uno · Clic derecho: mis cupones"
+  coupon-button-active:
+    - "<green>Activo: <white><coupon>"
+    - "<gray>Clic: cambiar · Clic derecho: mis cupones"
+  blocked-no-space: "<red>Tu inventario está lleno"
+  blocked-no-money: "<red>No te alcanza el dinero"
+  blocked-no-items: "<red>No tienes este objeto"
+
+# Slots que quedan vacios (las esquinas de la zona de botones)
+layout:
+  empty-slots: [36, 44, 45, 53]
+
+# Vista de tu inventario en las 4 filas de arriba (la ultima fila es tu barra rapida)
+preview:
+  filling:
+    - "<green>+<take> aquí"
+    - "<gray>Quedará en <white><total>"
+    - ""
+    - "<yellow>Click: <gray>llenar hasta aquí"
+  free-lore:
+    - "<gray>Caben <white><room></white> aquí"
+    - ""
+    - "<yellow>Click: <gray>llenar hasta aquí"
+  selling:
+    - "<red>Vendes <take> de <have>"
+    - ""
+    - "<yellow>Click: <gray>vender hasta aquí"
+  keeping-lore:
+    - "<gray>Tienes <white><have></white> aquí"
+    - ""
+    - "<yellow>Click: <gray>vender hasta aquí"
+  free-name: "<green>Libre"
+  no-money-name: "<red>Sin dinero para más"
+  keeping-name: "<aqua>Se queda contigo"
+
+texts:
+  write-prompt: "<yellow>Escribe la cantidad en el chat. <gray>Máximo: <white><max></white>. Escribe <white>max</white> o <white>cancelar</white>."
+  write-invalid: "<red>Esa cantidad no es válida."
+  write-capped: "<yellow>Solo puedes llegar a <white><max></white>."
 
 buttons:
-  info-slot: 22
+  info-slot: 40
 
-  # Modificadores numéricos
-  minus-16:
+  quitar-64:
     enabled: true
-    slot: 9
-    tag: "amount_mod"     # ← Para KEY_AMOUNT_MOD (-10)
+    slot: 37
+    tag: "amount_mod"
+    value: -64
+    amount: 64
+    material: RED_STAINED_GLASS_PANE
+    name: "<red>-64"
+
+  quitar-16:
+    enabled: true
+    slot: 38
+    tag: "amount_mod"
     value: -16
+    amount: 16
     material: RED_STAINED_GLASS_PANE
-    head: "http://textures.minecraft.net/texture/2c6f10059a466d7936256449e89c7dfbff8f7fab61a2eed068e22fac8cf0d73b"
-    name: "<yellow>-16"
-    lore: []
-    
-  minus-8:
-    enabled: true
-    slot: 10
-    tag: "amount_mod"     # ← Para KEY_AMOUNT_MOD (-10)
-    value: -8
-    material: RED_STAINED_GLASS_PANE
-    head: "http://textures.minecraft.net/texture/ff32222def1c7b3bd04513b1a40493407c4287b6ec3943f7333f715773d4cb61"
-    name: "<yellow>-8"
-    lore: []
+    name: "<red>-16"
 
-  minus-1:
+  quitar-1:
     enabled: true
-    slot: 11
+    slot: 39
     tag: "amount_mod"
     value: -1
     material: RED_STAINED_GLASS_PANE
-    head: "http://textures.minecraft.net/texture/a39c846f65d5f272a839fd9c2aeb11bdc8e3f8229fbe3583486e78f4c23c8b5b"
-    name: "<yellow>-1"
+    name: "<red>-1"
 
-  plus-1:
+  poner-1:
     enabled: true
-    slot: 15
+    slot: 41
     tag: "amount_mod"
     value: 1
-    
     material: LIME_STAINED_GLASS_PANE
-    name: "<yellow>+1"
+    name: "<green>+1"
 
-  plus-8:
+  poner-16:
     enabled: true
-    slot: 16
-    tag: "amount_mod"
-    value: 8
-    amount: 8
-    material: LIME_STAINED_GLASS_PANE
-    name: "<yellow>+8"
-
-  plus-16:
-    enabled: true
-    slot: 17
+    slot: 42
     tag: "amount_mod"
     value: 16
     amount: 16
     material: LIME_STAINED_GLASS_PANE
-    name: "<yellow>+16"
+    name: "<green>+16"
 
-  buy-more:
+  poner-64:
     enabled: true
-    slot: 24
-    tag: "buy_more"       # ← Abre el menú "Comprar por pilas"
-    material: EMERALD
-    name: "<green>Comprar más"
-    lore:
-      - "<gray>Abre el menú para comprar"
-      - "<gray>por pilas completas."
+    slot: 43
+    tag: "amount_mod"
+    value: 64
+    amount: 64
+    material: LIME_STAINED_GLASS_PANE
+    name: "<green>+64"
 
   min:
     enabled: true
-    slot: 19
+    slot: 46
     tag: "special"
     value: "MIN"
     material: COAL_BLOCK
-    name: "<gray>MIN"
+    name: "<gray>Mínimo"
 
-  max:
+  back:
     enabled: true
-    slot: 25
-    tag: "special"
-    value: "MAX"
-    material: GOLD_BLOCK
-    name: "<gold>MAX"
+    slot: 47
+    tag: "back"
+    material: ARROW
+    head: "http://textures.minecraft.net/texture/beb588b21a6f98ad1ff4e085c552dcb050efc9cab427f46048f18fc803475f7"
+    name: "<yellow>Volver"
 
   confirm:
     enabled: true
-    slot: 30
-    tag: "confirm"    # ← MUY IMPORTANTE
+    slot: 49
+    tag: "confirm"
     material: LIME_DYE
     name: "<green>Confirmar"
     head: "http://textures.minecraft.net/texture/a92e31ffb59c90ab08fc9dc1fe26802035a3a47c42fee63423bcdb4262ecb9b6"
 
-  back:
+  write:
     enabled: true
-    slot: 32
-    tag: "back"       # ← Para regresar
-    material: ARROW
-    head: "http://textures.minecraft.net/texture/beb588b21a6f98ad1ff4e085c552dcb050efc9cab427f46048f18fc803475f7"
-    name: "<yellow>Volver"
+    slot: 51
+    tag: "write"
+    material: OAK_SIGN
+    name: "<yellow>Escribir cantidad"
+    lore:
+      - "<gray>Se cierra el menú y escribes"
+      - "<gray>el número en el chat."
+
+  coupon:
+    enabled: true
+    slot: 50
+    tag: "coupon"
+    material: NAME_TAG
+    name: "<gold>Cupón de descuento"
+
+  max:
+    enabled: true
+    slot: 52
+    tag: "special"
+    value: "MAX"
+    material: GOLD_BLOCK
+    name: "<gold>Máximo"

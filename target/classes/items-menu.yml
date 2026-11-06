@@ -1,6 +1,7 @@
 menu:
   title: "<gold>{category}</gold> <gray>[{page}/{max}]</gray>"
   rows: 6
+  fill-borders: true   # false si usas un fondo de Nexo
   default-sort: "name" # opciones: name / price_asc / price_desc / none
 buttons:
  

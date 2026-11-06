@@ -16,6 +16,7 @@ C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarke
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\auction\menu\AHHistoryMenu.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\auction\menu\AHMenu.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\auction\menu\AHPreviewMenu.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\auction\menu\AHUi.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\bedrock\BedrockFormMenu.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\commands\AHCommand.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\commands\AHTab.java
@@ -30,8 +31,13 @@ C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarke
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\commands\ShopCommand.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\commands\StatsCommand.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\commands\StatsTabCompleter.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\commands\TiendasCommand.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\commands\TradeCommand.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\commands\TradeTabCompleter.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\coupons\CouponCommand.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\coupons\CouponListener.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\coupons\CouponManager.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\coupons\CouponMenu.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\database\IDatabase.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\database\MySQLDatabase.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\database\SQLiteDatabase.java
@@ -57,7 +63,6 @@ C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarke
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\holder\ItemsHolder.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\holder\ProShopHolder.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\holder\SellInvHolder.java
-C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\holder\StacksHolder.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\hooks\HookManager.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\hooks\impl\QsProteccionHook.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\hooks\impl\QSTextursHook.java
@@ -93,7 +98,11 @@ C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarke
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\pwarp\PwarpSafety.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\QSMarketPlus.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\ActionMenu.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\AmountInput.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\AmountMenu.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\browser\ShopBrowser.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\browser\ShopBrowserHolder.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\browser\ShopBrowserListener.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\CategoryMenu.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\ConfirmMenu.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\ItemsMenu.java
@@ -104,7 +113,6 @@ C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarke
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\ShopItemHologram.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\ShopSession.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\SignShop.java
-C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\shop\StacksMenu.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\stats\StatsHolder.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\stats\StatsListener.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\stats\StatsManager.java
@@ -124,6 +132,8 @@ C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarke
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\utils\MenuItems.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\utils\MessageUtil.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\utils\MetaUtil.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\utils\NexoGui.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\utils\PlatformUtil.java
+C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\utils\ShopInventory.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\utils\WorldGuardUtils.java
 C:\Users\ANGEL\Documents\proyectos\QSMarketPlus\src\main\java\mp\quesito\qSMarketPlus\utils\XpUtil.java

@@ -20,7 +20,6 @@ import java.util.*;
 public class AHHistoryMenu {
 
     private static final int SIZE = 54;
-    private static final String TITLE = MenuItems.miniToLegacy("<gold>Historial de Subastas");
 
     // 28 slots estilo AHMenu
     private static final int[] GRID = {
@@ -54,10 +53,9 @@ public class AHHistoryMenu {
 
         // holder real
         AHHistoryHolder holder = new AHHistoryHolder(player, subject, pageItems, page);
-        Inventory inv = Bukkit.createInventory(holder, SIZE, TITLE);
+        Inventory inv = Bukkit.createInventory(holder, SIZE, AHUi.title("history", "<gold>Historial de Subastas"));
         holder.setInventory(inv);
 
-        fillBackground(inv);
         loadNavigation(inv, page, maxPage);
 
         for (int i = 0; i < pageItems.size(); i++) {
@@ -65,6 +63,8 @@ public class AHHistoryMenu {
             ItemStack item = createHistoryDisplay(auc, i);
             inv.setItem(GRID[i], item);
         }
+
+        AHUi.fill(inv);
 
         player.openInventory(inv);
     }
@@ -80,33 +80,13 @@ public class AHHistoryMenu {
     }
 
     private static void loadNavigation(Inventory inv, int page, int maxPage) {
-
-        // PREV
         if (page > 1) {
-            ItemStack prev = new ItemStack(Material.ARROW);
-            ItemMeta meta = prev.getItemMeta();
-            meta.setDisplayName(MenuItems.miniToLegacy("<yellow>Página Anterior"));
-            MetaUtil.setTag(meta, "btn", "prev");
-            prev.setItemMeta(meta);
-            inv.setItem(45, prev);
+            inv.setItem(45, AHUi.button("prev", Material.ARROW, "<yellow>Página Anterior", "btn", "prev"));
         }
-
-        // CLOSE
-        ItemStack close = new ItemStack(Material.BARRIER);
-        ItemMeta cMeta = close.getItemMeta();
-        cMeta.setDisplayName(MenuItems.miniToLegacy("<red>Cerrar"));
-        MetaUtil.setTag(cMeta, "btn", "close");
-        close.setItemMeta(cMeta);
-        inv.setItem(49, close);
-
-        // NEXT
+        inv.setItem(49, AHUi.button("close", Material.BARRIER, "<red>Cerrar", "btn", "close"));
+        inv.setItem(47, AHUi.button("back", Material.ARROW, "<yellow>Volver a la subasta", "btn", "back"));
         if (page < maxPage) {
-            ItemStack next = new ItemStack(Material.ARROW);
-            ItemMeta meta = next.getItemMeta();
-            meta.setDisplayName(MenuItems.miniToLegacy("<yellow>Página Siguiente"));
-            MetaUtil.setTag(meta, "btn", "next");
-            next.setItemMeta(meta);
-            inv.setItem(53, next);
+            inv.setItem(53, AHUi.button("next", Material.ARROW, "<yellow>Página Siguiente", "btn", "next"));
         }
     }
 
@@ -134,7 +114,7 @@ public class AHHistoryMenu {
         }
 
         // ========== PRECIO ==========
-        lore.add(MenuItems.miniToLegacy("<gray>Precio: <green>$" + auc.price));
+        lore.add(MenuItems.miniToLegacy("<gray>Precio: <green>$" + AHUi.money(auc.price)));
 
         // ========== BULK COUNT ==========
         if (auc.isBulk()) {

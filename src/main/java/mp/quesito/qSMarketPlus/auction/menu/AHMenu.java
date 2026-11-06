@@ -44,7 +44,10 @@ public class AHMenu {
 
         List<AuctionItem> pageItems = new ArrayList<>(auctions.subList(start, end));
 
-        String title = MenuItems.miniToLegacy(AHConfig.get().getString("ah.title"));
+        String title = MenuItems.miniToLegacy(mp.quesito.qSMarketPlus.utils.NexoGui.title(
+                AHConfig.get().getString("ah.title", "<gold>Casa de Subasta"))
+                .replace("{page}", String.valueOf(page))
+                .replace("{max}", String.valueOf(maxPage)));
         int size = AHConfig.get().getInt("ah.size", 54);
 
         // NUEVO HOLDER, sin inventario en el constructor
@@ -141,6 +144,7 @@ public class AHMenu {
         if (sec == null) return;
 
         Material mat = Material.matchMaterial(sec.getString("material", "GRAY_STAINED_GLASS_PANE"));
+        if (mat == null || mat.isAir()) return; // AIR: se ve el fondo de Nexo
         String name = MenuItems.miniToLegacy(sec.getString("name", "<gray> "));
 
         ItemStack filler = new ItemStack(mat);
@@ -156,101 +160,69 @@ public class AHMenu {
     // ------------------ ITEM DE SUBASTA ------------------
     private static ItemStack createAuctionDisplay(AuctionItem auc, int index, Player viewer) {
 
-        ItemStack display;
-        ItemMeta meta;
-
         boolean isOwner = auc.seller.equals(viewer.getUniqueId());
+        int packCount = auc.isBulk() ? AHUi.countItems(auc.container) : 0;
 
-        // Contar cuántos items reales hay en el container (solo para bulk)
-        long itemCount = 0;
-        if (auc.isBulk() && auc.container != null) {
-            itemCount = Arrays.stream(auc.container)
-                    .filter(it -> it != null && it.getType() != Material.AIR)
-                    .count();
-        }
-
-        boolean multipleItems = auc.isBulk() && itemCount > 1;
-
-        if (multipleItems) {
-            // Mostrar cofre si hay más de un item en el pack
+        ItemStack display = null;
+        if (auc.isBulk() && packCount > 1) {
             display = new ItemStack(Material.CHEST);
-            meta = display.getItemMeta();
-
-            int totalItems = (int) Arrays.stream(auc.container)
-                    .filter(it -> it != null && it.getType() != Material.AIR)
-                    .count();
-
-            if (isOwner) {
-                meta.setDisplayName(MenuItems.miniToLegacy("<gold>Tus Items Subastados"));
-                meta.setLore(List.of(
-                        MenuItems.miniToLegacy("<gray>Precio total: <green>$" + auc.price),
-                        MenuItems.miniToLegacy("<gray>Items incluidos: <white>" + totalItems),
-                        "",
-                        MenuItems.miniToLegacy("<yellow>Click: Opciones (Cancelar / Ver)")
-                ));
-            } else {
-                meta.setDisplayName(MenuItems.miniToLegacy("<gold>Inventario Subastado"));
-                meta.setLore(List.of(
-                        MenuItems.miniToLegacy("<gray>Vendedor: <yellow>" + Bukkit.getOfflinePlayer(auc.seller).getName()),
-                        MenuItems.miniToLegacy("<gray>Precio total: <green>$" + auc.price),
-                        MenuItems.miniToLegacy("<gray>Items incluidos: <white>" + totalItems),
-                        "",
-                        MenuItems.miniToLegacy("<yellow>Click: Opciones (Comprar / Ver)")
-                ));
+        } else if (auc.isBulk() && auc.container != null) {
+            for (ItemStack it : auc.container) {
+                if (it != null && !it.getType().isAir()) {
+                    display = it.clone();
+                    break;
+                }
             }
-
-        } else {
-            // Mostrar item real si solo hay un item (aunque sea un stack grande)
-            if (auc.isBulk() && auc.container != null) {
-                // Tomar el primer item no nulo
-                display = Arrays.stream(auc.container)
-                        .filter(it -> it != null && it.getType() != Material.AIR)
-                        .findFirst()
-                        .orElse(null);
-                if (display != null) display = display.clone();
-            } else if (auc.item != null && !auc.item.getType().isAir()) {
-                display = auc.item.clone();
-            } else {
-                display = null;
-            }
-
-            // Subasta corrupta/ilegible: se muestra como marcador, nunca se oculta
-            boolean corrupt = display == null || display.getType() == Material.AIR;
-            if (corrupt) {
-                display = new ItemStack(Material.BARRIER);
-                meta = display.getItemMeta();
-                meta.setDisplayName(MenuItems.miniToLegacy("<red>Subasta corrupta</red>"));
-                meta.setLore(List.of(
-                        MenuItems.miniToLegacy("<gray>Base64 inválido o pack vacío."),
-                        MenuItems.miniToLegacy("<yellow>Click: Opciones (Admin)")
-                ));
-                MetaUtil.setTag(meta, "auction_index", String.valueOf(index));
-                display.setItemMeta(meta);
-                return display;
-            }
-
-            meta = display.getItemMeta();
-
-            if (isOwner) {
-                meta.setDisplayName(MenuItems.miniToLegacy("<yellow>Tu Subasta"));
-                meta.setLore(List.of(
-                        MenuItems.miniToLegacy("<gray>Precio: <green>$" + auc.price),
-                        "",
-                        MenuItems.miniToLegacy("<yellow>Click: Opciones (Cancelar)")
-                ));
-            } else {
-                meta.setLore(List.of(
-                        MenuItems.miniToLegacy("<gray>Vendedor: <yellow>" + Bukkit.getOfflinePlayer(auc.seller).getName()),
-                        MenuItems.miniToLegacy("<gray>Precio: <green>$" + auc.price),
-                        "",
-                        MenuItems.miniToLegacy("<yellow>Click: Opciones (Comprar)")
-                ));
-            }
+        } else if (auc.item != null && !auc.item.getType().isAir()) {
+            display = auc.item.clone();
         }
 
+        // Subasta corrupta/ilegible: se muestra como marcador, nunca se oculta
+        if (display == null || display.getType().isAir()) {
+            display = new ItemStack(Material.BARRIER);
+            ItemMeta meta = display.getItemMeta();
+            meta.setDisplayName(MenuItems.miniToLegacy("<red>Subasta corrupta</red>"));
+            meta.setLore(List.of(
+                    MenuItems.miniToLegacy("<gray>Base64 inválido o pack vacío."),
+                    MenuItems.miniToLegacy("<yellow>Click: Opciones (Admin)")
+            ));
+            MetaUtil.setTag(meta, "auction_index", String.valueOf(index));
+            display.setItemMeta(meta);
+            return display;
+        }
+
+        ItemMeta meta = display.getItemMeta();
+
+        if (packCount > 1) {
+            meta.setDisplayName(MenuItems.miniToLegacy(isOwner
+                    ? AHConfig.get().getString("ui.texts.own-pack", "<gold>Tu pack en subasta")
+                    : AHConfig.get().getString("ui.texts.pack", "<gold>Pack de objetos")));
+        }
+
+        // Se conserva el lore original del objeto (encantamientos de libros, etc.)
+        List<String> lore = new ArrayList<>(meta.hasLore() && packCount <= 1 ? meta.getLore() : List.of());
+        if (!lore.isEmpty()) lore.add("");
+
+        String key = isOwner ? "auction-own" : "auction";
+        List<String> fallback = isOwner
+                ? List.of("<gray>Precio: <green>$<price>", "<gray>Termina en: <white><time>", "",
+                "<yellow>Click: Opciones (Cancelar)")
+                : List.of("<gray>Vendedor: <yellow><seller>", "<gray>Precio: <green>$<price>",
+                "<gray>Termina en: <white><time>", "", "<yellow>Click: Opciones (Comprar)");
+
+        lore.addAll(AHUi.lore(key, fallback,
+                "seller", AHUi.seller(auc),
+                "price", AHUi.money(auc.price),
+                "time", AHUi.timeLeft(auc.expiresAt)));
+
+        if (packCount > 1) {
+            lore.addAll(AHUi.lore("pack-count", List.of("<gray>Objetos en el pack: <white><count>"),
+                    "count", String.valueOf(packCount)));
+        }
+
+        meta.setLore(lore);
         MetaUtil.setTag(meta, "auction_index", String.valueOf(index));
         display.setItemMeta(meta);
-
         return display;
     }
 

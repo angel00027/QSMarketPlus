@@ -227,6 +227,7 @@ public class QSMarketCommand implements CommandExecutor {
             plugin.amountMenuConfig.reload();
 
             AHConfig.reload(plugin);
+            plugin.getCouponManager().reload();
             Lang.init(plugin);
             plugin.getPwarpManager().loadAll();
 

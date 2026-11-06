@@ -1,0 +1,133 @@
+# ==========================================================
+#  CUPONES DE DESCUENTO
+# ==========================================================
+# Plantillas: definen cómo es cada cupón. Desde una plantilla se generan códigos:
+#   /cupon generar <plantilla> <jugador> [cantidad]   -> le llegan directo a "Mis cupones"
+#   /cupon generar <plantilla> - [cantidad]           -> códigos sueltos para repartir
+# El jugador activa un cupón en /cupon (o con el botón del menú de cantidad)
+# y se aplica al comprar en sus categorías. Cada compra gasta un uso.
+#
+# categorias: ids de categories.yml, o "*" para todas
+# usos:       cuántas compras; "infinito" (o -1) = nunca se gasta
+# duracion:   desde que se genera; 30m, 12h, 7d, 1d12h... "0" = no caduca
+# minimo:     compra mínima en $ para que aplique (0 = sin mínimo)
+# maximo:     descuento máximo en $ por compra (0 = sin tope)
+# material:   icono en el menú (nexo: "id" opcional si tienes Nexo)
+
+prefijo: "QSM"
+
+plantillas:
+  bienvenida:
+    nombre: "<green>Cupón de bienvenida"
+    descuento: 15
+    categorias: ["*"]
+    usos: 1
+    duracion: 7d
+    minimo: 0
+    maximo: 200
+    material: PAPER
+
+  granjero:
+    nombre: "<yellow>Cupón del granjero"
+    descuento: 20
+    categorias: [farming, food]
+    usos: 3
+    duracion: 3d
+    minimo: 50
+    maximo: 0
+    material: WHEAT
+
+  constructor:
+    nombre: "<aqua>Cupón del constructor"
+    descuento: 10
+    categorias: [blocks, blockscolors, decoration]
+    usos: 5
+    duracion: 7d
+    minimo: 100
+    maximo: 500
+    material: BRICKS
+
+  minero:
+    nombre: "<gray>Cupón del minero"
+    descuento: 10
+    categorias: [minerales, combat_tools]
+    usos: 2
+    duracion: 2d
+    minimo: 0
+    maximo: 300
+    material: IRON_PICKAXE
+
+  # Ilimitados: no se gastan al comprar. Pensados como recompensa (VIP, constructores...).
+  # Dar uno:  /cupon generar vip <jugador>   (sirve en comandos de recompensas: %player%)
+  vip:
+    nombre: "<light_purple>Cupón VIP"
+    descuento: 5
+    categorias: ["*"]
+    usos: infinito
+    duracion: 0
+    minimo: 0
+    maximo: 0
+    material: NETHER_STAR
+
+  constructor_oficial:
+    nombre: "<gold>Cupón de constructor oficial"
+    descuento: 15
+    categorias: [blocks, blockscolors, decoration]
+    usos: infinito
+    duracion: 0
+    minimo: 0
+    maximo: 1000
+    material: GOLDEN_PICKAXE
+
+# Códigos fijos que cualquiera puede canjear (no distinguen mayúsculas).
+# Al canjear, el jugador recibe un cupón nuevo de la plantilla.
+codigos-publicos:
+  BIENVENIDO:
+    plantilla: bienvenida
+    usos-por-jugador: 1
+    usos-totales: 0        # 0 = sin límite total
+
+menu:
+  title: "<dark_green>Mis cupones <gray>{page}/{max}"
+  filler: GRAY_STAINED_GLASS_PANE
+  coupon-lore:
+    - "<gray>Descuento: <green><percent>%"
+    - "<gray>Categorías: <white><categories>"
+    - "<gray>Usos: <white><uses>"
+    - "<gray>Caduca en: <white><time>"
+    - "<gray>Mínimo de compra: <white>$<minimum>"
+    - "<gray>Ahorro máximo: <white>$<max>"
+    - "<gray>Código: <dark_gray><code>"
+  active-line: "<green>✔ Activo: se aplica al comprar"
+  inactive-line: "<yellow>Clic para activarlo"
+  buttons:
+    redeem:
+      material: NAME_TAG
+      name: "<green>Canjear código"
+    deactivate:
+      material: GRAY_DYE
+      name: "<yellow>Quitar cupón activo"
+    close:
+      material: BARRIER
+      name: "<red>Cerrar"
+    prev:
+      material: ARROW
+      name: "<yellow>Anterior"
+    next:
+      material: ARROW
+      name: "<yellow>Siguiente"
+
+mensajes:
+  escribe-codigo: "<yellow>Escribe el código en el chat. <gray>(<white>cancelar</white> para salir)"
+  canjeado: "<green>✔ Cupón canjeado: <white><name></white> (<percent>% en <categories>)"
+  recibido: "<green>¡Recibiste un cupón! <white><name></white> <gray>· míralo en /cupon"
+  no-existe: "<red>Ese código no existe."
+  ya-usado: "<red>Ese código ya lo canjeó otra persona."
+  caducado: "<red>Ese cupón ya caducó o no tiene usos."
+  agotado: "<red>Ese código ya se agotó."
+  ya-lo-tienes: "<yellow>Ya canjeaste ese código."
+  tiempo-agotado: "<gray>Se acabó el tiempo para escribir el código. Vuelve a pulsar Canjear."
+  espera: "<red>Espera un momento antes de probar otro código."
+  uso-canjear: "<red>Uso: /cupon canjear <código>"
+  aplicado: "<name><green>: ahorraste <gold>$<saved></gold>"
+  todas-las-categorias: "todas"
